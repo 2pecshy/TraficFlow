@@ -1,10 +1,12 @@
 package utils.Map.Cost;
 
-public class Distance extends Cost {
+//
+public class Voie extends Cost {
 
-    Distance(Integer distance){
+    //nombre de voie sur une route
+    public Voie(Integer nb_voie){
 
-        super(distance);
+        super(nb_voie);
     }
 
     //distance en Mètre
@@ -17,4 +19,5 @@ public class Distance extends Cost {
 
         return super.getCost(v1,v2);
     }
+
 }

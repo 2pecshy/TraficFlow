@@ -2,12 +2,19 @@ package utils.Map.Cost;
 
 public class Vitesse extends Cost {
 
-    Vitesse(double v){
-        super(v);
+    //vitesse en KM/H
+    Vitesse(Integer vitesse){
+
+        super(vitesse);
     }
 
-    public double getCost(Distance d) {
+    public void setCost(Integer v1,Integer v2,Integer cost){
 
-        return d.getCost()/super.getCost();
+        super.setCost(v1,v2,cost);
+    }
+
+    public Integer getCost(Integer v1,Integer v2, Distance d) {
+
+        return super.getCost(v1,v2);
     }
 }
