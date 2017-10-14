@@ -1,4 +1,7 @@
-package utils.Map;
+package utils;
+
+import utils.Map.Map;
+import utils.Stat.Stat;
 
 /**
  * Created by Matthieu on 14/10/2017.

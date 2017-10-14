@@ -1,6 +1,9 @@
 package utils.Map;
 
-public class MapManager implements DataManager{
+import utils.DataManager;
+import utils.Stat.Stat;
+
+public class MapManager implements DataManager {
 
     public MapManager(){
 
