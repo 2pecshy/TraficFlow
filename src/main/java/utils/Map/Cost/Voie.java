@@ -15,7 +15,7 @@ public class Voie extends Cost {
         super.setCost(v1,v2,cost);
     }
 
-    public Integer getCost(Integer v1,Integer v2) {
+    public GraphWeight getCost(Integer v1,Integer v2) {
 
         return super.getCost(v1,v2);
     }

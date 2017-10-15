@@ -13,7 +13,7 @@ public class Vitesse extends Cost {
         super.setCost(v1,v2,cost);
     }
 
-    public Integer getCost(Integer v1,Integer v2, Distance d) {
+    public GraphWeight getCost(Integer v1,Integer v2, Distance d) {
 
         return super.getCost(v1,v2);
     }
