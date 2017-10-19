@@ -1,0 +1,13 @@
+package specs;
+
+public interface IDoStats{
+    /*
+    Applique des lois statistiques sur les données brutes
+     */
+    boolean applyStatsAlgo(RawData rawData);
+
+    /*
+    Permet de sauvegarder dans la DB les statistiques obtenues
+     */
+    boolean saveStatsToDB(Stats stats, int id);
+}

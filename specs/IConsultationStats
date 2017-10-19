@@ -1,0 +1,9 @@
+package specs;
+
+public interface IConsultationStats{
+
+    List<RawData> getSimulationRawData(int idSimulation);
+    RawData getSpecificRawData(int idSimulation, String nameData);
+    Stats getSimulationStats(int idSimulation);
+    CompteRendu getAllAboutSimu(int idSimulation);
+}
