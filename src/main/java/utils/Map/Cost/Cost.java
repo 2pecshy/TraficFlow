@@ -16,7 +16,7 @@ public class Cost {
     }
 
     public GraphWeight getCost(Integer v1,Integer v2) {
-        return  new GraphWeight(cost_value[v1][v2]);
+        return  new GraphWeight(cost_value[v1][v2],v1,v2);
     }
 
     public void setCost(Integer v1,Integer v2, Integer value) {
