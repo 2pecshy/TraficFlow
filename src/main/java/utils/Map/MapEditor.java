@@ -7,13 +7,19 @@ package utils.Map;
 public class MapEditor {
 
     private MapManager manager;
+    private Map map;
 
-    public MapEditor(){
+    public MapEditor(){}
+
+    public void loadMap(String mode, String path){
+        this.map = manager.loadMap(mode, path);
+    }
+
+    public void saveMap(String mode, String path){
+        manager.saveMap(mode, path);
     }
 
     public void EditMap(String mode, String path){
-        Map map = manager.loadMap(mode, path);
         System.out.println("Edition de la carte...");
-        manager.saveMap(mode, path);
     }
 }
