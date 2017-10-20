@@ -1,77 +1,76 @@
 package utils.Map;
 
+import engine.Simulateur;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
-import utils.Map.Cost.GraphWeight;
-import utils.Map.Cost.Voie;
+import utils.Map.Cost.Route;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Map {
 
     //private ArrayList<ArrayList<ArrayList<Cost>>> costList;
     //private DirectedGraph<Integer, Integer> map;
 
-    private ArrayList<ArrayList<Integer>> carrefours;
-    private Voie nombre_de_voie;
+    private ArrayList<ArrayList<Route>> carrefours;
+    //private Voie nombre_de_voie;
 
     public Map() {
 
         Integer nb_carrefours = 4;
-        carrefours = new ArrayList<ArrayList<Integer>>();
-        nombre_de_voie = new Voie(nb_carrefours);
+        carrefours = new ArrayList<ArrayList<Route>>();
 
-        for(int i = 0; i < 4; i++){
-            carrefours.add(new ArrayList<Integer>());
+        for(int i = 0; i < nb_carrefours; i++){
+            this.addCarrefours();
         }
+        this.addRoute(0,1,1);
+        this.addRoute(1,2,1);
+        this.addRoute(2,3,2);
+        this.addRoute(3,1,3);
+        this.addRoute(3,0,3);
 
-        carrefours.get(0).add(1);
-        nombre_de_voie.setCost(0,1,1);
-
-        carrefours.get(1).add(2);
-        nombre_de_voie.setCost(1,2,1);
-
-        carrefours.get(2).add(3);
-        nombre_de_voie.setCost(2,3,2);
-
-        carrefours.get(3).add(1);
-        nombre_de_voie.setCost(3,1,3);
-
-        carrefours.get(3).add(0);
-        nombre_de_voie.setCost(3,0,3);
     }
 
-    public SimpleDirectedWeightedGraph<Integer, GraphWeight> build(Class c){
+    public SimpleDirectedWeightedGraph<Integer, Route> build(){
 
-        SimpleDirectedWeightedGraph<Integer,GraphWeight> G = new SimpleDirectedWeightedGraph<Integer, GraphWeight>(GraphWeight.class){
+        SimpleDirectedWeightedGraph<Integer,Route> G = new SimpleDirectedWeightedGraph<Integer, Route>(Route.class){
 
             @Override
-            public double getEdgeWeight(GraphWeight e){
+            public double getEdgeWeight(Route e){
                 if (e == null) {
                     throw new NullPointerException();
                 }
-                return e.getWeight();
+                return e.getCout(Simulateur.getInstance().getCriter());
             }
 
         };
 
-        if( c.isInstance(nombre_de_voie)){
 
-            for(Integer i = 0; i < carrefours.size(); i++){
+        for(Integer i = 0; i < carrefours.size(); i++){
                 G.addVertex(i);
-            }
+        }
 
-            for (Integer i = 0; i < carrefours.size(); i++){
+        for (Integer i = 0; i < carrefours.size(); i++){
 
-                for (Integer j = 0; j < carrefours.get(i).size(); j++){
+            Iterator<Route> iter_tmp = carrefours.get(i).iterator();
 
-                    Integer v1 = i;
-                    Integer v2 = carrefours.get(i).get(j);
-                    //System.out.println("debug: add node:" + v1 +"," + v2 + "," + nombre_de_voie.getCost(v1,v2));
-                    G.addEdge(v1,v2,nombre_de_voie.getCost(v1,v2));
+            while (iter_tmp.hasNext()){
+
+                Route route_to_add = iter_tmp.next();
+                G.addEdge(route_to_add.getV1(),route_to_add.getV2(),route_to_add);
 
                 }
-            }
         }
         return G;
+    }
+
+    public void addRoute(Integer nombre_de_voie, Integer v1, Integer v2){
+
+        carrefours.get(v1).add(new Route(nombre_de_voie,v1,v2));
+    }
+
+    public void addCarrefours(){
+
+        carrefours.add(new ArrayList<Route>());
     }
 }
