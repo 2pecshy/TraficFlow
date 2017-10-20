@@ -1,0 +1,14 @@
+package specs;
+
+public interface IGenerateurCouts{
+
+    /*
+    Recupere les couts actuels
+     */
+    List<Cout> getCouts();
+
+    /*
+    Applique les couts sur les arretes d'un Graph
+     */
+    boolean applyStatsAlgo(Graph graph);
+}
