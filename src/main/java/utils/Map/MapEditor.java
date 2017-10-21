@@ -29,7 +29,7 @@ public class MapEditor {
     }
 
     public void addRoute(Integer v1, Integer v2,Integer nombre_de_voie){
-        map.getCarrefours().get(v1).add(new Route(v1,v2,nombre_de_voie));
+        map.addRoute(v1,v2,nombre_de_voie);
     }
 
     public void addCarrefours(){
