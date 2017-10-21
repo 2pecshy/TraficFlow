@@ -60,9 +60,14 @@ public class Map {
         return G;
     }
 
+
     public void addRoute(Integer v1, Integer v2,Integer nombre_de_voie){
 
         carrefours.get(v1).add(new Route(v1,v2,nombre_de_voie));
+    }
+
+    public ArrayList<ArrayList<Route>> getCarrefours(){
+        return carrefours;
     }
 
     public void addCarrefours(){
