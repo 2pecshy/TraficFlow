@@ -9,11 +9,7 @@ import java.util.Iterator;
 
 public class Map {
 
-    //private ArrayList<ArrayList<ArrayList<Cost>>> costList;
-    //private DirectedGraph<Integer, Integer> map;
-
     private ArrayList<ArrayList<Route>> carrefours;
-    //private Voie nombre_de_voie;
 
     public Map() {
 
@@ -64,9 +60,9 @@ public class Map {
         return G;
     }
 
-    public void addRoute(Integer nombre_de_voie, Integer v1, Integer v2){
+    public void addRoute(Integer v1, Integer v2,Integer nombre_de_voie){
 
-        carrefours.get(v1).add(new Route(nombre_de_voie,v1,v2));
+        carrefours.get(v1).add(new Route(v1,v2,nombre_de_voie));
     }
 
     public void addCarrefours(){
