@@ -74,4 +74,10 @@ public class Map {
 
         carrefours.add(new ArrayList<Route>());
     }
+
+    public void afficherMap(){
+        for(int i=0; i<carrefours.size(); i++){
+            System.out.println(carrefours.get(i));
+        }
+    }
 }
