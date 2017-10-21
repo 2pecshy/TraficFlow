@@ -1,14 +1,16 @@
 package utils.Stat;
 
-import utils.DataManager;
+import utils.StorageManager.IDataManager;
 import utils.Map.Map;
+
+import java.io.File;
 
 /**
  * Created by Matthieu on 14/10/2017.
  */
-public class StatManager implements DataManager {
+public class StatManagerI implements IDataManager {
 
-    public StatManager(){}
+    public StatManagerI(){}
 
     private Stat loadStatFromFile(String path){
         Stat loadedStat = new Stat();
@@ -29,6 +31,10 @@ public class StatManager implements DataManager {
     }
 
     public Map loadMap(String mode, String path) {
+        return null;
+    }
+
+    public Map loadMap(String mode, File file) {
         return null;
     }
 

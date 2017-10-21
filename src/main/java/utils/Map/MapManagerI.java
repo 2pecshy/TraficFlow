@@ -1,11 +1,13 @@
 package utils.Map;
 
-import utils.DataManager;
+import utils.StorageManager.IDataManager;
 import utils.Stat.Stat;
 
-public class MapManager implements DataManager {
+import java.io.File;
 
-    public MapManager(){
+public class MapManagerI implements IDataManager {
+
+    public MapManagerI(){
 
     }
 
@@ -34,6 +36,10 @@ public class MapManager implements DataManager {
         else if (mode == "file"){
             return loadMapFromFile(path);
         }
+        return null;
+    }
+
+    public Map loadMap(String mode, File file) {
         return null;
     }
 

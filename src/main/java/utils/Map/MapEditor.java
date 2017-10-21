@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class MapEditor {
 
-    private MapManager manager;
+    private MapManagerI manager;
     private Map map;
 
     public MapEditor(Map map){
