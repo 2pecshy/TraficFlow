@@ -47,6 +47,11 @@ public class Simulateur {
     public static boolean KILL_Simulateur(){
         if(instance != null) {
             System.out.println("Killing: engine.Simulateur");
+            instance.map = null;
+            instance.generatedGraph = null;
+            instance.flow = null;
+            instance.S_lastSimu = null;
+            instance.D_lastSimu = null;
             instance = null;
             return true;
         }
@@ -74,6 +79,7 @@ public class Simulateur {
 
         S_lastSimu = v1;
         D_lastSimu = v2;
+        if(map == null) return null;
         generatedGraph = map.build();
         flow = new EdmondsKarpMFImpl<Integer, Route>(generatedGraph);
         flow.calculateMaximumFlow(v1,v2);
