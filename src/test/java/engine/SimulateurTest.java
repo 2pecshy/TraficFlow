@@ -1,13 +1,10 @@
 package engine;
 
-import engine.Simulateur;
+import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
 import org.junit.jupiter.api.*;
 import utils.Map.Cost.EnumCriter;
 import utils.Map.Cost.Route;
 import utils.Map.Map;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,7 +35,7 @@ public class SimulateurTest {
     void getMaxFlowTest(){
         simuUnderTest = Simulateur.getInstance();
         Simulateur s2 = Simulateur.getInstance();
-        Map map0 = new Map();
+        Map map0 = Map.getDefaultMap();
 
         assertEquals(null,simuUnderTest.getMaxFlow(3,1));
 
@@ -57,7 +54,7 @@ public class SimulateurTest {
     void flowWhithCriter(){
         simuUnderTest = Simulateur.getInstance();
         Simulateur s2 = Simulateur.getInstance();
-        Map map0 = new Map();
+        Map map0 = Map.getDefaultMap();
         simuUnderTest.setMap(map0);
 
         simuUnderTest.setCriter(EnumCriter.VOIES);
@@ -75,6 +72,31 @@ public class SimulateurTest {
         simuUnderTest.setCriter(EnumCriter.VITESSE);
         assertEquals(simuUnderTest.getMaxFlow(3,1).getValue(),s2.getMaxFlow(3,1).getValue());
 
+    }
+
+    @Test
+    void ameliorerFlowTest(){
+
+        simuUnderTest = Simulateur.getInstance();
+        Map map0 = Map.getDefaultMap();
+
+        simuUnderTest.setMap(map0);
+        MaximumFlowAlgorithm.MaximumFlow<Route> Gf = simuUnderTest.getMaxFlow(3,1);
+        double Vf = Gf.getValue();
+        assertEquals(4.0,Vf);
+
+        double amelioration_Max = simuUnderTest.ameliorerFlow(0,1);
+        assertEquals(2.0,amelioration_Max);
+        assertEquals(4,map0.getCarrefours().size());
+
+        map0.getCarrefours().get(0).get(0).setNombre_de_voie(map0.getCarrefours().get(0).get(0).getNombre_de_voie() + (int)amelioration_Max);
+
+        simuUnderTest.setMap(map0);
+
+        double newVf = simuUnderTest.getMaxFlow(3,1).getValue();
+
+        assertTrue(newVf > Vf);
+        assertEquals(newVf,Vf+amelioration_Max);
     }
 
 }

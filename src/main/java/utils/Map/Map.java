@@ -12,19 +12,15 @@ public class Map {
     private ArrayList<ArrayList<Route>> carrefours;
 
     public Map() {
+        carrefours = new ArrayList<ArrayList<Route>>();
+    }
 
-        Integer nb_carrefours = 4;
+    public Map(Integer nb_carrefours){
         carrefours = new ArrayList<ArrayList<Route>>();
 
         for(int i = 0; i < nb_carrefours; i++){
             this.addCarrefours();
         }
-        this.addRoute(0,1,1);
-        this.addRoute(1,2,1);
-        this.addRoute(2,3,2);
-        this.addRoute(3,1,3);
-        this.addRoute(3,0,3);
-
     }
 
     public SimpleDirectedWeightedGraph<Integer, Route> build(){
@@ -67,6 +63,7 @@ public class Map {
     }
 
     public ArrayList<ArrayList<Route>> getCarrefours(){
+
         return carrefours;
     }
 
@@ -79,5 +76,16 @@ public class Map {
         for(int i=0; i<carrefours.size(); i++){
             System.out.println(carrefours.get(i));
         }
+    }
+
+    public static Map getDefaultMap(){
+
+        Map defaultMap = new Map(4);
+        defaultMap.addRoute(0,1,1);
+        defaultMap.addRoute(1,2,1);
+        defaultMap.addRoute(2,3,2);
+        defaultMap.addRoute(3,1,3);
+        defaultMap.addRoute(3,0,3);
+        return defaultMap;
     }
 }
