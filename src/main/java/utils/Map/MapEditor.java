@@ -48,16 +48,8 @@ public class MapEditor {
                     int v2 = Integer.parseInt(bufferRead.readLine());
                     System.out.println("nombre de voies ?");
                     int nbVoies = Integer.parseInt(bufferRead.readLine());
-                    boolean routeValide = true;
-                    for(int i=0; i<map.getCarrefours().size(); i++){
-                        for(int j=0; j<map.getCarrefours().get(i).size(); j++){
-                            if(v1 == map.getCarrefours().get(i).get(j).getV1() && v2 == map.getCarrefours().get(i).get(j).getV2()){
-                                routeValide = false;
-                            }
-                        }
-                    }
-                    if(routeValide) {
-                        addRoute(v1, v2, nbVoies);
+
+                    if(addRoute(v1, v2, nbVoies)) {
                         System.out.println("Ajout d'une route");
                     }
                     else{
@@ -75,8 +67,8 @@ public class MapEditor {
         }
     }
 
-    public void addRoute(Integer v1, Integer v2,Integer nombre_de_voie){
-        map.addRoute(v1,v2,nombre_de_voie);
+    public boolean addRoute(Integer v1, Integer v2,Integer nombre_de_voie){
+        return map.addRoute(v1,v2,nombre_de_voie);
     }
 
     public void addCarrefours(){

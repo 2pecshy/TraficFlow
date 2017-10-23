@@ -89,8 +89,7 @@ public class SimulateurTest {
         assertEquals(2.0,amelioration_Max);
         assertEquals(4,map0.getCarrefours().size());
 
-        map0.getCarrefours().get(0).get(0).setNombre_de_voie(map0.getCarrefours().get(0).get(0).getNombre_de_voie() + (int)amelioration_Max);
-
+        map0.getRoute(0,1).setNombre_de_voie( map0.getRoute(0,1).getNombre_de_voie()+(int) amelioration_Max);
         simuUnderTest.setMap(map0);
 
         double newVf = simuUnderTest.getMaxFlow(3,1).getValue();

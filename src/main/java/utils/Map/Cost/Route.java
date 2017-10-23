@@ -15,6 +15,13 @@ public class Route {
         v2 = v2_;
     }
 
+    //constructeur par copy
+    public Route(Route route){
+        this.nombre_de_voie = route.nombre_de_voie;
+        this.v1 = route.v1;
+        this.v2 = route.v2;
+    }
+
     public Integer getNombre_de_voie() {
         return nombre_de_voie;
     }

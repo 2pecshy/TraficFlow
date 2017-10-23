@@ -1,9 +1,7 @@
 package engine;
 
-import org.jgrapht.DirectedGraph;
 import org.jgrapht.alg.flow.EdmondsKarpMFImpl;
 import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
-import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 import utils.Map.Cost.EnumCriter;
 import utils.Map.Cost.Route;
 import utils.Map.Map;
@@ -18,7 +16,6 @@ public class Simulateur {
     private EnumCriter criter = EnumCriter.VOIES;
 
     private Map map;
-    private SimpleDirectedWeightedGraph<Integer, Route> generatedGraph;
     private EdmondsKarpMFImpl<Integer, Route> flow;
     private Integer S_lastSimu,D_lastSimu;
 
@@ -48,7 +45,6 @@ public class Simulateur {
         if(instance != null) {
             System.out.println("Killing: engine.Simulateur");
             instance.map = null;
-            instance.generatedGraph = null;
             instance.flow = null;
             instance.S_lastSimu = null;
             instance.D_lastSimu = null;
@@ -66,13 +62,6 @@ public class Simulateur {
     public void setMap(Map map_) {
         this.map = map_;
         this.flow = null;
-        this.generatedGraph = null;
-    }
-
-    public DirectedGraph<Integer, Route> getGeneratedGraph() {
-        if(generatedGraph == null)
-            generatedGraph = map.build();
-        return generatedGraph;
     }
 
     public MaximumFlowAlgorithm.MaximumFlow<Route> getMaxFlow(Integer v1, Integer v2){
@@ -80,8 +69,7 @@ public class Simulateur {
         S_lastSimu = v1;
         D_lastSimu = v2;
         if(map == null) return null;
-        generatedGraph = map.build();
-        flow = new EdmondsKarpMFImpl<Integer, Route>(generatedGraph);
+        flow = map.buildGraph();
         flow.calculateMaximumFlow(v1,v2);
         return flow.getMaximumFlow(v1,v2);
     }
@@ -101,8 +89,7 @@ public class Simulateur {
             while (iter.hasNext()){
 
                 Route route = iter.next();
-                if (carrefoursSaturee.get(route) ==
-                        generatedGraph.getEdgeWeight(route))
+                if (carrefoursSaturee.get(route) == map.getCoutRoute(route))
                     res.add(route);
             }
         }
@@ -111,14 +98,12 @@ public class Simulateur {
 
     public double ameliorerFlow(Integer v1,Integer v2){
 
-        SimpleDirectedWeightedGraph<Integer, Route> map_tmp = map.build();
+        Map map_tmp = new Map(map);
         EdmondsKarpMFImpl<Integer, Route> flow_tmp;
 
-        Route tmp_route = new Route(v1,v2,Integer.MAX_VALUE);
-        map_tmp.removeEdge(v1,v2);
-        map_tmp.addEdge(v1,v2,tmp_route);
+        map_tmp.getRoute(v1,v2).setNombre_de_voie(Integer.MAX_VALUE);
 
-        flow_tmp = new EdmondsKarpMFImpl<Integer, Route>(map_tmp);
+        flow_tmp = map_tmp.buildGraph();
         flow_tmp.calculateMaximumFlow(S_lastSimu,D_lastSimu);
 
         return flow_tmp.getMaximumFlow(S_lastSimu,D_lastSimu).getValue() - flow.getMaximumFlow(S_lastSimu,D_lastSimu).getValue();
