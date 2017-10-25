@@ -10,6 +10,8 @@ public class Route {
 
     public Route(Integer v1_, Integer v2_, Integer nombre_de_voie_){
 
+        if(nombre_de_voie_ < 0) throw new ExceptionInInitializerError("nombre de voie < 0");
+        if(v1_ == v2_) throw new ExceptionInInitializerError("v1 = v2");
         nombre_de_voie = nombre_de_voie_;
         v1 = v1_;
         v2 = v2_;
@@ -26,8 +28,12 @@ public class Route {
         return nombre_de_voie;
     }
 
-    public void setNombre_de_voie(Integer nombre_de_voie) {
-        this.nombre_de_voie = nombre_de_voie;
+    public boolean setNombre_de_voie(Integer nombre_de_voie) {
+        if(nombre_de_voie >= 0) {
+            this.nombre_de_voie = nombre_de_voie;
+            return true;
+        }
+        return false;
     }
 
     public Integer getV1() {
