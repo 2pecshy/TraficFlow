@@ -55,15 +55,29 @@ public class Simulateur {
         return false;
     }
 
+    /**
+     *
+     * @return renvoie la map actuellement traitée par le simulateur
+     */
     public Map getMap() {
         return map;
     }
 
+    /**
+     *
+     * @param map_ est la map que le simulateur va traiter
+     */
     public void setMap(Map map_) {
         this.map = map_;
         this.flow = null;
     }
 
+    /**
+     *
+     * @param v1 est le carrefour de départ de toutes les voitures
+     * @param v2 est le carrefour d'arrivée de toutes les voitures
+     * @return renvoie le nombre de voiture qu'il est possible de faire circuler en même temps
+     */
     public MaximumFlowAlgorithm.MaximumFlow<Route> getMaxFlow(Integer v1, Integer v2){
 
         S_lastSimu = v1;
@@ -74,7 +88,11 @@ public class Simulateur {
         return flow.getMaximumFlow(v1,v2);
     }
 
-    public ArrayList<Route> getCarrefoursSaturees(){
+    /**
+     *
+     * @return renvoie la listes des routes qui vont saturée si la circulation dépasse le flow max calculé
+     */
+    public ArrayList<Route> getRoutesSaturees(){
 
         ArrayList<Route> res = new ArrayList<Route>();
 
@@ -96,6 +114,12 @@ public class Simulateur {
         return res;
     }
 
+    /**
+     *
+     * @param v1 carrefour de départ de la route à améliorer
+     * @param v2 carrefour d'arrivée de la route à améliorer
+     * @return renvoie le nombre de voie que l'on peut ajouter sur cette route avant déplacement du bouchon
+     */
     public double ameliorerFlow(Integer v1,Integer v2){
 
         Map map_tmp = new Map(map);
@@ -109,10 +133,18 @@ public class Simulateur {
         return flow_tmp.getMaximumFlow(S_lastSimu,D_lastSimu).getValue() - flow.getMaximumFlow(S_lastSimu,D_lastSimu).getValue();
     }
 
+    /**
+     *
+     * @return renvoie le critère pris en compte actuelement par le simulateur
+     */
     public EnumCriter getCriter() {
         return criter;
     }
 
+    /**
+     *
+     * @param criter est le nouveau critère qui doit être pris en compte par le simulateur
+     */
     public void setCriter(EnumCriter criter) {
         this.criter = criter;
     }

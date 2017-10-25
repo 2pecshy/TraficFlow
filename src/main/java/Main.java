@@ -2,9 +2,7 @@ import engine.Simulateur;
 import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
 import utils.Map.Cost.Route;
 import utils.Map.Map;
-import utils.StorageManager.DataManager;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class Main {
@@ -32,7 +30,7 @@ public class Main {
 
         simulateur0.setMap(m);
         flow0 = simulateur0.getMaxFlow(3,1);
-        ArrayList<Route> route_saturee = simulateur0.getCarrefoursSaturees();
+        ArrayList<Route> route_saturee = simulateur0.getRoutesSaturees();
 
         System.out.println("(départ: carrefours 3, arrivée: carrefours 1)flow max avant saturation des routes: " + flow0.getValue() /*+ flow0.toString()*/);
         System.out.println("route saturées: " + route_saturee.toString());
