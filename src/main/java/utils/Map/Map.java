@@ -72,10 +72,11 @@ public class Map {
     }
 
     public boolean addRoute(Integer v1, Integer v2,Integer nombre_de_voie){
-
-        if(!carrefours.containsEdge(v1,v2)) {
-            carrefours.addEdge(v1, v2, new Route(v1, v2, nombre_de_voie));
-            return true;
+        if(carrefours.containsVertex(v1) && carrefours.containsVertex(v2) && nombre_de_voie >= 0){
+            if(!carrefours.containsEdge(v1,v2)) {
+                carrefours.addEdge(v1, v2, new Route(v1, v2, nombre_de_voie));
+                return true;
+            }
         }
         return false;
     }

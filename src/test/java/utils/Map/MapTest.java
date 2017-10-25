@@ -1,6 +1,9 @@
 package utils.Map;
+import engine.Simulateur;
 import org.junit.jupiter.api.*;
 import utils.Map.Cost.EnumCriter;
+
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,5 +39,34 @@ public class MapTest {
         assertTrue(copy.getRoute(0,20).getCout(EnumCriter.VOIES) == mapUnderTest.getRoute(0,20).getCout(EnumCriter.VOIES));
         copy.getRoute(0,20).setNombre_de_voie(10);
         assertTrue(copy.getRoute(0,20).getCout(EnumCriter.VOIES) != mapUnderTest.getRoute(0,20).getCout(EnumCriter.VOIES));
+    }
+
+    @Test
+    void addRouteTest(){
+        mapUnderTest = Map.getDefaultMap();
+        assertFalse(mapUnderTest.addRoute(0,1,2));
+        assertTrue(mapUnderTest.addRoute(3,2,2));
+        assertFalse(mapUnderTest.addRoute(3,2,3));
+        assertFalse(mapUnderTest.addRoute(3,2,2));
+        assertFalse(mapUnderTest.addRoute(50,30,2));
+        assertFalse(mapUnderTest.addRoute(-10,-30,2));
+
+        assertFalse(mapUnderTest.addRoute(0,2,-3));
+    }
+
+    @Test
+    void addCarrefoursTest(){
+        mapUnderTest = Map.getDefaultMap();
+        int nb_carrefours = mapUnderTest.getCarrefours().size();
+        mapUnderTest.addCarrefours();
+        assertEquals(nb_carrefours+1,mapUnderTest.getCarrefours().size());
+    }
+
+    @Test
+    void getCoutRoute(){
+        mapUnderTest = Map.getDefaultMap();
+        Simulateur.INIT_Simulateur();
+        mapUnderTest.addRoute(0,3,3);
+        assertEquals(3,mapUnderTest.getCoutRoute(mapUnderTest.getRoute(0,3)));
     }
 }
