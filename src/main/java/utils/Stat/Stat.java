@@ -71,4 +71,15 @@ public class Stat{
         System.out.println("route(0->1): amélioration max,  " + maxvoies  + " voies");
 
     }
+
+    public String getAll() {
+        String s ="";
+        s+= "(départ: carrefours 3, arrivée: carrefours 1)flow max avant saturation des routes: " + maxVoiture;
+        s+= "\n";
+        s+= "route saturées: " + route_saturee.toString();
+        s+= "\n";
+        s+= "route(0->1): amélioration max,  " + maxvoies  + " voies";
+
+        return s;
+    }
 }

@@ -47,7 +47,7 @@ public class Main {
         statManager.printStats();
         Simulateur.KILL_Simulateur();
 
-        dm.saveStat("file",".\\src\\main\\java\\stats1.txt");
+        dm.saveStat("file",".\\src\\main\\java\\stats1.txt", statManager.getAll());
 
         return;
     }

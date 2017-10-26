@@ -3,10 +3,7 @@ package utils.StorageManager;
 import utils.Map.Map;
 import utils.Stat.Stat;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.Scanner;
 
 /**
@@ -63,9 +60,22 @@ public class DataManager implements IDataManager {
     }
 
     public void saveStat(String mode, String path) {
+
+    }
+
+    public void saveStat(String mode, String path, String content) {
         if(mode.equals("file")){
 
-
+            PrintWriter writer = null;
+            try {
+                writer = new PrintWriter(path, "UTF-8");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            writer.println(content);
+            writer.close();
         }
 
     }
