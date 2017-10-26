@@ -63,6 +63,10 @@ public class DataManager implements IDataManager {
     }
 
     public void saveStat(String mode, String path) {
+        if(mode.equals("file")){
+
+
+        }
 
     }
 }
