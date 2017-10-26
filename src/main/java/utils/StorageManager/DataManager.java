@@ -27,13 +27,15 @@ public class DataManager implements IDataManager {
 
             try {
                 scanner = new Scanner(new FileReader(file));
+                String line = scanner.nextLine();
+                for(int i = 0; i < Integer.valueOf(line); i++) {
+                    map.addCarrefours();
+                }
                 while( scanner.hasNextLine()){
-                    String line = scanner.nextLine();
+                    line = scanner.nextLine();
                     System.out.println("Ligne lue : " + line + "\n");
                     String values[] = line.split(",");
-                    for(int i = 0; i < 4; i++) {
-                        map.addCarrefours();
-                    }
+
                     int numericValues[] = new int[values.length];
                     for(int i = 0; i < values.length;i++){
                         numericValues[i] = Integer.parseInt(values[i]);

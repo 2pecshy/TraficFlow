@@ -2,7 +2,9 @@ import engine.Simulateur;
 import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
 import utils.Map.Cost.Route;
 import utils.Map.Map;
+import utils.StorageManager.DataManager;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Main {
@@ -17,11 +19,11 @@ public class Main {
 
         Simulateur.INIT_Simulateur();
 
-        /*DataManager dm = new DataManager();
+        DataManager dm = new DataManager();
         File f = new File(".\\src\\main\\java\\carte1.txt");
         Map m = dm.loadMap("file",f);
-        System.out.println("LOAD TERMINE--------------");*/
-        Map m = Map.getDefaultMap();
+        System.out.println("LOAD TERMINE--------------");
+        //Map m = Map.getDefaultMap();
         try {
             simulateur0 = Simulateur.getInstance();
         } catch (Exception e) {
