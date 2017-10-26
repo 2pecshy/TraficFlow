@@ -37,7 +37,6 @@ public class MapEditor {
                 System.out.println("Entrez votre choix (c, r, exit) :");
                 BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
                 String s = bufferRead.readLine();
-                System.out.println(s);
                 if (s.equals("c")) {
                     System.out.println("Ajout d'un carrefour");
                     addCarrefours();

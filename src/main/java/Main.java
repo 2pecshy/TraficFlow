@@ -2,6 +2,7 @@ import engine.Simulateur;
 import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
 import utils.Map.Cost.Route;
 import utils.Map.Map;
+import utils.Map.MapEditor;
 import utils.StorageManager.DataManager;
 
 import java.io.File;
@@ -24,6 +25,8 @@ public class Main {
         Map m = dm.loadMap("file",f);
         System.out.println("LOAD TERMINE--------------");
         //Map m = Map.getDefaultMap();
+        MapEditor editor = new MapEditor(m);
+        editor.editMap();
         try {
             simulateur0 = Simulateur.getInstance();
         } catch (Exception e) {

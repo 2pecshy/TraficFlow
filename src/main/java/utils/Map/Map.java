@@ -109,11 +109,12 @@ public class Map {
     public void afficherMap(){
         for(int i=0; i<this.getCarrefours().size(); i++){
             Iterator<Route> iter_tmp = this.getRouteFromCarrefour(i).iterator();
-            System.out.println("[carrefours " + i);
+            System.out.print("carrefour " + i + " [");
             while (iter_tmp.hasNext()) {
-                System.out.println(iter_tmp);
+                System.out.print(iter_tmp.next());
             }
-            System.out.println("]");
+            System.out.print("]");
+            System.out.print("\n");
         }
     }
 
