@@ -2,6 +2,9 @@ import engine.Simulateur;
 import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
 import utils.Map.Cost.Route;
 import utils.Map.Map;
+import utils.Map.MapEditor;
+import utils.Stat.Stat;
+import utils.Stat.StatManagerI;
 import utils.StorageManager.DataManager;
 
 import java.io.File;
@@ -16,6 +19,7 @@ public class Main {
 
         Simulateur simulateur0 = null;
         MaximumFlowAlgorithm.MaximumFlow<Route> flow0;
+        MapEditor mapEditor;
 
         Simulateur.INIT_Simulateur();
 
@@ -30,15 +34,18 @@ public class Main {
             e.printStackTrace();
         }
 
+
+        /*mapEditor = new MapEditor(m);
+        mapEditor.editMap();*/
         simulateur0.setMap(m);
         flow0 = simulateur0.getMaxFlow(3,1);
         ArrayList<Route> route_saturee = simulateur0.getRoutesSaturees();
 
-        System.out.println("(départ: carrefours 3, arrivée: carrefours 1)flow max avant saturation des routes: " + flow0.getValue() /*+ flow0.toString()*/);
-        System.out.println("route saturées: " + route_saturee.toString());
-        System.out.println("route(0->1): amélioration max,  " + simulateur0.ameliorerFlow(0,1)  + " voies");
-
+        Stat statManager = new Stat("carrefour 3", "carrefour 1",flow0.getValue(),route_saturee,simulateur0.ameliorerFlow(0,1));
+        statManager.printStats();
         Simulateur.KILL_Simulateur();
+
+        dm.saveStat("file",".\\src\\main\\java\\stats1.txt");
 
         return;
     }
