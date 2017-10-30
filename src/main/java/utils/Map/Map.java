@@ -25,7 +25,11 @@ public class Map {
         };
     }
 
-    //constructeur par copy
+    /**
+     *
+     * Constructeur par recopie
+     * @param map est la map a copier
+     */
     public Map(Map map){
         this.carrefours = new SimpleDirectedWeightedGraph<Integer, Route>(Route.class) {
 
@@ -54,6 +58,10 @@ public class Map {
         }
     }
 
+    /**
+     *
+     * @param nb_carrefours nombre de carrefours de la nouvelle map crée
+     */
     public Map(Integer nb_carrefours){
         carrefours = new SimpleDirectedWeightedGraph<Integer, Route>(Route.class) {
 
@@ -71,6 +79,13 @@ public class Map {
         }
     }
 
+    /**
+     *
+     * @param v1 carrefour de départ de la route à ajouter
+     * @param v2 carrefour d'arrivé de la route à ajouter
+     * @param nombre_de_voie nombre de voie de la nouvelle route
+     * @return renvoi faux si la route existe déja
+     */
     public boolean addRoute(Integer v1, Integer v2,Integer nombre_de_voie){
         if(carrefours.containsVertex(v1) && carrefours.containsVertex(v2) && nombre_de_voie >= 0){
             if(!carrefours.containsEdge(v1,v2)) {
@@ -81,27 +96,54 @@ public class Map {
         return false;
     }
 
+    /**
+     *
+     * @return renvoie la liste des carrefours de la Map
+     */
     public Set<Integer> getCarrefours(){
 
         return carrefours.vertexSet();
     }
 
+    /**
+     *
+     * @return renvoie le graph utilisé pour le calcule de maximum flow
+     */
     public EdmondsKarpMFImpl<Integer, Route> buildGraph(){
         return new EdmondsKarpMFImpl<Integer, Route>(carrefours);
     }
 
+    /**
+     *
+     * @param carrefour est un carrefour appartenent à la map
+     * @return renvoie l'enssemble des routes adjacentes au carrefour passé en param
+     */
     public Set<Route> getRouteFromCarrefour(Integer carrefour){
         return carrefours.edgesOf(carrefour);
     }
 
+    /**
+     *
+     * @param route est une route appartenent à la map
+     * @return renvoie le cout de la route passé en param
+     */
     public double getCoutRoute(Route route){
         return carrefours.getEdgeWeight(route);
     }
 
+    /**
+     *
+     * @param v1 carrefour de départ de la route
+     * @param v2 carrefour d'arrivé de la route
+     * @return renvoie la route qui a pour départ v1 et arrivée v2
+     */
     public Route getRoute(Integer v1,Integer v2){
         return carrefours.getEdge(v1,v2);
     }
 
+    /**
+     * ajoute un carrefour à la Map
+     */
     public void addCarrefours(){
         carrefours.addVertex(carrefours.vertexSet().size());
     }
