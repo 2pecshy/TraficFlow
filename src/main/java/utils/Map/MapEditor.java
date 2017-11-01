@@ -28,7 +28,7 @@ public class MapEditor {
         manager.saveMap(mode, path);
     }
 
-    public void editMap() {
+    public Map editMap() {
         System.out.println("Edition de la carte...");
         while(true) {
             try{
@@ -40,22 +40,52 @@ public class MapEditor {
                 if (s.equals("c")) {
                     System.out.println("Ajout d'un carrefour");
                     addCarrefours();
-                } else if (s.equals("r")) {
-                    System.out.println("v1 ?");
-                    int v1 = Integer.parseInt(bufferRead.readLine());
-                    System.out.println("v2 ?");
-                    int v2 = Integer.parseInt(bufferRead.readLine());
-                    System.out.println("nombre de voies ?");
-                    int nbVoies = Integer.parseInt(bufferRead.readLine());
-
-                    if(addRoute(v1, v2, nbVoies)) {
-                        System.out.println("Ajout d'une route");
+                }
+                else if (s.equals("r")) {
+                    int v1 = -1;
+                    int v2 = -1;
+                    int nbVoies = -1;
+                    while(v1 < 0) {
+                        System.out.println("v1 ?");
+                        String v1str = bufferRead.readLine();
+                        if (v1str.matches("[0-9]+")) {
+                            v1 = Integer.parseInt(v1str);
+                        }
+                        else {
+                            System.out.println("v1 doit être un entier positif !");
+                        }
                     }
-                    else{
-                        System.out.println("Route déjà existante");
+                    while(v2 < 0) {
+                        System.out.println("v2 ?");
+                        String v2str = bufferRead.readLine();
+                        if (v2str.matches("[0-9]+")) {
+                            v2 = Integer.parseInt(v2str);
+                        }
+                        else {
+                            System.out.println("v2 doit être un entier positif !");
+                        }
+                    }
+                    while(nbVoies < 0){
+                        System.out.println("nombre de voies ?");
+                        String nbVoiesstr = bufferRead.readLine();
+                        if (nbVoiesstr.matches("[0-9]+")) {
+                            nbVoies = Integer.parseInt(nbVoiesstr);
+                        }
+                        else {
+                            System.out.println("nbVoies doit être un entier positif !");
+                        }
+                        if(v1 == v2){
+                            System.out.println("v1 doit être différent de v2 !");
+                        }
+                        else if(addRoute(v1, v2, nbVoies)) {
+                            System.out.println("Ajout d'une route");
+                        }
+                        else{
+                            System.out.println("Route déjà existante ou carrefour non existant");
+                        }
                     }
                 } else if (s.equals("exit")){
-                    break;
+                    return map;
                 }
             }
             catch(IOException e)

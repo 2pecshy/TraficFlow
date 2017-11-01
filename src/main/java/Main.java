@@ -1,3 +1,4 @@
+import com.sun.org.apache.xpath.internal.SourceTree;
 import engine.Simulateur;
 import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
 import utils.Map.Cost.Route;
@@ -29,7 +30,9 @@ public class Main {
         System.out.println("LOAD TERMINE--------------");
         //Map m = Map.getDefaultMap();
         MapEditor editor = new MapEditor(m);
-        editor.editMap();
+        m = editor.editMap();
+        System.out.println("Carte avant simulation :");
+        m.afficherMap();
         try {
             simulateur0 = Simulateur.getInstance();
         } catch (Exception e) {
