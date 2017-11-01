@@ -13,12 +13,11 @@ public interface IDataManager {
     //mode = (web, file, BDD etc)
 
     public Map loadMap(String mode, String path);
-    public Map loadMap(String mode, File file);
 
     public void saveMap(String mode, String path);
 
     public Stat loadStat(String mode, String path);
 
-    public void saveStat(String mode, String path);
+    public void saveStat(String mode, String path, String content);
 
 }

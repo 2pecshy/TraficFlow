@@ -2,6 +2,7 @@ package engine;
 
 import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
 import org.junit.jupiter.api.*;
+import org.junit.*;
 import utils.Map.Cost.EnumCriter;
 import utils.Map.Cost.Route;
 import utils.Map.Map;
@@ -13,7 +14,7 @@ public class SimulateurTest {
     private Simulateur simuUnderTest;
 
     @BeforeEach
-     void setUp(){
+    void setUp(){
         Simulateur.INIT_Simulateur();
     }
     @AfterEach
@@ -22,7 +23,7 @@ public class SimulateurTest {
     }
 
     @Test
-    void instanceTest() {
+    public void instanceTest() {
         simuUnderTest = Simulateur.getInstance();
         assertEquals(Simulateur.getInstance(), simuUnderTest);
         assertTrue(Simulateur.KILL_Simulateur());
@@ -32,7 +33,7 @@ public class SimulateurTest {
     }
 
     @Test
-    void getMaxFlowTest(){
+    public void getMaxFlowTest(){
         simuUnderTest = Simulateur.getInstance();
         Simulateur s2 = Simulateur.getInstance();
         Map map0 = Map.getDefaultMap();
@@ -51,7 +52,7 @@ public class SimulateurTest {
     }
 
     @Test
-    void flowWhithCriter(){
+    public void flowWhithCriter(){
         simuUnderTest = Simulateur.getInstance();
         Simulateur s2 = Simulateur.getInstance();
         Map map0 = Map.getDefaultMap();
@@ -75,7 +76,7 @@ public class SimulateurTest {
     }
 
     @Test
-    void ameliorerFlowTest(){
+    public void ameliorerFlowTest(){
 
         simuUnderTest = Simulateur.getInstance();
         Map map0 = Map.getDefaultMap();
