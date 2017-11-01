@@ -6,6 +6,7 @@ import utils.Map.MapEditor;
 import utils.Stat.Stat;
 import utils.Stat.StatManagerI;
 import utils.StorageManager.DataManager;
+import utils.StorageManager.IDataManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,9 +24,9 @@ public class Main {
 
         Simulateur.INIT_Simulateur();
 
-        DataManager dm = new DataManager();
-        File f = new File(".\\src\\main\\java\\carte1.txt");
-        Map m = dm.loadMap("file",f);
+        IDataManager dm = new DataManager();
+        //File f = new File(".\\src\\main\\java\\carte1.txt");
+        Map m = dm.loadMap("file",".\\src\\main\\java\\carte1.txt");
         System.out.println("LOAD TERMINE--------------");
         //Map m = Map.getDefaultMap();
         MapEditor editor = new MapEditor(m);

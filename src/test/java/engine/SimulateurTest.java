@@ -13,7 +13,7 @@ public class SimulateurTest {
     private Simulateur simuUnderTest;
 
     @BeforeEach
-     void setUp(){
+    void setUp(){
         Simulateur.INIT_Simulateur();
     }
     @AfterEach
