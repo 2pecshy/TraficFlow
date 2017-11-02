@@ -64,7 +64,7 @@ public class MapManagerI{
 
     private void saveMapToFile(String path, Map map) {
         try {
-            FileOutputStream out = new FileOutputStream("carte1edit.txt");
+            FileOutputStream out = new FileOutputStream("temp.txt");
             int n = map.getCarrefours().size();
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
             bw.write(String.valueOf(n));
@@ -83,6 +83,37 @@ public class MapManagerI{
                 }
             }
             bw.close();
+            // PrintWriter object for output.txt
+            PrintWriter pw = new PrintWriter("carte1edit.txt");
+            // BufferedReader object for input.txt
+            BufferedReader br1 = new BufferedReader(new FileReader("temp.txt"));
+            String line1 = br1.readLine();
+            // loop for each line of input.txt
+            while(line1 != null)
+            {
+                boolean flag = false;
+                // BufferedReader object for output.txt
+                BufferedReader br2 = new BufferedReader(new FileReader("carte1edit.txt"));
+                String line2 = br2.readLine();
+                // loop for each line of output.txt
+                while(line2 != null)
+                {
+                    if(line1.equals(line2))
+                    {
+                        flag = true;
+                        break;
+                    }
+                    line2 = br2.readLine();
+                }
+                // if flag = false
+                // write line of input.txt to output.txt
+                if(!flag){
+                    pw.println(line1);
+                    // flushing is important here
+                    pw.flush();
+                }
+                line1 = br1.readLine();
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
