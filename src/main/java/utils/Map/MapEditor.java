@@ -25,7 +25,7 @@ public class MapEditor {
     }
 
     public void saveMap(String mode, String path){
-        manager.saveMap(mode, path);
+        manager.saveMap(mode, path, this.map);
     }
 
     public Map editMap() {

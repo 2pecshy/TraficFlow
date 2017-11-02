@@ -4,12 +4,15 @@ import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
 import utils.Map.Cost.Route;
 import utils.Map.Map;
 import utils.Map.MapEditor;
+import utils.Map.MapManagerI;
 import utils.Stat.Stat;
 import utils.Stat.StatManagerI;
 import utils.StorageManager.DataManager;
 import utils.StorageManager.IDataManager;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public class Main {
@@ -17,7 +20,7 @@ public class Main {
     /**
      * @param args
      * */
-    public static void main(String [] args) {
+    public static void main(String [] args) throws FileNotFoundException, UnsupportedEncodingException {
 
         Simulateur simulateur0 = null;
         MaximumFlowAlgorithm.MaximumFlow<Route> flow0;
@@ -34,6 +37,8 @@ public class Main {
         m = editor.editMap();
         System.out.println("Carte avant simulation :");
         m.afficherMap();
+        MapManagerI manager = new MapManagerI();
+        manager.saveMap("file", "\\src\\main\\java\\", m);
         try {
             simulateur0 = Simulateur.getInstance();
         } catch (Exception e) {

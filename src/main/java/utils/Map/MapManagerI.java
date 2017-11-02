@@ -1,12 +1,12 @@
 package utils.Map;
 
+import utils.Map.Cost.EnumCriter;
+import utils.Map.Cost.Route;
 import utils.StorageManager.IDataManager;
 import utils.Stat.Stat;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class MapManagerI{
@@ -62,16 +62,39 @@ public class MapManagerI{
 
     }
 
-    private void saveMapToFile(String path){
-
+    private void saveMapToFile(String path, Map map) {
+        try {
+            FileOutputStream out = new FileOutputStream("carte1edit.txt");
+            int n = map.getCarrefours().size();
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
+            bw.write(String.valueOf(n));
+            bw.newLine();
+            for (int i = 0; i < map.getCarrefours().size(); i++) {
+                Iterator<Route> iter_tmp = map.getRouteFromCarrefour(i).iterator();
+                System.out.print("carrefour " + i + " [");
+                while (iter_tmp.hasNext()) {
+                    Route item = iter_tmp.next();
+                    int v1 = item.getV1();
+                    int v2 = item.getV2();
+                    int cout = item.getRoutes();
+                    String line = v1 + "," + v2 + "," + cout;
+                    bw.write(line);
+                    bw.newLine();
+                }
+            }
+            bw.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
-    public void saveMap(String mode, String path) {
+    public void saveMap(String mode, String path, Map map) {
         if(mode == "web"){
             saveMapToWeb(path);
         }
         else if (mode == "file"){
-            saveMapToFile(path);
+            saveMapToFile(path, map);
         }
     }
 

@@ -81,6 +81,10 @@ public class Route {
         return nombre_de_voie;
     }
 
+    public int getRoutes(){
+        return nombre_de_voie;
+    }
+
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
