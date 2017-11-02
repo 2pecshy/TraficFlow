@@ -14,7 +14,7 @@ public interface IDataManager {
 
     public Map loadMap(String mode, String path);
 
-    public void saveMap(String mode, String path);
+    public void saveMap(String mode, String path, Map map);
 
     public Stat loadStat(String mode, String path);
 

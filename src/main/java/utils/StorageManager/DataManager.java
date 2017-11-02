@@ -25,8 +25,8 @@ public class DataManager implements  IDataManager{
     }
 
 
-    public void saveMap(String mode, String path) {
-
+    public void saveMap(String mode, String path, Map map) {
+        mapManager.saveMap(mode,path,map);
     }
 
     public Stat loadStat(String mode, String path){

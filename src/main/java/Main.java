@@ -37,7 +37,7 @@ public class Main {
         m = editor.editMap();
         System.out.println("Carte avant simulation :");
         m.afficherMap();
-        MapManagerI manager = new MapManagerI();
+        DataManager manager = new DataManager();
         manager.saveMap("file", "\\src\\main\\java\\", m);
         try {
             simulateur0 = Simulateur.getInstance();
