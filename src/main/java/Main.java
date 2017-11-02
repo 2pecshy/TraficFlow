@@ -20,7 +20,7 @@ public class Main {
     /**
      * @param args
      * */
-    public static void main(String [] args) throws FileNotFoundException, UnsupportedEncodingException {
+    public static void main(String [] args){
 
         Simulateur simulateur0 = null;
         MaximumFlowAlgorithm.MaximumFlow<Route> flow0;
