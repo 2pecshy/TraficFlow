@@ -5,8 +5,15 @@ public class Route {
     private Integer v1,v2;
     private Integer nombre_de_voie;
 
-    // private Integer vitesse_max;    // Km/h
-   // private Integer distance;  // Metre
+    private Integer vitesse_max;    // Km/h
+    private Integer distance;  // Metre
+
+    public static final Integer DEFAULT_NB_VOIES = 1;
+    public static final Integer DEFAULT_DISTANCE = 1000;
+    public static final Integer DEFAULT_VITESSE = 50;
+
+    public static final Integer DEFAULT_DISTANCE_ENTRE_VOITURE = 5;
+    public static final Integer DEFAULT_TAILLE_VOITURE = 3;
 
     /**
      *
@@ -19,6 +26,19 @@ public class Route {
         if(nombre_de_voie_ < 0) throw new ExceptionInInitializerError("nombre de voie < 0");
         if(v1_ == v2_) throw new ExceptionInInitializerError("v1 = v2");
         nombre_de_voie = nombre_de_voie_;
+        distance = DEFAULT_DISTANCE;
+        vitesse_max = DEFAULT_VITESSE;
+        v1 = v1_;
+        v2 = v2_;
+    }
+
+    public Route(Integer v1_, Integer v2_,Integer nombre_de_voie_, Integer distance_, Integer vitesse_max_){
+
+        if(nombre_de_voie_ < 0) throw new ExceptionInInitializerError("nombre de voie < 0");
+        if(v1_ == v2_) throw new ExceptionInInitializerError("v1 = v2");
+        nombre_de_voie = nombre_de_voie_;
+        distance = distance_;
+        vitesse_max = vitesse_max_;
         v1 = v1_;
         v2 = v2_;
     }
@@ -31,6 +51,8 @@ public class Route {
      */
     public Route(Route route){
         this.nombre_de_voie = route.nombre_de_voie;
+        this.vitesse_max = route.vitesse_max;
+        this.distance = route.distance;
         this.v1 = route.v1;
         this.v2 = route.v2;
     }
@@ -78,7 +100,14 @@ public class Route {
      * @return renvoie le cout de la route
      */
     public double getCout(EnumCriter c){
-        return nombre_de_voie;
+
+        if(c == EnumCriter.VOIES)
+            return nombre_de_voie;
+
+        else if(c == EnumCriter.ALL){
+            return this.func_eval();
+        }
+        return 1;
     }
 
     public int getRoutes(){
@@ -94,5 +123,19 @@ public class Route {
         res.append(v2);
         res.append(")");
         return res.toString();
+    }
+
+    /**
+     * source: https://en.wikipedia.org/wiki/Traffic_flow#Traffic_stream_properties
+     * @return renvoie le nombre de voiture/h qui peut circuler sur cette route
+     */
+    private double func_eval(){
+
+        double density = ((double)DEFAULT_DISTANCE_ENTRE_VOITURE + (double)DEFAULT_TAILLE_VOITURE) / (double)distance;
+        double speed = vitesse_max*1000; //km/h to m/h
+        double flow = (density * speed) * nombre_de_voie;
+
+        System.out.println("DEBUG: flow = " + flow + " " + density + " " + speed);
+        return flow;
     }
 }

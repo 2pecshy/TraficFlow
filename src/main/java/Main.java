@@ -30,7 +30,7 @@ public class Main {
 
         IDataManager dm = new DataManager();
         //File f = new File(".\\src\\main\\java\\carte1.txt");
-        Map m = dm.loadMap("file",".\\src\\main\\java\\carte1.txt");
+        Map m = dm.loadMap("file","./src/main/java/carte1.txt");
         System.out.println("LOAD TERMINE--------------");
         //Map m = Map.getDefaultMap();
         MapEditor editor = new MapEditor(m);
@@ -38,7 +38,7 @@ public class Main {
         System.out.println("Carte avant simulation :");
         m.afficherMap();
         DataManager manager = new DataManager();
-        manager.saveMap("file", "\\src\\main\\java\\", m);
+        manager.saveMap("file", "/src/main/java/", m);
         try {
             simulateur0 = Simulateur.getInstance();
         } catch (Exception e) {
@@ -56,7 +56,7 @@ public class Main {
         statManager.printStats();
         Simulateur.KILL_Simulateur();
 
-        dm.saveStat("file",".\\src\\main\\java\\stats1.txt", statManager.getAll());
+        dm.saveStat("file","./src/main/java/stats1.txt", statManager.getAll());
 
         return;
     }

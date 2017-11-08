@@ -13,7 +13,7 @@ public class Simulateur {
 
     private static Simulateur instance = null;
 
-    private EnumCriter criter = EnumCriter.VOIES;
+    private EnumCriter criter = EnumCriter.ALL;
 
     private Map map;
     private EdmondsKarpMFImpl<Integer, Route> flow;

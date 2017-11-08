@@ -66,9 +66,9 @@ public class Stat{
     }
 
     public void printStats() {
-        System.out.println("(départ: carrefours 3, arrivée: carrefours 1)flow max avant saturation des routes: " + maxVoiture);
+        System.out.println("(départ: carrefours 3, arrivée: carrefours 1)flow max avant saturation des routes: " + maxVoiture/60 + " voitures par minute" );
         System.out.println("route saturées: " + route_saturee.toString());
-        System.out.println("route(0->1): amélioration max,  " + maxvoies  + " voies");
+        System.out.println("route(0->1): amélioration max,  " + maxvoies/60  + " voitures par minute");
 
     }
 
