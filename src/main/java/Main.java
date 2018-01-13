@@ -5,6 +5,7 @@ import utils.Map.Cost.Route;
 import utils.Map.Map;
 import utils.Map.MapEditor;
 import utils.Map.MapManagerI;
+import utils.MapLoader.MapLoader;
 import utils.Stat.Stat;
 import utils.Stat.StatManagerI;
 import utils.StorageManager.DataManager;
@@ -18,6 +19,10 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String [] args){
+
+        //test MapLoader
+//        MapLoader loader = new MapLoader();
+//        loader.uploadMap();
 
         Simulateur simulateur0 = null;
         MaximumFlowAlgorithm.MaximumFlow<Route> flow0;
