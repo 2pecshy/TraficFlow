@@ -17,9 +17,6 @@ import java.util.ArrayList;
 
 public class Main {
 
-    /**
-     * @param args
-     * */
     public static void main(String [] args){
 
         Simulateur simulateur0 = null;

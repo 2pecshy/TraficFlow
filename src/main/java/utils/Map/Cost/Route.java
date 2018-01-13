@@ -68,7 +68,7 @@ public class Route {
     /**
      *
      * @param nombre_de_voie nombre de voie à setter sur la route
-     * @return vrais si le nombre de voie est >= 0
+     * @return vrais si le nombre de voie est plus grand 0
      */
     public boolean setNombre_de_voie(Integer nombre_de_voie) {
         if(nombre_de_voie >= 0) {
