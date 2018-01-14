@@ -1,3 +1,15 @@
+Web Service Configuration :  
+  Setup :  
+  2 commandes maven a créer :  
+  - mvn clean install tomee:build avec pour dossier racine : webconfig
+  - mvn tomee:run avec pour dossier racine : webconfig  
+  
+  Utilisation :  
+  Le service ecoute sur cette adresse : http://localhost:8080/configuration/config/ (le dernier "/" est important)  
+  il accepte des requetes POST de la forme :  
+  { "simulationLength" : 1, "simulationStart" : 3, "HOVLanes" : "true", "migrationPendulaire" : "False" }
+  
+
 Résumé scéance AL
 
 Format des objets
