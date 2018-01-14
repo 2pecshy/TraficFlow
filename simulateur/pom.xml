@@ -5,9 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>TraficFlow</groupId>
-    <artifactId>TraficFlow</artifactId>
+    <artifactId>simulateur</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
+
+    <parent>
+        <groupId>TraficFlow</groupId>
+        <artifactId>TraficFlow</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
     <dependencies>
         <dependency>
@@ -46,11 +52,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <modules>
-        <module>webconfig</module>
-        <module>simulateur</module>
-    </modules>
 
 
 </project>
