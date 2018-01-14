@@ -39,7 +39,6 @@ public class MapManagerTest {
         assertNotNull(test.getRoute(2,3));
         assertNotNull(test.getRoute(3,1));
         assertNotNull(test.getRoute(3,0));
-
     }
 
 }

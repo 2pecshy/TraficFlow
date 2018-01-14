@@ -14,7 +14,6 @@ public class Map {
 
     public Map() {
         carrefours = new SimpleDirectedWeightedGraph<Integer, Route>(Route.class) {
-
             @Override
             public double getEdgeWeight(Route e) {
                 if (e == null) {

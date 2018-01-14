@@ -1,9 +1,5 @@
 package utils.Map;
-
-import utils.Map.Cost.EnumCriter;
 import utils.Map.Cost.Route;
-import utils.StorageManager.IDataManager;
-import utils.Stat.Stat;
 
 import java.io.*;
 import java.util.Iterator;
@@ -128,8 +124,4 @@ public class MapManagerI{
             saveMapToFile(path, map);
         }
     }
-
-
-
-
 }
