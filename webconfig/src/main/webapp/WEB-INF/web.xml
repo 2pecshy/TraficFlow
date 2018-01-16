@@ -10,7 +10,7 @@
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>services.configuration.WebConfigurationService</param-value>
+			<param-value>services.configuration.WebConfigurationController</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
