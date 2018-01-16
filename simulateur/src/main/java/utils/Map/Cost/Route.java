@@ -1,8 +1,7 @@
 package utils.Map.Cost;
 
 public class Route {
-
-    private Integer v1,v2;
+    private GPS_node v1,v2;
     private Integer nombre_de_voie;
 
     private Integer vitesse_max;    // Km/h
@@ -21,7 +20,7 @@ public class Route {
      * @param v2_ est le carrefour d'arrivé de la route
      * @param nombre_de_voie_ est le nombre de voie sur cette route
      */
-    public Route(Integer v1_, Integer v2_, Integer nombre_de_voie_){
+    public Route(GPS_node v1_, GPS_node v2_, Integer nombre_de_voie_){
 
         if(nombre_de_voie_ < 0) throw new ExceptionInInitializerError("nombre de voie < 0");
         if(v1_ == v2_) throw new ExceptionInInitializerError("v1 = v2");
@@ -32,7 +31,7 @@ public class Route {
         v2 = v2_;
     }
 
-    public Route(Integer v1_, Integer v2_,Integer nombre_de_voie_, Integer distance_, Integer vitesse_max_){
+    public Route(GPS_node v1_, GPS_node v2_, Integer nombre_de_voie_, Integer distance_, Integer vitesse_max_){
 
         if(nombre_de_voie_ < 0) throw new ExceptionInInitializerError("nombre de voie < 0");
         if(v1_ == v2_) throw new ExceptionInInitializerError("v1 = v2");
@@ -82,7 +81,7 @@ public class Route {
      *
      * @return renvoie le carrefour de départ de la route
      */
-    public Integer getV1() {
+    public GPS_node getV1() {
         return v1;
     }
 
@@ -90,7 +89,7 @@ public class Route {
      *
      * @return renvie le carrefour d'arrivé de la route
      */
-    public Integer getV2() {
+    public GPS_node getV2() {
         return v2;
     }
 

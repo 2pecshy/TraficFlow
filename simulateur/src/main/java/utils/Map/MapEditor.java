@@ -1,11 +1,10 @@
 package utils.Map;
 
-import utils.Map.Cost.Route;
+import utils.Map.Cost.GPS_node;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 /**
  * Created by Michael on 14/10/2017.
@@ -30,6 +29,7 @@ public class MapEditor {
 
     public Map editMap() {
         System.out.println("Edition de la carte...");
+        /*TODO
         while(true) {
             try{
                 System.out.println("Carte :");
@@ -91,12 +91,12 @@ public class MapEditor {
             catch(IOException e)
             {
                 e.printStackTrace();
-            }
+            }*/
 
+        return map;
         }
-    }
 
-    public boolean addRoute(Integer v1, Integer v2,Integer nombre_de_voie){
+    public boolean addRoute(GPS_node v1, GPS_node v2, Integer nombre_de_voie){
         return map.addRoute(v1,v2,nombre_de_voie);
     }
 

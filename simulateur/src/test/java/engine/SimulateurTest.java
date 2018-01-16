@@ -4,7 +4,6 @@ import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Test;
 import utils.Map.Cost.EnumCriter;
-import utils.Map.Cost.Route;
 import utils.Map.Map;
 
 import static org.junit.jupiter.api.Assertions.*;

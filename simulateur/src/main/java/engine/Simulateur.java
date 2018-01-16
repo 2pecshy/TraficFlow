@@ -3,6 +3,7 @@ package engine;
 import org.jgrapht.alg.flow.EdmondsKarpMFImpl;
 import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
 import utils.Map.Cost.EnumCriter;
+import utils.Map.Cost.GPS_node;
 import utils.Map.Cost.Route;
 import utils.Map.Map;
 import java.util.ArrayList;
@@ -16,8 +17,8 @@ public class Simulateur {
     private EnumCriter criter = EnumCriter.ALL;
 
     private Map map;
-    private EdmondsKarpMFImpl<Integer, Route> flow;
-    private Integer S_lastSimu,D_lastSimu;
+    private EdmondsKarpMFImpl<GPS_node, Route> flow;
+    private GPS_node S_lastSimu,D_lastSimu;
 
     public static Simulateur getInstance(){
 
@@ -78,12 +79,12 @@ public class Simulateur {
      * @param v2 est le carrefour d'arrivée de toutes les voitures
      * @return renvoie le nombre de voiture qu'il est possible de faire circuler en même temps
      */
-    public MaximumFlowAlgorithm.MaximumFlow<Route> getMaxFlow(Integer v1, Integer v2){
+    public MaximumFlowAlgorithm.MaximumFlow<Route> getMaxFlow(GPS_node v1, GPS_node v2){
 
         S_lastSimu = v1;
         D_lastSimu = v2;
         if(map == null) return null;
-        flow = map.buildGraph();
+        //flow = map.buildGraph();
         flow.calculateMaximumFlow(v1,v2);
         return flow.getMaximumFlow(v1,v2);
     }
@@ -120,12 +121,12 @@ public class Simulateur {
      * @param v2 carrefour d'arrivée de la route à améliorer
      * @return renvoie le nombre de voie que l'on peut ajouter sur cette route avant déplacement du bouchon
      */
-    public double ameliorerFlow(Integer v1,Integer v2){
+    public double ameliorerFlow(GPS_node v1,GPS_node v2){
 
         Map map_tmp = new Map(map);
-        EdmondsKarpMFImpl<Integer, Route> flow_tmp;
+        EdmondsKarpMFImpl<GPS_node, Route> flow_tmp;
 
-        map_tmp.getRoute(v1,v2).setNombre_de_voie(Integer.MAX_VALUE);
+        //map_tmp.getRoad(v1,v2).setNombre_de_voie(Integer.MAX_VALUE);
 
         flow_tmp = map_tmp.buildGraph();
         flow_tmp.calculateMaximumFlow(S_lastSimu,D_lastSimu);

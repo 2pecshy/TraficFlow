@@ -1,19 +1,20 @@
 package utils.Map;
 
 import engine.Simulateur;
+import utils.Map.Cost.GPS_node;
+import utils.Map.Cost.Route;
 import org.jgrapht.alg.flow.EdmondsKarpMFImpl;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
-import utils.Map.Cost.Route;
 
 import java.util.Iterator;
 import java.util.Set;
 
 public class Map {
 
-    private SimpleDirectedWeightedGraph<Integer, Route> carrefours;
+    private SimpleDirectedWeightedGraph<GPS_node, Route> carrefours;
 
     public Map() {
-        carrefours = new SimpleDirectedWeightedGraph<Integer, Route>(Route.class) {
+        carrefours = new SimpleDirectedWeightedGraph<GPS_node, Route>(Route.class) {
             @Override
             public double getEdgeWeight(Route e) {
                 if (e == null) {
@@ -30,7 +31,7 @@ public class Map {
      * @param map est la map a copier
      */
     public Map(Map map){
-        this.carrefours = new SimpleDirectedWeightedGraph<Integer, Route>(Route.class) {
+        this.carrefours = new SimpleDirectedWeightedGraph<GPS_node, Route>(Route.class) {
 
             @Override
             public double getEdgeWeight(Route e) {
@@ -41,7 +42,7 @@ public class Map {
             }
         };
 
-        Iterator<Integer> iter_tmp = map.getCarrefours().iterator();
+        Iterator<GPS_node> iter_tmp = map.getCarrefours().iterator();
         while (iter_tmp.hasNext()){
             iter_tmp.next();
             this.addCarrefours();
@@ -62,7 +63,7 @@ public class Map {
      * @param nb_carrefours nombre de carrefours de la nouvelle map crée
      */
     public Map(Integer nb_carrefours){
-        carrefours = new SimpleDirectedWeightedGraph<Integer, Route>(Route.class) {
+        carrefours = new SimpleDirectedWeightedGraph<GPS_node, Route>(Route.class) {
 
             @Override
             public double getEdgeWeight(Route e) {
@@ -85,7 +86,7 @@ public class Map {
      * @param nombre_de_voie nombre de voie de la nouvelle route
      * @return renvoi faux si la route existe déja
      */
-    public boolean addRoute(Integer v1, Integer v2,Integer nombre_de_voie){
+    public boolean addRoute(GPS_node v1, GPS_node v2, Integer nombre_de_voie){
         if(carrefours.containsVertex(v1) && carrefours.containsVertex(v2) && nombre_de_voie >= 0){
             if(!carrefours.containsEdge(v1,v2)) {
                 carrefours.addEdge(v1, v2, new Route(v1, v2, nombre_de_voie));
@@ -99,7 +100,7 @@ public class Map {
      *
      * @return renvoie la liste des carrefours de la Map
      */
-    public Set<Integer> getCarrefours(){
+    public Set<GPS_node> getCarrefours(){
 
         return carrefours.vertexSet();
     }
@@ -108,8 +109,8 @@ public class Map {
      *
      * @return renvoie le graph utilisé pour le calcule de maximum flow
      */
-    public EdmondsKarpMFImpl<Integer, Route> buildGraph(){
-        return new EdmondsKarpMFImpl<Integer, Route>(carrefours);
+    public EdmondsKarpMFImpl<GPS_node, Route> buildGraph(){
+        return new EdmondsKarpMFImpl<GPS_node, Route>(carrefours);
     }
 
     /**
@@ -117,7 +118,7 @@ public class Map {
      * @param carrefour est un carrefour appartenent à la map
      * @return renvoie l'enssemble des routes adjacentes au carrefour passé en param
      */
-    public Set<Route> getRouteFromCarrefour(Integer carrefour){
+    public Set<Route> getRouteFromCarrefour(GPS_node carrefour){
         return carrefours.edgesOf(carrefour);
     }
 
@@ -136,7 +137,7 @@ public class Map {
      * @param v2 carrefour d'arrivé de la route
      * @return renvoie la route qui a pour départ v1 et arrivée v2
      */
-    public Route getRoute(Integer v1,Integer v2){
+    public Route getRoute(GPS_node v1, GPS_node v2){
         return carrefours.getEdge(v1,v2);
     }
 
@@ -144,12 +145,13 @@ public class Map {
      * ajoute un carrefour à la Map
      */
     public void addCarrefours(){
-        carrefours.addVertex(carrefours.vertexSet().size());
+        //carrefours.addVertex(carrefours.vertexSet().size());
+        //TODO
     }
 
     public void afficherMap(){
         for(int i=0; i<this.getCarrefours().size(); i++){
-            Iterator<Route> iter_tmp = this.getRouteFromCarrefour(i).iterator();
+            Iterator<Route> iter_tmp = this.getRouteFromCarrefour(new GPS_node(0,0,0)).iterator();
             System.out.print("carrefour " + i + " [");
             while (iter_tmp.hasNext()) {
                 System.out.print(iter_tmp.next());
@@ -162,11 +164,12 @@ public class Map {
     public static Map getDefaultMap(){
 
         Map defaultMap = new Map(4);
-        defaultMap.addRoute(0,1,1);
+       /* defaultMap.addRoute(0,1,1);
         defaultMap.addRoute(1,2,1);
         defaultMap.addRoute(2,3,2);
         defaultMap.addRoute(3,1,3);
-        defaultMap.addRoute(3,0,3);
+        defaultMap.addRoute(3,0,3);*/
+       //TODO
         return defaultMap;
     }
 }

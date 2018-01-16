@@ -1,4 +1,5 @@
 package utils.Map;
+import utils.Map.Cost.GPS_node;
 import utils.Map.Cost.Route;
 
 import java.io.*;
@@ -23,7 +24,7 @@ public class MapManagerI{
 
     private Map loadMapFromFile(File file) {
         Map map = new Map();
-        try {
+        /*try {
             scanner = new Scanner(new FileReader(file));
             String line = scanner.nextLine();
             for (int i = 0; i < Integer.valueOf(line); i++) {
@@ -45,7 +46,7 @@ public class MapManagerI{
             e.printStackTrace();
         } finally {
             scanner.close();
-        }
+        }*/
         return map;
     }
 
@@ -59,7 +60,7 @@ public class MapManagerI{
     }
 
     private void saveMapToFile(String path, Map map) {
-        try {
+      /*  try {
             FileOutputStream out = new FileOutputStream("temp.txt");
             int n = map.getCarrefours().size();
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
@@ -70,8 +71,8 @@ public class MapManagerI{
                 System.out.print("carrefour " + i + " [");
                 while (iter_tmp.hasNext()) {
                     Route item = iter_tmp.next();
-                    int v1 = item.getV1();
-                    int v2 = item.getV2();
+                    GPS_node v1 = item.getV1();
+                    GPS_node v2 = item.getV2();
                     int cout = item.getRoutes();
                     String line = v1 + "," + v2 + "," + cout;
                     bw.write(line);
@@ -114,7 +115,7 @@ public class MapManagerI{
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
     public void saveMap(String mode, String path, Map map) {
         if(mode == "web"){

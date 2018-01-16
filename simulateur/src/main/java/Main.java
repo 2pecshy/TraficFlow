@@ -1,20 +1,5 @@
-import com.sun.org.apache.xpath.internal.SourceTree;
-import engine.Simulateur;
-import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
-import utils.Map.Cost.Route;
-import utils.Map.Map;
-import utils.Map.MapEditor;
-import utils.Map.MapManagerI;
-import utils.MapLoader.MapLoader;
-import utils.Stat.Stat;
-import utils.Stat.StatManagerI;
-import utils.StorageManager.DataManager;
-import utils.StorageManager.IDataManager;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import utils.Map.Osm.osmLoader;
+import utils.Map.Ui_graph;
 
 public class Main {
 
@@ -24,7 +9,7 @@ public class Main {
 //        MapLoader loader = new MapLoader();
 //        loader.uploadMap();
 
-        Simulateur simulateur0 = null;
+       /* Simulateur simulateur0 = null;
         MaximumFlowAlgorithm.MaximumFlow<Route> flow0;
         MapEditor mapEditor;
 
@@ -48,8 +33,8 @@ public class Main {
         }
 
 
-        /*mapEditor = new MapEditor(m);
-        mapEditor.editMap();*/
+        mapEditor = new MapEditor(m);
+        mapEditor.editMap()
         simulateur0.setMap(m);
         flow0 = simulateur0.getMaxFlow(3,1);
         ArrayList<Route> route_saturee = simulateur0.getRoutesSaturees();
@@ -58,7 +43,11 @@ public class Main {
         statManager.printStats();
         Simulateur.KILL_Simulateur();
 
-        dm.saveStat("file","./src/main/java/stats1.txt", statManager.getAll());
+        dm.saveStat("file","./src/main/java/stats1.txt", statManager.getAll());*/
+
+        Ui_graph ui_test1 = new Ui_graph();
+        ui_test1.show_G();
+        osmLoader.load("map.osm");
 
         return;
     }
