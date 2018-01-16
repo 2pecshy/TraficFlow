@@ -1,17 +1,17 @@
 package services.configuration;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
+
 /**
  * Created by Matthieu on 14/01/2018.
  */
-public class SimulationWebConfiguration {
-    private int simulationLenght;
-    private int simulationStart;
-    private boolean HOVLanes;
-    private boolean migrationPendulaire;
-
-    public SimulationWebConfiguration(){
-
-    }
+public class SimulationWebConfiguration implements Serializable{
+    @JsonProperty("simulationLength") private int simulationLenght;
+    @JsonProperty("simulationStart") private int simulationStart;
+    @JsonProperty("HOVLanes") private boolean HOVLanes;
+    @JsonProperty("migrationPendulaiure") private boolean migrationPendulaire;
 
     public void sendConfigToSimulator(Object simu){
         /*
