@@ -22,7 +22,8 @@ public class osmLoader {
     {
         DirectedGraph<GPS_node,Route> map = new DefaultDirectedGraph<GPS_node, Route>(Route.class);
         SAXBuilder sxb = new SAXBuilder();
-        Integer id_tmp,lat_tmp,lon_tmp;
+        long id_tmp;
+        Double lat_tmp,lon_tmp;
         List current_root;
         Iterator iter;
         Element curent;
@@ -43,14 +44,14 @@ public class osmLoader {
         {
 
             curent = (Element)iter.next();
-            id_tmp = Integer.valueOf(curent.getAttributeValue("id"));
-            lat_tmp = Integer.valueOf(curent.getAttributeValue("lat"));
-            lon_tmp = Integer.valueOf(curent.getAttributeValue("lon"));
+            id_tmp = Long.parseLong(curent.getAttributeValue("id"));
+            lat_tmp = Double.parseDouble(curent.getAttributeValue("lat"));
+            lon_tmp = Double.parseDouble(curent.getAttributeValue("lon"));
             map.addVertex(new GPS_node(id_tmp,lat_tmp,lon_tmp));
             System.out.println("new vertex: " + curent.getAttributeValue("id") + ", " + curent.getAttributeValue("lat") + ", " + curent.getAttributeValue("lon"));
         }
 
-        current_root = root.getChildren(IDENT_WAY);
+        /*current_root = root.getChildren(IDENT_WAY);
 
         iter = current_root.iterator();
         while(iter.hasNext())
@@ -62,7 +63,7 @@ public class osmLoader {
             lon_tmp = Integer.valueOf(curent.getAttributeValue("lon"));
             map.addVertex(new GPS_node(id_tmp,lat_tmp,lon_tmp));
             System.out.println("new vertex: " + curent.getAttributeValue("id") + ", " + curent.getAttributeValue("lat") + ", " + curent.getAttributeValue("lon"));
-        }
+        }*/
 
         return map;
     }
