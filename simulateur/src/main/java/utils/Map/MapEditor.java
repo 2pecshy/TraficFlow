@@ -100,8 +100,9 @@ public class MapEditor {
         return map.addRoute(v1,v2,nombre_de_voie);
     }
 
-    public void addCarrefours(){
-        map.addCarrefours();
+    public void addCarrefours(GPS_node pos){
+        //map.addCarrefours();
+        //TODO refector this
     }
 
     public void printMap(){

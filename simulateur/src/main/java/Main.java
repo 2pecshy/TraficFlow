@@ -1,5 +1,8 @@
+import utils.Map.Map;
 import utils.Map.Osm.osmLoader;
 import utils.Map.Ui_graph;
+
+import static utils.Map.Osm.osmLoader.load;
 
 public class Main {
 
@@ -47,7 +50,8 @@ public class Main {
 
         Ui_graph ui_test1 = new Ui_graph();
         ui_test1.show_G();
-        osmLoader.load("map.osm");
+        Map map = osmLoader.load("map.osm");
+        map.afficherMap();
 
         return;
     }

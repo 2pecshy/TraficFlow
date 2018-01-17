@@ -1,11 +1,13 @@
 package utils.Map;
 
+import com.mxgraph.view.mxGraph;
 import engine.Simulateur;
 import utils.Map.Cost.GPS_node;
 import utils.Map.Cost.Route;
 import org.jgrapht.alg.flow.EdmondsKarpMFImpl;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -44,8 +46,7 @@ public class Map {
 
         Iterator<GPS_node> iter_tmp = map.getCarrefours().iterator();
         while (iter_tmp.hasNext()){
-            iter_tmp.next();
-            this.addCarrefours();
+            this.addCarrefours(iter_tmp.next());
         }
 
         iter_tmp = map.getCarrefours().iterator();
@@ -73,10 +74,11 @@ public class Map {
                 return e.getCout(Simulateur.getInstance().getCriter());
             }
         };
-
+        /* TODO remove this constructor
         for(int i = 0; i < nb_carrefours; i++){
             this.addCarrefours();
         }
+        */
     }
 
     /**
@@ -103,6 +105,55 @@ public class Map {
     public Set<GPS_node> getCarrefours(){
 
         return carrefours.vertexSet();
+    }
+
+    public ArrayList<GPS_node> getCarrefours(ArrayList<Double> list_id){
+        Set<GPS_node> set_carrefours = getCarrefours();
+        Iterator<GPS_node> iter_vertex = set_carrefours.iterator();
+        GPS_node current_vertex;
+        ArrayList<GPS_node> result = new ArrayList<GPS_node>();
+
+        while (iter_vertex.hasNext()){
+            current_vertex = iter_vertex.next();
+            if(current_vertex.getId() == list_id.get(list_id.size()-1)) {
+                result.add(current_vertex);
+                list_id.remove(list_id.size()-1);
+            }
+        }
+        return result;
+    }
+
+    public GPS_node[] getCarrefours(double v1, double v2){
+        Set<GPS_node> set_carrefours = getCarrefours();
+        Iterator<GPS_node> iter_vertex = set_carrefours.iterator();
+        GPS_node current_vertex;
+        GPS_node result[] = new GPS_node[2];
+
+        while (iter_vertex.hasNext()){
+
+            current_vertex = iter_vertex.next();
+            if(current_vertex.getId() == v1) {
+                result[0] = current_vertex;
+            }
+            else if(current_vertex.getId() == v2){
+                result[1] = current_vertex;
+            }
+        }
+        return result;
+    }
+
+    public GPS_node getCarrefour(double id){
+
+        Set<GPS_node> set_carrefours = getCarrefours();
+        Iterator<GPS_node> iter_vertex = set_carrefours.iterator();
+        GPS_node current_vertex;
+
+        while (iter_vertex.hasNext()){
+            current_vertex = iter_vertex.next();
+            if(current_vertex.getId() == id)
+                return current_vertex;
+        }
+        return null;
     }
 
     /**
@@ -144,21 +195,26 @@ public class Map {
     /**
      * ajoute un carrefour à la Map
      */
-    public void addCarrefours(){
-        //carrefours.addVertex(carrefours.vertexSet().size());
-        //TODO
+    public void addCarrefours(GPS_node pos){
+        carrefours.addVertex(pos);
     }
 
     public void afficherMap(){
-        for(int i=0; i<this.getCarrefours().size(); i++){
-            Iterator<Route> iter_tmp = this.getRouteFromCarrefour(new GPS_node(0,0,0)).iterator();
-            System.out.print("carrefour " + i + " [");
-            while (iter_tmp.hasNext()) {
-                System.out.print(iter_tmp.next());
-            }
-            System.out.print("]");
-            System.out.print("\n");
+        Iterator<GPS_node> iter_vertex = this.getCarrefours().iterator();
+        GPS_node current_node;
+        while (iter_vertex.hasNext()){
+
+            current_node = iter_vertex.next();
+            System.out.println("degree in =" + carrefours.inDegreeOf(current_node) + " degree out=" + carrefours.outDegreeOf(current_node));
         }
+        //TODO Finish this
+    }
+
+    public mxGraph MapToMxGraph(){
+
+        mxGraph graph = new mxGraph();
+        //TODO Map to MxGraph to print the map in a panel
+        return graph;
     }
 
     public static Map getDefaultMap(){
