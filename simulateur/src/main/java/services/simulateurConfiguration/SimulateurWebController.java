@@ -1,9 +1,6 @@
 package services.simulateurConfiguration;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Matthieu on 18/01/2018.
@@ -12,8 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SimulateurWebController {
 
-    @ResponseBody @RequestMapping("/simulateur")
-    public String receiveConfig(@RequestBody SimulationWebConfiguration input){
-        return "reçu !";
+    int i = 0;
+
+    @ResponseBody @RequestMapping(value = "/simulateur", method = RequestMethod.POST)
+    public void receiveConfig(@RequestBody Integer input){
+        this.i = input;
     }
+
+    @RequestMapping(value = "/simulateur", method = RequestMethod.GET)
+    public int printInfo(){ return this.i;}
 }

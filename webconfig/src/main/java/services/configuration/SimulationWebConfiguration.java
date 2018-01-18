@@ -11,7 +11,7 @@ public class SimulationWebConfiguration implements Serializable{
     @JsonProperty("simulationLength") private int simulationLenght;
     @JsonProperty("simulationStart") private int simulationStart;
     @JsonProperty("HOVLanes") private boolean HOVLanes;
-    @JsonProperty("migrationPendulaiure") private boolean migrationPendulaire;
+    @JsonProperty("migrationPendulaire") private boolean migrationPendulaire;
 
     public void sendConfigToSimulator(Object simu){
         /*

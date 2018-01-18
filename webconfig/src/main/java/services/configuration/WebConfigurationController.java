@@ -28,7 +28,7 @@ public class WebConfigurationController {
         headers.add("Content-Type", "application/json");
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         HttpEntity<SimulationWebConfiguration> request = new HttpEntity<SimulationWebConfiguration>(input, headers);
-        return restTemplate.postForObject("http://localhost:8090/simulateur", request, String.class);
+        return restTemplate.postForObject("http://localhost:8091/facade", request.getBody().getSimulationLenght(), String.class);
     }
 
 
