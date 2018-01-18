@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RouteTest {
 
-    private Route routeUnderTest;
+    /*private Route routeUnderTest;
 
     @Test
     void constructor(){
@@ -32,6 +32,6 @@ public class RouteTest {
         Integer newNbVoies = nb_voies-3;
         routeUnderTest = new Route(1,3,4);
 
-    }
+    }*/
 
 }

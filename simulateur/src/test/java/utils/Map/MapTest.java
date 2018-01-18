@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MapTest {
 
-    private Map mapUnderTest;
+   /* private Map mapUnderTest;
 
 
     @Test
@@ -68,5 +68,5 @@ public class MapTest {
         Simulateur.INIT_Simulateur();
         mapUnderTest.addRoute(0,3,3);
         assertEquals(3,mapUnderTest.getCoutRoute(mapUnderTest.getRoute(0,3)));
-    }
+    }*/
 }
