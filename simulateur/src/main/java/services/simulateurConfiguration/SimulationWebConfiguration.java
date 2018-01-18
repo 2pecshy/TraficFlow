@@ -1,4 +1,4 @@
-package services;
+package services.simulateurConfiguration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
