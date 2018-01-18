@@ -8,23 +8,22 @@ Web Service Configuration :
   il accepte des requetes POST de la forme :  
   { "simulationLength" : 1, "simulationStart" : 3, "HOVLanes" : "true", "migrationPendulaire" : "False" }
 
-  il ecoute aussi sur l'adresse  http://localhost:8080/maplink
-     il accepte des requetes POST de la forme :
+  il ecoute aussi sur l'adresse  http://localhost:8080/maplink  
+     il accepte des requetes POST de la forme :  
      {"url" : "http://totofaitdelapeinturealaplae.png" }
 
-Web Service Simulateur :
-     Setup :
-      1 commande maven a créer :
-      - mvn clean package spring-boot:run avec pour dossier racine : simulateur
+Web Service Simulateur :  
+  Setup :  
+  1 commande maven a créer :  
+  - mvn clean package spring-boot:run avec pour dossier racine : simulateur  
 
-      Utilisation :
-      Le service ecoute sur cette adresse pour recevoir une config : http://localhost:8080/simulateur
-      il accepte des requetes POST contenant une SimulationWebConfiguration :
-      { "simulationLength" : 1, "simulationStart" : 3, "HOVLanes" : "true", "migrationPendulaire" : "False" }
-
-      Il écoute aussi sur l'addresse : : http://localhost:8080/download
-      il accepte des requetes POST contenant une url de la forme :
-      {"url" : "http://totofaitdelapeinturealaplae.png" }
+  Utilisation :  
+  Le service ecoute sur cette adresse pour recevoir une config : http://localhost:8080/simulateur  
+  il accepte des requetes POST contenant une SimulationWebConfiguration :  
+  { "simulationLength" : 1, "simulationStart" : 3, "HOVLanes" : "true", "migrationPendulaire" : "False" }  
+      Il écoute aussi sur l'addresse : : http://localhost:8080/download  
+      il accepte des requetes POST contenant une url de la forme :  
+      {"url" : "http://totofaitdelapeinturealaplae.png" }  
   
 
 Résumé scéance AL
