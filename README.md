@@ -11,6 +11,11 @@ Web Service Configuration :
   il ecoute aussi sur l'adresse  http://localhost:8080/maplink  
      il accepte des requetes POST de la forme :  
      {"url" : "http://totofaitdelapeinturealaplae.png" }
+     
+Mapping des services : 
+Service facade : http://localhost:8091/facade
+Service Simulateur : http://localhost:8090/simulateur
+Service Observeur : http://localhost:8092/observeur
 
 Web Service Simulateur :  
   Setup :  

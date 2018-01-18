@@ -9,13 +9,26 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class SimulateurWebController {
 
-    int i = 0;
+    int step = -1;
 
     @ResponseBody @RequestMapping(value = "/simulateur", method = RequestMethod.POST)
-    public void receiveConfig(@RequestBody Integer input){
-        this.i = input;
+    public void receiveConfig(@RequestBody SimulationWebConfiguration simulationWebConfiguration){
+        int duree = simulationWebConfiguration.getSimulationLenght();
+        step = 0;
+        doSimu(duree);
+    }
+
+    public void doSimu(int duree) {
+        for (; step < duree; step++) {
+            System.out.println("Step");
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @RequestMapping(value = "/simulateur", method = RequestMethod.GET)
-    public int printInfo(){ return this.i;}
+    public int printInfo(){ return this.step;}
 }

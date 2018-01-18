@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
+
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -28,13 +29,13 @@ public class FacadeController {
     }
 
     @RequestMapping(value = "/facade", method = RequestMethod.POST)
-    public String followToSimulateur(@RequestBody Integer i){
+    public String followToSimulateur(@RequestBody SimulationWebConfiguration simulationFromWeb){
 
         RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
         headers.add("Content-Type", "application/json");
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-        HttpEntity<Integer> request = new HttpEntity<Integer>(i, headers);
+        HttpEntity<SimulationWebConfiguration> request = new HttpEntity<SimulationWebConfiguration>(simulationFromWeb, headers);
         return restTemplate.postForObject("http://localhost:8090/simulateur", request, String.class);
     }
 }
