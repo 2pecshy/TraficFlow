@@ -31,4 +31,5 @@ public class WebConfigurationController {
         return restTemplate.postForObject("http://localhost:8090/simulateur", request, String.class);
     }
 
+
 }
