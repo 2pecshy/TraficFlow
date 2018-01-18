@@ -1,3 +1,35 @@
+Web Service Configuration :  
+  Setup :  
+  1 commande maven a créer :
+  - mvn clean package spring-boot:run avec pour dossier racine : webconfig
+
+  Utilisation :  
+  Le service ecoute sur cette adresse : http://localhost:8080/config
+  il accepte des requetes POST de la forme :  
+  { "simulationLength" : 1, "simulationStart" : 3, "HOVLanes" : "true", "migrationPendulaire" : "False" }
+
+  il ecoute aussi sur l'adresse  http://localhost:8080/maplink  
+     il accepte des requetes POST de la forme :  
+     {"url" : "http://totofaitdelapeinturealaplae.png" }
+     
+Mapping des services : 
+Service facade : http://localhost:8091/facade
+Service Simulateur : http://localhost:8090/simulateur
+Service Observeur : http://localhost:8092/observeur
+
+Web Service Simulateur :  
+  Setup :  
+  1 commande maven a créer :  
+  - mvn clean package spring-boot:run avec pour dossier racine : simulateur  
+
+  Utilisation :  
+  Le service ecoute sur cette adresse pour recevoir une config : http://localhost:8080/simulateur  
+  il accepte des requetes POST contenant une SimulationWebConfiguration :  
+  { "simulationLength" : 1, "simulationStart" : 3, "HOVLanes" : "true", "migrationPendulaire" : "False" }  
+      Il écoute aussi sur l'addresse : : http://localhost:8080/download  
+      il accepte des requetes POST contenant une url de la forme :  
+      {"url" : "http://totofaitdelapeinturealaplae.png" }  
+  
 
 Résumé scéance AL
 
