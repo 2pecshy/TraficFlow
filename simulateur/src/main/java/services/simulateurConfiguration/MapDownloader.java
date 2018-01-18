@@ -1,14 +1,12 @@
 package services.simulateurConfiguration;
-import org.apache.commons.io.FileUtils;
-import org.json.JSONObject;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.File;
+import java.io.IOException;
 
 
 
@@ -19,14 +17,9 @@ import java.net.URL;
 @RestController
 public class MapDownloader {
         @ResponseBody @RequestMapping("/download")
-        public String uploadFile(@RequestBody String s) throws IOException {
-                JSONObject req = new JSONObject(s);
-                URL url = new URL(req.getString("url"));
-                String[] array = s.split("/");
-                String path = "./map.t";
-                File file = new File(path);
-                file.deleteOnExit();
-                FileUtils.copyURLToFile(url, file);
+        public String uploadFile(@RequestBody File f) throws IOException {
+                File file = new File("map.t");
+                FileCopyUtils.copy(f, file);
                 if(file.exists()){
                         return "le fichier a ete telecharge !";
                 }

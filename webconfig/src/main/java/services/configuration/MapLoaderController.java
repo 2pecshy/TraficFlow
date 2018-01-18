@@ -4,7 +4,6 @@ package services.configuration;
  * Created by Matthieu on 18/01/2018.
  */
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -14,21 +13,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import services.configuration.SimulationWebConfiguration;
 
-import java.net.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+
 @RestController
 public class MapLoaderController {
 
     @RequestMapping("/maplink")
-    public String downloaMap(@RequestBody String url) throws Exception {
+    public String downloadMap(@RequestBody String url) throws Exception {
 
         RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
         headers.add("Content-Type", "application/json");
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-        HttpEntity<String> request = new HttpEntity<String>(url, headers);
-        return restTemplate.postForObject("http://localhost:8090/download", request, String.class);
+        JSONObject req = new JSONObject(url);
+        URL website = new URL(req.getString("url"));
+        ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+        FileOutputStream fos = new FileOutputStream("map.t");
+        File file = new File("map.t");
+        fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+        HttpEntity<File> fileReq = new HttpEntity<File>(file, headers);
+        return restTemplate.postForObject("http://localhost:8090/download", fileReq, String.class);
     }
 }
