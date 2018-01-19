@@ -58,16 +58,14 @@ public class osmLoader {
             curent = (Element)iter_root.next();
             current_sub_root = curent.getChildren(IDENT_ND);
             iter_sub_root = current_sub_root.iterator();
-
+            v1 = (Element) iter_sub_root.next();
             while(iter_sub_root.hasNext()){
-                v1 = (Element) iter_sub_root.next();
-                if(iter_sub_root.hasNext()) {
+
                     v2 = (Element) iter_sub_root.next();
                     list_node = map.getCarrefours(Double.parseDouble(v1.getAttributeValue("ref")),
                             Double.parseDouble(v2.getAttributeValue("ref")));
                     map.addRoute(list_node[0],list_node[1],1);
-                }
-
+                    v1 = v2;
             }
         }
 
