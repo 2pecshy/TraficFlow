@@ -5,6 +5,7 @@ import org.jdom2.*;
 import org.jdom2.input.*;
 import utils.Map.Cost.GPS_node;
 import utils.Map.Map;
+
 import java.util.List;
 import java.util.Iterator;
 
@@ -34,7 +35,6 @@ public class osmLoader {
         catch(Exception e){}
 
         root = file.getRootElement();
-
         current_root = root.getChildren(IDENT_NODE);
 
         iter_root = current_root.iterator();

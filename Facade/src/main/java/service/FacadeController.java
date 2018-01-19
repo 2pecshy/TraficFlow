@@ -20,17 +20,17 @@ import java.util.concurrent.atomic.AtomicLong;
 @org.springframework.web.bind.annotation.RestController
 public class FacadeController {
 
-    private static final String template = "Hello, %s !";
+    private String template = "Hello, %s !";
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping(value = "/facade", method = RequestMethod.GET)
-    public Facade facade(@RequestParam(value="name",defaultValue = "World") String name){
+    public Facade facade(@RequestParam(value="name",defaultValue = "Hello") String name){
         return new Facade(String.format(template,name));
     }
 
     @RequestMapping(value = "/facade", method = RequestMethod.POST)
     public String followToSimulateur(@RequestBody SimulationWebConfiguration simulationFromWeb){
-
+        this.template = "%s, message followed!";
         RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
         headers.add("Content-Type", "application/json");

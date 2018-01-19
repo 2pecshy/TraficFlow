@@ -5,10 +5,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.jws.WebService;
@@ -20,9 +17,16 @@ import javax.jws.WebService;
 @RestController
 public class WebConfigurationController {
 
+    String demo = "Nothing";
+    @RequestMapping(value = "/config", method = RequestMethod.GET)
+    public String posted(){
+        return demo;
+    }
+
     @ResponseBody @RequestMapping("/config")
     public String process(@RequestBody SimulationWebConfiguration input) {
         //return input.toString();
+        this.demo = "Request accepted";
         RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
         headers.add("Content-Type", "application/json");
