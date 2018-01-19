@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
@@ -25,7 +24,6 @@ public class MapLoaderController {
 
     @RequestMapping("/maplink")
     public String downloadMap(@RequestBody String url) throws Exception {
-
         RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
         headers.add("Content-Type", "application/json");
