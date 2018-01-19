@@ -49,9 +49,11 @@ public class Main {
         dm.saveStat("file","./src/main/java/stats1.txt", statManager.getAll());*/
 
         Ui_graph ui_test1 = new Ui_graph();
+        //ui_test1.show_G();
+        Map map = osmLoader.load("map11.osm");
+        ui_test1.setUIGraphFromMap(map);
+        //map.afficherMap();
         ui_test1.show_G();
-        Map map = osmLoader.load("map.osm");
-        map.afficherMap();
         return;
     }
 
