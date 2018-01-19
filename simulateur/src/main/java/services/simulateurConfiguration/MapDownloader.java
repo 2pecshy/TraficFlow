@@ -18,7 +18,7 @@ import java.io.IOException;
 public class MapDownloader {
         @ResponseBody @RequestMapping("/download")
         public String uploadFile(@RequestBody File f) throws IOException {
-                File file = new File("map.t");
+                File file = new File(f.getName());
                 FileCopyUtils.copy(f, file);
                 if(file.exists()){
                         return "le fichier a ete telecharge !";
