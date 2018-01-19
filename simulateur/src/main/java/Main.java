@@ -52,7 +52,6 @@ public class Main {
         ui_test1.show_G();
         Map map = osmLoader.load("map.osm");
         map.afficherMap();
-
         return;
     }
 
