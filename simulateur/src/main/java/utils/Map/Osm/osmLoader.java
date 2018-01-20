@@ -16,6 +16,7 @@ public class osmLoader {
     public static final String IDENT_NODE = "node";
     public static final String IDENT_WAY = "way";
     public static final String IDENT_ND = "nd";
+    public static final String IDENT_TAG = "tag";
 
     public static Map load(String file_name)
     {
@@ -27,6 +28,7 @@ public class osmLoader {
         List current_root, current_sub_root;
         Iterator iter_root,iter_sub_root,iter_vertex;
         Element curent,v1,v2;
+        String tagValue;
 
         try
         {
@@ -56,17 +58,33 @@ public class osmLoader {
         {
 
             curent = (Element)iter_root.next();
-            current_sub_root = curent.getChildren(IDENT_ND);
+            current_sub_root = curent.getChildren(IDENT_TAG);
             iter_sub_root = current_sub_root.iterator();
-            v1 = (Element) iter_sub_root.next();
             while(iter_sub_root.hasNext()){
 
-                    v2 = (Element) iter_sub_root.next();
-                    list_node = map.getCarrefours(Double.parseDouble(v1.getAttributeValue("ref")),
-                            Double.parseDouble(v2.getAttributeValue("ref")));
-                    map.addRoute(list_node[0],list_node[1],1);
-                    v1 = v2;
+                v1 = (Element) iter_sub_root.next();
+                if(v1.getAttributeValue("k").equals("highway")){
+
+                    tagValue = v1.getAttributeValue("v");
+                    if(tagValue.equals("secondary") || tagValue.equals("tertiary") ||
+                            tagValue.equals("primary")) {
+
+                        current_sub_root = curent.getChildren(IDENT_ND);
+                        iter_sub_root = current_sub_root.iterator();
+                        v1 = (Element) iter_sub_root.next();
+                        while (iter_sub_root.hasNext()) {
+
+                            v2 = (Element) iter_sub_root.next();
+                            list_node = map.getCarrefours(Double.parseDouble(v1.getAttributeValue("ref")),
+                                    Double.parseDouble(v2.getAttributeValue("ref")));
+                            map.addRoute(list_node[0], list_node[1], 1);
+                            v1 = v2;
+                        }
+                        break;
+                    }
+                }
             }
+
         }
 
         return map;

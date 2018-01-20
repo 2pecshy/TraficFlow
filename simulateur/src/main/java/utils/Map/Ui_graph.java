@@ -2,8 +2,11 @@ package utils.Map;
 
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
+import utils.Map.Cost.Route;
 
 import javax.swing.*;
+import java.util.Iterator;
+import java.util.Set;
 
 public class Ui_graph extends JFrame {
 
@@ -34,13 +37,48 @@ public class Ui_graph extends JFrame {
 
     public void setUIGraphFromMap(Map map){
         //TODO mapToMxGraph
+        Set<Route> routeSet = map.getRoutes();
+        Iterator<Route> iterRoute = routeSet.iterator();
+        Route currentRoute;
+        Object v1;
+        Object v2;
         Object parent = graph.getDefaultParent();
+        double min_lon;
+        double min_lat;
+
         graph.getModel().beginUpdate();
+        min_lat = Double.MAX_VALUE;
+        min_lon = Double.MAX_VALUE;
         try {
-            graph = map.MapToMxGraph(graph,parent);
+            while (iterRoute.hasNext()){
+
+                currentRoute = iterRoute.next();
+                if(-currentRoute.getV1().getLat()*50000 < min_lat){
+                    min_lat = -currentRoute.getV1().getLat()*50000;
+                }
+                if(-currentRoute.getV2().getLat()*50000 < min_lat){
+                    min_lat = -currentRoute.getV2().getLat()*50000;
+                }
+                if(currentRoute.getV1().getLon()*50000 < min_lon){
+                    min_lon = currentRoute.getV1().getLon()*50000;
+                }
+                if(currentRoute.getV2().getLon()*50000 < min_lon){
+                    min_lon = currentRoute.getV2().getLon()*50000;
+                }
+            }
+            iterRoute = routeSet.iterator();
+            while (iterRoute.hasNext()){
+
+                currentRoute = iterRoute.next();
+                v1 = graph.insertVertex(parent, null, "", currentRoute.getV1().getLon()*50000-min_lon+10, -currentRoute.getV1().getLat()*50000-min_lat+10, 1, 1);
+                v2 = graph.insertVertex(parent, null, "", currentRoute.getV2().getLon()*50000-min_lon+10, -currentRoute.getV2().getLat()*50000-min_lat+10, 1, 1);
+                graph.insertEdge(parent,null,null,v1,v2);
+
+            }
         } finally {
             graph.getModel().endUpdate();
         }
+
         mxGraphComponent graphComponent = new mxGraphComponent(graph);
         getContentPane().add(graphComponent);
     }

@@ -217,14 +217,20 @@ public class Map {
         Route currentRoute;
         Object v1;
         Object v2;
+
         while (iterRoute.hasNext()){
 
             currentRoute = iterRoute.next();
             v1 = graph.insertVertex(parent, null, "", currentRoute.getV1().getLat()*10000, currentRoute.getV1().getLon()*10000, 1, 1);
             v2 = graph.insertVertex(parent, null, "", currentRoute.getV2().getLat()*10000, currentRoute.getV2().getLon()*10000, 1, 1);
             graph.insertEdge(parent,null,null,v1,v2);
+
         }
         return graph;
+    }
+
+    public Set<Route> getRoutes(){
+        return carrefours.edgeSet();
     }
 
     public static Map getDefaultMap(){

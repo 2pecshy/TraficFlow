@@ -50,7 +50,7 @@ public class Main {
 
         Ui_graph ui_test1 = new Ui_graph();
         //ui_test1.show_G();
-        Map map = osmLoader.load("map11.osm");
+        Map map = osmLoader.load("map.osm");
         ui_test1.setUIGraphFromMap(map);
         //map.afficherMap();
         ui_test1.show_G();
