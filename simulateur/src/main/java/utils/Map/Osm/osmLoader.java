@@ -24,9 +24,11 @@ public class osmLoader {
     public static final Tag WAY_SECONDARY = new Tag("highway","secondary");//departemental
     public static final Tag WAY_TERTIARY = new Tag("highway","tertiary");
     public static final Tag ONEWAY = new Tag("oneway", "yes");
+    public static final Tag ROUNDABOUT = new Tag("junction","roundabout");//rond point
+    public static final Tag CIRCULAR = new Tag("junction","circular");//rond point avec feux
 
     private static ArrayList<Tag> tagFilter(ArrayList<Tag> filter,Iterator iter_sub_root){
-        Element curent,v1;
+        Element v1;
         Iterator<Tag> iter_filter;
         Tag curent_tag;
         ArrayList<Tag> res = new ArrayList<Tag>();
@@ -55,17 +57,29 @@ public class osmLoader {
         long id_tmp;
         Double lat_tmp,lon_tmp;
         List current_root, current_sub_root;
-        Iterator iter_root,iter_sub_root,iter_tag;
+        Iterator iter_root,iter_sub_root;
         Element curent,v1,v2;
-        String tagValue;
-        ArrayList<Tag> default_filter = new ArrayList<Tag>(),filter_result;
+        ArrayList<Tag> default_filter = new ArrayList<Tag>(),filter_result,isMotorWay,isOneWay;
         boolean oneway;
 
         default_filter.add(WAY_MOTORWAY);
         default_filter.add(WAY_MOTORWAY_LINK);
         default_filter.add(WAY_SECONDARY);
         default_filter.add(WAY_TERTIARY);
+        default_filter.add(ROUNDABOUT);
+        default_filter.add(ONEWAY);
+        default_filter.add(CIRCULAR);
 
+        isMotorWay = new ArrayList<Tag>();
+        isMotorWay.add(WAY_MOTORWAY);
+        isMotorWay.add(WAY_MOTORWAY_LINK);
+        isMotorWay.add(WAY_SECONDARY);
+        isMotorWay.add(WAY_TERTIARY);
+
+        isOneWay = new ArrayList<Tag>();
+        isOneWay.add(ROUNDABOUT);
+        isOneWay.add(ONEWAY);
+        isOneWay.add(CIRCULAR);
 
         try
         {
@@ -75,7 +89,6 @@ public class osmLoader {
 
         root = file.getRootElement();
         current_root = root.getChildren(IDENT_NODE);
-
         iter_root = current_root.iterator();
         while(iter_root.hasNext())
         {
@@ -89,51 +102,33 @@ public class osmLoader {
         }
 
         current_root = root.getChildren(IDENT_WAY);
-
         iter_root = current_root.iterator();
-        while(iter_root.hasNext())
-        {
+        while(iter_root.hasNext()) {
 
-            curent = (Element)iter_root.next();
+            curent = (Element) iter_root.next();
             current_sub_root = curent.getChildren(IDENT_TAG);
             iter_sub_root = current_sub_root.iterator();
-            while(iter_sub_root.hasNext()){
 
+            filter_result = tagFilter(default_filter, iter_sub_root);
+            oneway = Tag.inFilter(filter_result,isOneWay);
+            if (Tag.inFilter(filter_result,isMotorWay)) {
+
+                current_sub_root = curent.getChildren(IDENT_ND);
+                iter_sub_root = current_sub_root.iterator();
                 v1 = (Element) iter_sub_root.next();
-                filter_result = tagFilter(default_filter,iter_sub_root);
+                while (iter_sub_root.hasNext()) {
 
-                if(filter_result.size() > 0) {
-
-                    iter_tag = filter_result.iterator();
-                    while (iter_tag.hasNext()){
-
+                    v2 = (Element) iter_sub_root.next();
+                    list_node = map.getCarrefours(Double.parseDouble(v1.getAttributeValue("ref")),
+                            Double.parseDouble(v2.getAttributeValue("ref")));
+                    map.addRoute(list_node[0], list_node[1], 1);
+                    if (!oneway) {
+                        map.addRoute(list_node[1], list_node[0], 1);
                     }
-
-                }
-                if(v1.getAttributeValue("k").equals("highway")){
-
-                    tagValue = v1.getAttributeValue("v");
-                    if(tagValue.equals("secondary") || tagValue.equals("tertiary") ||
-                            tagValue.equals("motorway") || tagValue.equals("motorway_link")) {
-
-                        current_sub_root = curent.getChildren(IDENT_ND);
-                        iter_sub_root = current_sub_root.iterator();
-                        v1 = (Element) iter_sub_root.next();
-                        while (iter_sub_root.hasNext()) {
-
-                            v2 = (Element) iter_sub_root.next();
-                            list_node = map.getCarrefours(Double.parseDouble(v1.getAttributeValue("ref")),
-                                    Double.parseDouble(v2.getAttributeValue("ref")));
-                            map.addRoute(list_node[0], list_node[1], 1);
-                            v1 = v2;
-                        }
-                        break;
-                    }
+                    v1 = v2;
                 }
             }
-
         }
-
         return map;
     }
 }
