@@ -6,6 +6,7 @@ import org.jdom2.input.*;
 import utils.Map.Cost.GPS_node;
 import utils.Map.Map;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
 
@@ -18,6 +19,34 @@ public class osmLoader {
     public static final String IDENT_ND = "nd";
     public static final String IDENT_TAG = "tag";
 
+    public static final Tag WAY_MOTORWAY = new Tag("highway","motorway");//autoroute
+    public static final Tag WAY_MOTORWAY_LINK = new Tag("highway","motorway_link");//autoroute entrée/sortie
+    public static final Tag WAY_SECONDARY = new Tag("highway","secondary");//departemental
+    public static final Tag WAY_TERTIARY = new Tag("highway","tertiary");
+    public static final Tag ONEWAY = new Tag("oneway", "yes");
+
+    private static ArrayList<Tag> tagFilter(ArrayList<Tag> filter,Iterator iter_sub_root){
+        Element curent,v1;
+        Iterator<Tag> iter_filter;
+        Tag curent_tag;
+        ArrayList<Tag> res = new ArrayList<Tag>();
+
+        while(iter_sub_root.hasNext()){
+
+            iter_filter = filter.iterator();
+            v1 = (Element) iter_sub_root.next();
+            while (iter_filter.hasNext()){
+
+                curent_tag = iter_filter.next();
+                if(curent_tag.getK().equals( v1.getAttributeValue("k")) &&
+                        curent_tag.getV().equals(v1.getAttributeValue("v"))){
+                    res.add(curent_tag);
+                }
+            }
+        }
+        return res;
+    }
+
     public static Map load(String file_name)
     {
         Map map = new Map();
@@ -26,9 +55,17 @@ public class osmLoader {
         long id_tmp;
         Double lat_tmp,lon_tmp;
         List current_root, current_sub_root;
-        Iterator iter_root,iter_sub_root,iter_vertex;
+        Iterator iter_root,iter_sub_root,iter_tag;
         Element curent,v1,v2;
         String tagValue;
+        ArrayList<Tag> default_filter = new ArrayList<Tag>(),filter_result;
+        boolean oneway;
+
+        default_filter.add(WAY_MOTORWAY);
+        default_filter.add(WAY_MOTORWAY_LINK);
+        default_filter.add(WAY_SECONDARY);
+        default_filter.add(WAY_TERTIARY);
+
 
         try
         {
@@ -63,11 +100,21 @@ public class osmLoader {
             while(iter_sub_root.hasNext()){
 
                 v1 = (Element) iter_sub_root.next();
+                filter_result = tagFilter(default_filter,iter_sub_root);
+
+                if(filter_result.size() > 0) {
+
+                    iter_tag = filter_result.iterator();
+                    while (iter_tag.hasNext()){
+
+                    }
+
+                }
                 if(v1.getAttributeValue("k").equals("highway")){
 
                     tagValue = v1.getAttributeValue("v");
                     if(tagValue.equals("secondary") || tagValue.equals("tertiary") ||
-                            tagValue.equals("primary")) {
+                            tagValue.equals("motorway") || tagValue.equals("motorway_link")) {
 
                         current_sub_root = curent.getChildren(IDENT_ND);
                         iter_sub_root = current_sub_root.iterator();

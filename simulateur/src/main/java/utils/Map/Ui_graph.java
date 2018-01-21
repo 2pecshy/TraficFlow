@@ -45,6 +45,8 @@ public class Ui_graph extends JFrame {
         Object parent = graph.getDefaultParent();
         double min_lon;
         double min_lat;
+        String colorRed;
+        String colorGreen;
 
         graph.getModel().beginUpdate();
         min_lat = Double.MAX_VALUE;
