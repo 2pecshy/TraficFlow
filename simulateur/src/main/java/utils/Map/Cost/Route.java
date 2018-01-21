@@ -80,6 +80,10 @@ public class Route implements Patch{
         return false;
     }
 
+    public Integer getVitesse_max() {
+        return vitesse_max;
+    }
+
     /**
      *
      * @return renvoie le carrefour de départ de la route
