@@ -1,6 +1,9 @@
 package utils.Map.Cost;
 
-public class Route {
+import engine.Context;
+import engine.Patch;
+
+public class Route implements Patch{
     private GPS_node v1,v2;
     private Integer nombre_de_voie;
 
@@ -136,5 +139,15 @@ public class Route {
 
         System.out.println("DEBUG: flow = " + flow + " " + density + " " + speed);
         return flow;
+    }
+
+    @Override
+    public Patch getPatchsAround(Patch patch) {
+        return null;
+    }
+
+    @Override
+    public Context getContext() {
+        return null;
     }
 }
