@@ -3,6 +3,7 @@ package utils.Map;
 import com.mxgraph.view.mxGraph;
 import engine.Simulateur;
 import utils.Map.Cost.GPS_node;
+import utils.Map.Cost.Patch;
 import utils.Map.Cost.Route;
 import org.jgrapht.alg.flow.EdmondsKarpMFImpl;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
@@ -244,4 +245,5 @@ public class Map {
        //TODO
         return defaultMap;
     }
+
 }

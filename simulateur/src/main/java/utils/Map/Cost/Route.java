@@ -1,8 +1,5 @@
 package utils.Map.Cost;
 
-import engine.Context;
-import engine.Patch;
-
 public class Route implements Patch{
     private GPS_node v1,v2;
     private Integer nombre_de_voie;
@@ -145,13 +142,15 @@ public class Route implements Patch{
         return flow;
     }
 
+
     @Override
-    public Patch getPatchsAround(Patch patch) {
-        return null;
+    public int onTick() {
+        //TODO
+        return 0;
     }
 
     @Override
-    public Context getContext() {
-        return null;
+    public int getType() {
+        return 0;
     }
 }

@@ -19,6 +19,7 @@ public class Simulateur {
     private Map map;
     private EdmondsKarpMFImpl<GPS_node, Route> flow;
     private GPS_node S_lastSimu,D_lastSimu;
+    private TraficFlowContext simulateur_context;
 
     public static Simulateur getInstance(){
 
