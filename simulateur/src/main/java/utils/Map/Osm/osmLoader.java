@@ -98,7 +98,7 @@ public class osmLoader {
             lat_tmp = Double.parseDouble(curent.getAttributeValue("lat"));
             lon_tmp = Double.parseDouble(curent.getAttributeValue("lon"));
             map.addCarrefours(new GPS_node(id_tmp,lat_tmp,lon_tmp));
-            System.out.println("new vertex: " + curent.getAttributeValue("id") + ", " + curent.getAttributeValue("lat") + ", " + curent.getAttributeValue("lon"));
+            //System.out.println("new vertex: " + curent.getAttributeValue("id") + ", " + curent.getAttributeValue("lat") + ", " + curent.getAttributeValue("lon"));
         }
 
         current_root = root.getChildren(IDENT_WAY);

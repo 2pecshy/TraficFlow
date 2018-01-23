@@ -1,25 +1,25 @@
 package engine;
 
 import utils.Map.Cost.Patch;
-import utils.Map.Cost.Route;
-import utils.Map.Map;
-import utils.Map.Ui_graph;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Set;
 
 public class TraficFlowContext implements Context{
 
-    private Set<Patch> patchs;
-    private Set<Events> events;
-    private Set<Agents> agents;
+    private ArrayList<Patch> patchs;
+    private ArrayList<Events> events;
+    private ArrayList<Agents> agents;
 
     TraficFlowContext(){
+        patchs = new ArrayList<Patch>();
+        events = new ArrayList<Events>();
+        agents = new ArrayList<Agents>();
     }
 
     @Override
     public void onDraw() {
-        System.out.println("wow tros beau!! <3");
+        System.out.println("update ui!!");
         Iterator<Agents> iterAgents = agents.iterator();
 
         while (iterAgents.hasNext()){
@@ -31,6 +31,7 @@ public class TraficFlowContext implements Context{
     public void onTick() {
 
         System.out.println("tick tac");
+
         Iterator<Agents> iterAgents = agents.iterator();
         Iterator<Patch> iterPatch = patchs.iterator();
         Iterator<Events> iterEvents = events.iterator();
@@ -66,17 +67,17 @@ public class TraficFlowContext implements Context{
     }
 
     @Override
-    public Set<Agents> getAgents() {
+    public ArrayList<Agents> getAgents() {
         return agents;
     }
 
     @Override
-    public Set<Patch> getPatchs() {
+    public ArrayList<Patch> getPatchs() {
         return patchs;
     }
 
     @Override
-    public Set<Events> getEvents() {
+    public ArrayList<Events> getEvents() {
         return events;
     }
 
@@ -91,7 +92,7 @@ public class TraficFlowContext implements Context{
     }
 
     @Override
-    public void setPatchs(Set<Patch> setPatch) {
+    public void setPatchs(ArrayList<Patch> setPatch) {
         patchs = setPatch;
     }
 
