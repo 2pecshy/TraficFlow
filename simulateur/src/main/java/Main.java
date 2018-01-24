@@ -14,11 +14,14 @@ public class Main {
         SimulateurManager.INIT_Simulateur();
         SimulateurManager manager = SimulateurManager.getInstance();
 
-        TraficFlowModel simulateur = new TraficFlowModel(map);
-        simulateur.setMap(map);
+        TraficFlowModel model = new TraficFlowModel(map);
+        TraficFlowModel model2 = new TraficFlowModel(map);
+
+        model.setMap(map);
+        model2.setMap(map);
 
         System.out.println("run model on a thread");
-        pid = manager.addAndRunSimulation(simulateur);
+        pid = manager.addAndRunSimulation(model);
         try {
             TimeUnit.SECONDS.sleep(5);
         } catch (InterruptedException e) {
@@ -34,6 +37,9 @@ public class Main {
         }
         System.out.println("resume simu");
         manager.resumeSimulation(pid);
+
+        System.out.println("Run a second simu in //");
+        manager.addAndRunSimulation(model2);
 
 
         return;
