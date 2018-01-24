@@ -1,6 +1,8 @@
 package utils.Map.Cost;
 
-public class Route implements Patch{
+import engine.Patch;
+
+public class Route implements Patch {
     private GPS_node v1,v2;
     private Integer nombre_de_voie;
 

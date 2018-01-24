@@ -1,9 +1,8 @@
 package utils.Map;
 
 import com.mxgraph.view.mxGraph;
-import engine.Simulateur;
+import engine.SimulateurManager;
 import utils.Map.Cost.GPS_node;
-import utils.Map.Cost.Patch;
 import utils.Map.Cost.Route;
 import org.jgrapht.alg.flow.EdmondsKarpMFImpl;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
@@ -22,7 +21,7 @@ public class Map {
                 if (e == null) {
                     throw new NullPointerException();
                 }
-                return e.getCout(Simulateur.getInstance().getCriter());
+                return e.getCout(SimulateurManager.getInstance().getCriter());
             }
         };
     }
@@ -40,7 +39,7 @@ public class Map {
                 if (e == null) {
                     throw new NullPointerException();
                 }
-                return e.getCout(Simulateur.getInstance().getCriter());
+                return e.getCout(SimulateurManager.getInstance().getCriter());
             }
         };
 
@@ -71,7 +70,7 @@ public class Map {
                 if (e == null) {
                     throw new NullPointerException();
                 }
-                return e.getCout(Simulateur.getInstance().getCriter());
+                return e.getCout(SimulateurManager.getInstance().getCriter());
             }
         };
         /* TODO remove this constructor

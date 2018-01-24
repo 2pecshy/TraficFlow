@@ -1,40 +1,35 @@
 package engine;
 
-import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Test;
-import utils.Map.Cost.EnumCriter;
-import utils.Map.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class SimulateurTest {
 
-    private Simulateur simuUnderTest;
+    private TraficFlowModel simuUnderTest;
 
     @BeforeEach
     void setUp(){
-        Simulateur.INIT_Simulateur();
+        SimulateurManager.INIT_Simulateur();
     }
     @AfterEach
     void cleanUp(){
-        Simulateur.KILL_Simulateur();
+        SimulateurManager.KILL_Simulateur();
     }
 
     @Test
     public void instanceTest() {
-        /*simuUnderTest = Simulateur.getInstance();
-        assertEquals(Simulateur.getInstance(), simuUnderTest);
-        assertTrue(Simulateur.KILL_Simulateur());
-        assertFalse(Simulateur.KILL_Simulateur());
-        assertTrue(Simulateur.INIT_Simulateur());
-        assertFalse(Simulateur.INIT_Simulateur());*/
+        /*simuUnderTest = TraficFlowModel.getInstance();
+        assertEquals(TraficFlowModel.getInstance(), simuUnderTest);
+        assertTrue(TraficFlowModel.KILL_Simulateur());
+        assertFalse(TraficFlowModel.KILL_Simulateur());
+        assertTrue(TraficFlowModel.INIT_Simulateur());
+        assertFalse(TraficFlowModel.INIT_Simulateur());*/
     }
 
     @Test
     public void getMaxFlowTest(){
-        /*simuUnderTest = Simulateur.getInstance();
-        Simulateur s2 = Simulateur.getInstance();
+        /*simuUnderTest = TraficFlowModel.getInstance();
+        TraficFlowModel s2 = TraficFlowModel.getInstance();
         Map map0 = Map.getDefaultMap();
 
         assertEquals(null,simuUnderTest.getMaxFlow(3,1));
@@ -52,8 +47,8 @@ public class SimulateurTest {
 
     @Test
     public void flowWhithCriter(){
-        /*simuUnderTest = Simulateur.getInstance();
-        Simulateur s2 = Simulateur.getInstance();
+        /*simuUnderTest = TraficFlowModel.getInstance();
+        TraficFlowModel s2 = TraficFlowModel.getInstance();
         Map map0 = Map.getDefaultMap();
         simuUnderTest.setMap(map0);
 
@@ -77,7 +72,7 @@ public class SimulateurTest {
     @Test
     public void ameliorerFlowTest(){
 
-      /*  simuUnderTest = Simulateur.getInstance();
+      /*  simuUnderTest = TraficFlowModel.getInstance();
         Map map0 = Map.getDefaultMap();
 
         simuUnderTest.setMap(map0);

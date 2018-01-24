@@ -1,31 +1,40 @@
-import engine.Simulateur;
+import engine.TraficFlowModel;
+import engine.SimulateurManager;
 import utils.Map.Map;
 import utils.Map.Osm.osmLoader;
-import utils.Map.Ui_graph;
 
 import java.util.concurrent.TimeUnit;
-
-import static utils.Map.Osm.osmLoader.load;
 
 public class Main {
 
     public static void main(String [] args){
 
+        int pid;
         Map map = osmLoader.load("map.osm");
+        SimulateurManager.INIT_Simulateur();
+        SimulateurManager manager = SimulateurManager.getInstance();
 
-        Simulateur.INIT_Simulateur();
-        Simulateur simulateur = Simulateur.getInstance();
-
+        TraficFlowModel simulateur = new TraficFlowModel(map);
         simulateur.setMap(map);
-        simulateur.startSimulation();
-        /*simulateur.pauseSimulation();
+
+        System.out.println("run model on a thread");
+        pid = manager.addAndRunSimulation(simulateur);
         try {
-            TimeUnit.SECONDS.sleep(3);
+            TimeUnit.SECONDS.sleep(5);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        simulateur.start();
-        simulateur.resumeSimulation();*/
+
+        System.out.println("pause simu");
+        manager.pauseSimulation(pid);
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("resume simu");
+        manager.resumeSimulation(pid);
+
 
         return;
     }
