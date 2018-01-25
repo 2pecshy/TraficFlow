@@ -3,6 +3,8 @@ package services.simulateurConfiguration;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
+import config.SimulationWebConfiguration.SimulationWebConfiguration;
+
 /**
  * Created by Matthieu on 18/01/2018.
  */

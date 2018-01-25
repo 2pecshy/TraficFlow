@@ -1,17 +1,10 @@
 package services.configuration;
 
 import org.springframework.amqp.core.Exchange;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-
-import javax.jws.WebService;
+import config.SimulationWebConfiguration.SimulationWebConfiguration;
 
 /**
  * Created by Matthieu on 14/01/2018.

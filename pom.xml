@@ -36,6 +36,7 @@
             <version>2.0.6</version>
         </dependency>
 
+
     </dependencies>
 
     <build>
@@ -54,11 +55,14 @@
         </plugins>
     </build>
 
+
+
     <modules>
         <module>webconfig</module>
         <module>simulateur</module>
         <module>Facade</module>
         <module>Observeur</module>
+        <module>SimulationWebConfiguration</module>
     </modules>
 
 

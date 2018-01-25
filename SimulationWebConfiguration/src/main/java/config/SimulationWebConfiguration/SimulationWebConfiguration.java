@@ -1,4 +1,4 @@
-package services.configuration;
+package config.SimulationWebConfiguration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.json.JSONObject;
