@@ -1,6 +1,7 @@
 package services.configuration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 
@@ -12,6 +13,13 @@ public class SimulationWebConfiguration implements Serializable{
     @JsonProperty("simulationStart") private int simulationStart;
     @JsonProperty("HOVLanes") private boolean HOVLanes;
     @JsonProperty("migrationPendulaire") private boolean migrationPendulaire;
+
+    public SimulationWebConfiguration(JSONObject json){
+        this.simulationLenght = json.getInt("simulationLength");
+        this.simulationStart = json.getInt("simulationStart");
+        this.HOVLanes = json.getBoolean("HOVLanes");
+        this.migrationPendulaire = json.getBoolean("migrationPendulaire");
+    }
 
     public void sendConfigToSimulator(Object simu){
         /*
@@ -54,7 +62,16 @@ public class SimulationWebConfiguration implements Serializable{
         this.migrationPendulaire = migrationPendulaire;
     }
 
+    public JSONObject toJson(){
+        JSONObject json = new JSONObject();
+        json.put("simulationLength", simulationLenght);
+        json.put("simulationStart", simulationStart);
+        json.put("HOVLanes", HOVLanes);
+        json.put("migrationPendulaire", migrationPendulaire);
+        return  json;
+    }
+
     public String toString(){
-        return "Start at : " + simulationStart + ", during : " + simulationLenght + "\n HOV Lanes : " + HOVLanes + " Migration pendulaire : " + migrationPendulaire;
+        return "{ \"simulationLength\" : "+simulationLenght+", \"simulationStart\" : "+simulationStart+", \"HOVLanes\" : \""+HOVLanes + "\", \"migrationPendulaire\" : \""+migrationPendulaire+"\" }";
     }
 }
