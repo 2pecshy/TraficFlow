@@ -47,7 +47,8 @@ public class WebConfigurationController {
         headers.add("Content-Type", "application/json");
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         HttpEntity<SimulationWebConfiguration> request = new HttpEntity<SimulationWebConfiguration>(input, headers);*/
-        rabbitTemplate.convertAndSend("config-queue", input.toString());
+       // rabbitTemplate.convertAndSend("config-queue", input.toString());
+        rabbitTemplate.convertAndSend("config-exchange", "config-queue", input.toString());
         //return restTemplate.postForObject("http://localhost:8091/facade", request, String.class);
     }
 

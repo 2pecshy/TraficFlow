@@ -43,7 +43,7 @@ public class SimulationWebService {
 
     @Bean
     TopicExchange exchangeSimulateur(){
-        return new TopicExchange("simulateur-exchange");
+        return new TopicExchange("facade-to-simu");
     }
 
     @Bean

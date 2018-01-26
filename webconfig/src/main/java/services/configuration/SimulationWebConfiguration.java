@@ -14,6 +14,8 @@ public class SimulationWebConfiguration implements Serializable{
     @JsonProperty("HOVLanes") private boolean HOVLanes;
     @JsonProperty("migrationPendulaire") private boolean migrationPendulaire;
 
+    public SimulationWebConfiguration(){};
+
     public SimulationWebConfiguration(JSONObject json){
         this.simulationLenght = json.getInt("simulationLength");
         this.simulationStart = json.getInt("simulationStart");

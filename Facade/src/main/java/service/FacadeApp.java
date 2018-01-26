@@ -63,17 +63,17 @@ public class FacadeApp {
 
     @Bean
     TopicExchange exchangeSimulateur(){
-        return new TopicExchange("simulateur-exchange");
+        return new TopicExchange("simu-to-facade");
     }
 
     @Bean
     Binding bindingConfig(@Qualifier("queueConfig") Queue queue, @Qualifier("exchangeConfig") TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(CONFIG_QUEUE);
+        return BindingBuilder.bind(queueConfig()).to(exchangeConfig()).with(CONFIG_QUEUE);
     }
 
     @Bean
     Binding bindingSimulateur(@Qualifier("queueSimulateur") Queue queue, @Qualifier("exchangeSimulateur")TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(SIMULATEUR_QUEUE);
+        return BindingBuilder.bind(queueSimulateur()).to(exchangeSimulateur()).with(SIMULATEUR_QUEUE);
     }
 
 

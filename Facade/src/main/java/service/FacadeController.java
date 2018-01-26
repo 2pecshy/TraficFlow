@@ -61,10 +61,17 @@ public class FacadeController {
     }
 
     public void receiveMessageFromConfig(String simulationFromWeb) {
-        rabbitTemplate.convertAndSend("simulateur-queue", simulationFromWeb);
+        rabbitTemplate.convertAndSend("facade-to-simu", "simulateur-queue", simulationFromWeb);
         JSONObject json = new JSONObject(simulationFromWeb);
         SimulationWebConfiguration simu = new SimulationWebConfiguration(json);
         logger.info("Received message '{}'", simulationFromWeb);
         System.out.println("j'ouvre la queue" + simu);
     }
+
+    public void receiveMessageFromSimulateur(String toto){
+        System.out.println("fdfsdfsdfs");
+        toto = toto;
+    }
+
+
 }
