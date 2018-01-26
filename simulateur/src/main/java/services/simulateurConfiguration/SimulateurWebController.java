@@ -1,5 +1,6 @@
 package services.simulateurConfiguration;
 
+import engine.SimulateurManager;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 

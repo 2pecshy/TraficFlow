@@ -11,6 +11,7 @@ public class Main {
 
         int pid;
         Map map = osmLoader.load("map.osm");
+        Map map2 = osmLoader.load("map11.osm");
         SimulateurManager.INIT_Simulateur();
         SimulateurManager manager = SimulateurManager.getInstance();
 
@@ -18,7 +19,7 @@ public class Main {
         TraficFlowModel model2 = new TraficFlowModel(map);
 
         model.setMap(map);
-        model2.setMap(map);
+        model2.setMap(map2);
 
         System.out.println("run model on a thread");
         pid = manager.addAndRunSimulation(model);
@@ -40,7 +41,6 @@ public class Main {
 
         System.out.println("Run a second simu in //");
         manager.addAndRunSimulation(model2);
-
 
         return;
     }

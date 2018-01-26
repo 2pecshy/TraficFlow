@@ -16,6 +16,7 @@ public class SimulateurManager {
             throw new NullPointerException();
         return instance;
     }
+
     private SimulateurManager() {
         models = new ArrayList<Model>();
     }
