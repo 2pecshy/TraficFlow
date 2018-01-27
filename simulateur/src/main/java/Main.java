@@ -21,6 +21,7 @@ public class Main {
         model.setMap(map);
         model2.setMap(map2);
 
+
         System.out.println("run model on a thread");
         pid = manager.addAndRunSimulation(model);
         try {
