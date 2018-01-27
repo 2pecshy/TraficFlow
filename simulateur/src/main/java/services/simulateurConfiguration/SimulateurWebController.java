@@ -1,5 +1,7 @@
 package services.simulateurConfiguration;
 
+import engine.SimulateurManager;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -31,4 +33,12 @@ public class SimulateurWebController {
 
     @RequestMapping(value = "/simulateur", method = RequestMethod.GET)
     public int printInfo(){ return this.step;}
+
+    public void receiveMessageFromFacade(String simulationWebConfiguration){
+        JSONObject json = new JSONObject(simulationWebConfiguration);
+        SimulationWebConfiguration config = new SimulationWebConfiguration(json);
+        int duree = config.getSimulationLenght();
+        step = 0;
+        doSimu(duree);
+    }
 }

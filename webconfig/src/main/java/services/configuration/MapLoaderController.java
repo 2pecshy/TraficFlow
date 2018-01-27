@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
@@ -25,7 +24,6 @@ public class MapLoaderController {
 
     @RequestMapping("/maplink")
     public String downloadMap(@RequestBody String url) throws Exception {
-
         RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
         headers.add("Content-Type", "application/json");
@@ -33,8 +31,9 @@ public class MapLoaderController {
         JSONObject req = new JSONObject(url);
         URL website = new URL(req.getString("url"));
         ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-        FileOutputStream fos = new FileOutputStream("map.t");
-        File file = new File("map.t");
+        String array[] = website.getPath().split("/");
+        FileOutputStream fos = new FileOutputStream(array[array.length-1]);
+        File file = new File(array[array.length-1]);
         fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
         HttpEntity<File> fileReq = new HttpEntity<File>(file, headers);
         return restTemplate.postForObject("http://localhost:8090/download", fileReq, String.class);

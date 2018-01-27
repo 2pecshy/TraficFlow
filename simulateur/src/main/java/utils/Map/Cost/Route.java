@@ -1,6 +1,8 @@
 package utils.Map.Cost;
 
-public class Route {
+import engine.Patch;
+
+public class Route implements Patch {
     private GPS_node v1,v2;
     private Integer nombre_de_voie;
 
@@ -77,6 +79,10 @@ public class Route {
         return false;
     }
 
+    public Integer getVitesse_max() {
+        return vitesse_max;
+    }
+
     /**
      *
      * @return renvoie le carrefour de départ de la route
@@ -136,5 +142,17 @@ public class Route {
 
         System.out.println("DEBUG: flow = " + flow + " " + density + " " + speed);
         return flow;
+    }
+
+
+    @Override
+    public int onTick() {
+        //TODO
+        return 0;
+    }
+
+    @Override
+    public int getType() {
+        return 0;
     }
 }

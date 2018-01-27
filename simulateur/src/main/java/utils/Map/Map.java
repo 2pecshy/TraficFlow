@@ -1,7 +1,7 @@
 package utils.Map;
 
 import com.mxgraph.view.mxGraph;
-import engine.Simulateur;
+import engine.SimulateurManager;
 import utils.Map.Cost.GPS_node;
 import utils.Map.Cost.Route;
 import org.jgrapht.alg.flow.EdmondsKarpMFImpl;
@@ -21,7 +21,7 @@ public class Map {
                 if (e == null) {
                     throw new NullPointerException();
                 }
-                return e.getCout(Simulateur.getInstance().getCriter());
+                return e.getCout(SimulateurManager.getInstance().getCriter());
             }
         };
     }
@@ -39,7 +39,7 @@ public class Map {
                 if (e == null) {
                     throw new NullPointerException();
                 }
-                return e.getCout(Simulateur.getInstance().getCriter());
+                return e.getCout(SimulateurManager.getInstance().getCriter());
             }
         };
 
@@ -70,7 +70,7 @@ public class Map {
                 if (e == null) {
                     throw new NullPointerException();
                 }
-                return e.getCout(Simulateur.getInstance().getCriter());
+                return e.getCout(SimulateurManager.getInstance().getCriter());
             }
         };
         /* TODO remove this constructor
@@ -209,11 +209,28 @@ public class Map {
         //TODO Finish this
     }
 
-    public mxGraph MapToMxGraph(){
+    public mxGraph MapToMxGraph(mxGraph graph,Object parent){
 
-        mxGraph graph = new mxGraph();
         //TODO Map to MxGraph to print the map in a panel
+        Set<Route> routeSet = carrefours.edgeSet();
+        Iterator<Route> iterRoute = routeSet.iterator();
+        Route currentRoute;
+        Object v1;
+        Object v2;
+
+        while (iterRoute.hasNext()){
+
+            currentRoute = iterRoute.next();
+            v1 = graph.insertVertex(parent, null, "", currentRoute.getV1().getLat()*10000, currentRoute.getV1().getLon()*10000, 1, 1);
+            v2 = graph.insertVertex(parent, null, "", currentRoute.getV2().getLat()*10000, currentRoute.getV2().getLon()*10000, 1, 1);
+            graph.insertEdge(parent,null,null,v1,v2);
+
+        }
         return graph;
+    }
+
+    public Set<Route> getRoutes(){
+        return carrefours.edgeSet();
     }
 
     public static Map getDefaultMap(){
@@ -227,4 +244,5 @@ public class Map {
        //TODO
         return defaultMap;
     }
+
 }

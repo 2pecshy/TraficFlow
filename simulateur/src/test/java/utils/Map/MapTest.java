@@ -1,11 +1,4 @@
 package utils.Map;
-import engine.Simulateur;
-import org.junit.jupiter.api.*;
-import utils.Map.Cost.EnumCriter;
-
-import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class MapTest {
 
@@ -65,7 +58,7 @@ public class MapTest {
     @Test
     void getCoutRoute(){
         mapUnderTest = Map.getDefaultMap();
-        Simulateur.INIT_Simulateur();
+        TraficFlowModel.INIT_Simulateur();
         mapUnderTest.addRoute(0,3,3);
         assertEquals(3,mapUnderTest.getCoutRoute(mapUnderTest.getRoute(0,3)));
     }*/

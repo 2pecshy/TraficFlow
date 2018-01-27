@@ -50,4 +50,22 @@ public class GPS_node {
 
         return false;
     }
+
+    public static double distFromGpsPos(GPS_node pos1, GPS_node pos2){
+        double R = 6371e3; // metres
+        double lat1 = pos1.lat;
+        double lat2 = pos2.lat;
+        double lon1 = pos1.lon;
+        double lon2 = pos2.lon;
+        double φ1 = Math.toRadians(lat1);
+        double φ2 = Math.toRadians(lat2);
+        double Δφ = Math.toRadians(lat2-lat1);
+        double Δλ = Math.toRadians(lon2-lon1);
+        double a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                Math.cos(φ1) * Math.cos(φ2) *
+                        Math.sin(Δλ/2) * Math.sin(Δλ/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double d = R * c;
+        return d; //in M
+    }
 }

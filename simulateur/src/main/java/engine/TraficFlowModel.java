@@ -2,58 +2,41 @@ package engine;
 
 import org.jgrapht.alg.flow.EdmondsKarpMFImpl;
 import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
-import utils.Map.Cost.EnumCriter;
 import utils.Map.Cost.GPS_node;
 import utils.Map.Cost.Route;
 import utils.Map.Map;
+import utils.Map.Ui_graph;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
-public class Simulateur {
-
-    private static Simulateur instance = null;
-
-    private EnumCriter criter = EnumCriter.ALL;
+public class TraficFlowModel extends Model {
 
     private Map map;
+    private Ui_graph ui_graph;
     private EdmondsKarpMFImpl<GPS_node, Route> flow;
     private GPS_node S_lastSimu,D_lastSimu;
+    private TraficFlowContext simulateur_context;
 
-    public static Simulateur getInstance(){
-
-        if(instance == null)
-            throw new NullPointerException();
-        return instance;
-    }
-
-    private Simulateur() {
+    public TraficFlowModel() {
         S_lastSimu = null;
         D_lastSimu = null;
+        map = null;
+        ui_graph = null;
+        simulateur_context = null;
+        isRunning = NOT_RUNNING;
     }
 
-    public static boolean INIT_Simulateur(){
-        if(instance == null) {
-            System.out.println("INIT: engine.Simulateur");
-            instance = new Simulateur();
-            return true;
-        }
-        System.out.println("engine.Simulateur Already Running");
-        return false;
-    }
-
-    public static boolean KILL_Simulateur(){
-        if(instance != null) {
-            System.out.println("Killing: engine.Simulateur");
-            instance.map = null;
-            instance.flow = null;
-            instance.S_lastSimu = null;
-            instance.D_lastSimu = null;
-            instance = null;
-            return true;
-        }
-        System.out.println("engine.Simulateur Already dead");
-        return false;
+    public TraficFlowModel(Map map_) {
+        S_lastSimu = null;
+        D_lastSimu = null;
+        map = null;
+        ui_graph = null;
+        simulateur_context = null;
+        isRunning = NOT_RUNNING;
+        setMap(map_);
     }
 
     /**
@@ -71,6 +54,8 @@ public class Simulateur {
     public void setMap(Map map_) {
         this.map = map_;
         this.flow = null;
+        this.ui_graph = new Ui_graph();
+        ui_graph.setUIGraphFromMap(map);
     }
 
     /**
@@ -134,19 +119,60 @@ public class Simulateur {
         return flow_tmp.getMaximumFlow(S_lastSimu,D_lastSimu).getValue() - flow.getMaximumFlow(S_lastSimu,D_lastSimu).getValue();
     }
 
-    /**
-     *
-     * @return renvoie le critère pris en compte actuelement par le simulateur
-     */
-    public EnumCriter getCriter() {
-        return criter;
+    protected void pauseSimulation(){
+        isRunning = PAUSE;
     }
 
-    /**
-     *
-     * @param criter est le nouveau critère qui doit être pris en compte par le simulateur
-     */
-    public void setCriter(EnumCriter criter) {
-        this.criter = criter;
+    protected void resumeSimulation(){
+        System.out.println("resume simulation");
+        if(map == null) {
+            isRunning = NOT_RUNNING;
+            System.out.println("no simulation to run");
+            return;
+        }
+        isRunning = RUNNING;
+    }
+
+    protected void startSimulation(){
+
+        if(map == null) {
+            isRunning = NOT_RUNNING;
+            System.out.println("no simulation to run");
+            return;
+        }
+        isRunning = RUNNING;
+        simulateur_context = new TraficFlowContext();
+        simulateur_context.addAgent(new Cars());
+        super.start();
+    }
+
+    @Override
+    public void run(){
+
+        if(isRunning != RUNNING){
+            System.out.println("do not use run methode!");
+            return;
+        }
+        ui_graph.show_G();
+
+        while (isRunning != NOT_RUNNING) {
+
+            if (isRunning == RUNNING) {
+
+                simulateur_context.onTick();
+                //TODO when draw not fake, put draw on an other thread
+                simulateur_context.onDraw();
+            }
+            try {
+                TimeUnit.MILLISECONDS.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void start(){
+        System.out.println("Oops: don't use this methode, use startSimulation()");
     }
 }
