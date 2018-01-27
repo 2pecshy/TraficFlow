@@ -2,8 +2,8 @@ spring:
   cloud:
     stream:
       bindings:
-        output:
-          destination: config.facade
+        input:
+          destination: config.simulateur
           binder: rabbit1
       binders:
         rabbit1:
@@ -17,4 +17,4 @@ spring:
                 password: guest
 
 server:
-  port: ${PORT:2225}
+  port: ${PORT:2226}
