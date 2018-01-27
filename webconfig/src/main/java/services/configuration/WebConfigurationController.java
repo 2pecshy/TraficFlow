@@ -41,8 +41,8 @@ public class WebConfigurationController {
     @ResponseBody @RequestMapping("/config")
     public void process(@RequestBody SimulationWebConfiguration input) {
         //return input.toString();
-        /*this.demo = "Request accepted";
-        RestTemplate restTemplate = new RestTemplate();
+        this.demo = "Request accepted";
+        /*RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
         headers.add("Content-Type", "application/json");
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());

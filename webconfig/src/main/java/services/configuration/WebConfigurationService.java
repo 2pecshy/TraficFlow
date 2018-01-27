@@ -13,6 +13,8 @@ import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,7 +22,7 @@ import javax.sound.midi.Receiver;
 
 @EnableRabbit
 @SpringBootApplication
-public class WebConfigurationService {
+public class WebConfigurationService extends SpringBootServletInitializer {
     public final static String SFG_MESSAGE_QUEUE = "config-queue";
     @Bean
     Queue queue() {
@@ -37,6 +39,10 @@ public class WebConfigurationService {
         return BindingBuilder.bind(queue).to(exchange).with(SFG_MESSAGE_QUEUE);
     }
 
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(WebConfigurationService.class);
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(WebConfigurationService.class, args);
