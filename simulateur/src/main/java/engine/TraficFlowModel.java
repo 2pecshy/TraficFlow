@@ -142,6 +142,7 @@ public class TraficFlowModel extends Model {
         }
         isRunning = RUNNING;
         simulateur_context = new TraficFlowContext();
+        simulateur_context.addAgent(new Cars());
         super.start();
     }
 
@@ -163,7 +164,7 @@ public class TraficFlowModel extends Model {
                 simulateur_context.onDraw();
             }
             try {
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.MILLISECONDS.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

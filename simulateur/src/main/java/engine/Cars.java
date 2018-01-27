@@ -23,6 +23,7 @@ public class Cars implements Agents {
     private Route curent_route;
     private int way_num;
     private GPS_node current_pos;
+    private int nb_ticks;
 
     Cars(GPS_node start_point,ArrayList<GPS_node> path){
         length = DEFAULT_LENGTH;
@@ -32,6 +33,7 @@ public class Cars implements Agents {
         max_acceleration = DEFAULT_MAX_ACCELERATION;
         way_num = 0;
         current_pos = new GPS_node(0,0,0);
+        nb_ticks = 0;
     }
 
     Cars(){
@@ -42,14 +44,17 @@ public class Cars implements Agents {
         max_acceleration = DEFAULT_MAX_ACCELERATION;
         way_num = 0;
         current_pos = new GPS_node(0,0,0);
+        nb_ticks = 0;
     }
 
 
     @Override
     public void onTick() {
 
-        update_acceleration_and_speed();
-        update_distance();
+        /*update_acceleration_and_speed();
+        update_distance();*/
+        nb_ticks++;
+        System.out.println("Voiture id: " + this + " en vie depuis " + nb_ticks + " ticks");
 
     }
 
@@ -86,7 +91,7 @@ public class Cars implements Agents {
 
     @Override
     public boolean isDead() {
-        return false;
+        return nb_ticks > 10;
     }
 
     @Override

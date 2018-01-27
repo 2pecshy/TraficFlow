@@ -3,12 +3,14 @@ package engine;
 import utils.Map.Cost.EnumCriter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class SimulateurManager {
 
     private static SimulateurManager instance = null;
     private ArrayList<Model> models;
     private EnumCriter criter = EnumCriter.ALL;
+    private int simu_pid;
 
     public static SimulateurManager getInstance(){
 
@@ -18,6 +20,7 @@ public class SimulateurManager {
     }
 
     private SimulateurManager() {
+        simu_pid = 0;
         models = new ArrayList<Model>();
     }
 
@@ -44,19 +47,34 @@ public class SimulateurManager {
 
     public int addAndRunSimulation(Model model){
 
-        int pid;
+        int pid_ = simu_pid++;
+        model.setPid(pid_);
         models.add(model);
-        pid = models.indexOf(model);
-        models.get(pid).startSimulation();
-        return pid;
+        model.startSimulation();
+        return pid_;
     }
 
     public void pauseSimulation(int pid){
-        models.get(pid).pauseSimulation();
+        Iterator<Model> iter_mod = models.iterator();
+        Model curent_mod;
+        while (iter_mod.hasNext()){
+            curent_mod = iter_mod.next();
+            if(curent_mod.getPid() == pid){
+                curent_mod.pauseSimulation();
+            }
+        }
     }
 
     public void resumeSimulation(int pid){
-        models.get(pid).resumeSimulation();
+
+        Iterator<Model> iter_mod = models.iterator();
+        Model curent_mod;
+        while (iter_mod.hasNext()){
+            curent_mod = iter_mod.next();
+            if(curent_mod.getPid() == pid){
+                curent_mod.resumeSimulation();
+            }
+        }
     }
 
     /**

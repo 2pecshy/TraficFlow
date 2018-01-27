@@ -35,6 +35,7 @@ public class TraficFlowContext implements Context{
         Iterator<Events> iterEvents = events.iterator();
         Agents curentAgent;
         Events curentEvent;
+        int i, size_list;
 
         while (iterAgents.hasNext()){
             iterAgents.next().onTick();
@@ -48,14 +49,20 @@ public class TraficFlowContext implements Context{
             iterEvents.next().onTick();
         }
 
-        iterAgents = agents.iterator();
-        iterEvents = events.iterator();
+        size_list = agents.size();
+        for(i = 0; i < size_list; i++){
 
-        while (iterAgents.hasNext()){
-            curentAgent = iterAgents.next();
-            if(curentAgent.isDead())
+            curentAgent = agents.get(i);
+            if(curentAgent.isDead()) {
                 agents.remove(curentAgent);
+                i--;
+                agents.add(new Cars());
+            }
+
         }
+        System.out.println("number of agents: " + agents.size());
+
+        iterEvents = events.iterator();
 
         while (iterEvents.hasNext()){
             curentEvent = iterEvents.next();

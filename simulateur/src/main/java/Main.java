@@ -16,7 +16,7 @@ public class Main {
         SimulateurManager manager = SimulateurManager.getInstance();
 
         TraficFlowModel model = new TraficFlowModel(map);
-        TraficFlowModel model2 = new TraficFlowModel(map);
+        TraficFlowModel model2 = new TraficFlowModel(map2);
 
         model.setMap(map);
         model2.setMap(map2);
