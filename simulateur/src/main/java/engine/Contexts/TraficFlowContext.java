@@ -40,8 +40,10 @@ public class TraficFlowContext implements Context{
         System.out.println("Tick");
         tick++;
         updateEvents();
-        updatePatch();
-        updateAgent();
+        if(!finish) {
+            updatePatch();
+            updateAgent();
+        }
         System.out.println("number of agents: " + agents.size());
 
     }

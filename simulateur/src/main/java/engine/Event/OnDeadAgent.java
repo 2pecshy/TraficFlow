@@ -7,13 +7,13 @@ import engine.Contexts.TraficFlowContext;
 
 import java.util.ArrayList;
 
-public class OnDeadCars implements Events {
+public class OnDeadAgent implements Events {
 
     private Context context;
     private long number_of_dead_cars;
     private boolean started;
 
-    public OnDeadCars(Context context_){
+    public OnDeadAgent(Context context_){
 
         context = context_;
         number_of_dead_cars = 0;
@@ -37,12 +37,10 @@ public class OnDeadCars implements Events {
                 curentAgent = agents.get(i);
                 if (curentAgent.isDead()) {
 
-                    if (curentAgent instanceof Cars) {
-                        number_of_dead_cars++;
-                        agents.remove(curentAgent);
-                        i--;
-                        agents.add(new Cars());
-                    }
+                    number_of_dead_cars++;
+                    agents.remove(curentAgent);
+                    i--;
+                    agents.add(new Cars());
                 }
 
             }
