@@ -1,4 +1,9 @@
-package engine;
+package engine.Contexts;
+
+import engine.Agent.Agents;
+import engine.Agent.Cars;
+import engine.Event.Events;
+import engine.Patch;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,7 +14,7 @@ public class TraficFlowContext implements Context{
     private ArrayList<Events> events;
     private ArrayList<Agents> agents;
 
-    TraficFlowContext(){
+    public TraficFlowContext(){
         patchs = new ArrayList<Patch>();
         events = new ArrayList<Events>();
         agents = new ArrayList<Agents>();

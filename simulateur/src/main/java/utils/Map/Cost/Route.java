@@ -7,10 +7,10 @@ public class Route implements Patch {
     private Integer nombre_de_voie;
 
     private Integer vitesse_max;    // Km/h
-    private Integer distance;  // Metre
+    private Double distance;  // Metre
 
     public static final Integer DEFAULT_NB_VOIES = 1;
-    public static final Integer DEFAULT_DISTANCE = 1000;
+    public static final Double DEFAULT_DISTANCE = 1000.0;
     public static final Integer DEFAULT_VITESSE = 50;
 
     public static final Integer DEFAULT_DISTANCE_ENTRE_VOITURE = 5;
@@ -27,13 +27,13 @@ public class Route implements Patch {
         if(nombre_de_voie_ < 0) throw new ExceptionInInitializerError("nombre de voie < 0");
         if(v1_ == v2_) throw new ExceptionInInitializerError("v1 = v2");
         nombre_de_voie = nombre_de_voie_;
-        distance = DEFAULT_DISTANCE;
         vitesse_max = DEFAULT_VITESSE;
         v1 = v1_;
         v2 = v2_;
+        distance = GPS_node.distFromGpsPos(v1,v2);
     }
 
-    public Route(GPS_node v1_, GPS_node v2_, Integer nombre_de_voie_, Integer distance_, Integer vitesse_max_){
+    public Route(GPS_node v1_, GPS_node v2_, Integer nombre_de_voie_, Double distance_, Integer vitesse_max_){
 
         if(nombre_de_voie_ < 0) throw new ExceptionInInitializerError("nombre de voie < 0");
         if(v1_ == v2_) throw new ExceptionInInitializerError("v1 = v2");

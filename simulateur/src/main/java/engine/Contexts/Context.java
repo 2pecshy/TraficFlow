@@ -1,4 +1,8 @@
-package engine;
+package engine.Contexts;
+
+import engine.Agent.Agents;
+import engine.Event.Events;
+import engine.Patch;
 
 import java.util.ArrayList;
 

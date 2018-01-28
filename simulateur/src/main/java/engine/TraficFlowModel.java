@@ -1,5 +1,8 @@
 package engine;
 
+import engine.Agent.Cars;
+import engine.Contexts.TraficFlowContext;
+import engine.Event.OnDeadCars;
 import org.jgrapht.alg.flow.EdmondsKarpMFImpl;
 import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
 import utils.Map.Cost.GPS_node;
@@ -57,6 +60,15 @@ public class TraficFlowModel extends Model {
         this.flow = null;
         //this.ui_graph = new Ui_graph();
         //ui_graph.setUIGraphFromMap(map);
+    }
+
+    private void modelEvent(){
+
+        OnDeadCars onDeadCars_Event = new OnDeadCars(simulateur_context);
+        onDeadCars_Event.onStart();
+        simulateur_context.addEvent(onDeadCars_Event);
+
+
     }
 
     /**

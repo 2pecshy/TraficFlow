@@ -1,4 +1,4 @@
-package engine;
+package engine.Event;
 
 public interface Events {
 
