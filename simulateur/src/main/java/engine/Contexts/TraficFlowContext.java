@@ -13,11 +13,15 @@ public class TraficFlowContext implements Context{
     private ArrayList<Patch> patchs;
     private ArrayList<Events> events;
     private ArrayList<Agents> agents;
+    private boolean finish;
+    private long tick;
 
     public TraficFlowContext(){
         patchs = new ArrayList<Patch>();
         events = new ArrayList<Events>();
         agents = new ArrayList<Agents>();
+        finish = false;
+        tick = 0;
     }
 
     @Override
@@ -33,46 +37,48 @@ public class TraficFlowContext implements Context{
     @Override
     public void onTick() {
 
-        System.out.println("tick tac");
+        System.out.println("Tick");
+        tick++;
+        updateEvents();
+        updatePatch();
+        updateAgent();
+        System.out.println("number of agents: " + agents.size());
 
+    }
+
+    private void updateAgent(){
         Iterator<Agents> iterAgents = agents.iterator();
-        Iterator<Patch> iterPatch = patchs.iterator();
-        Iterator<Events> iterEvents = events.iterator();
-        Agents curentAgent;
-        Events curentEvent;
-        int i, size_list;
-
         while (iterAgents.hasNext()){
             iterAgents.next().onTick();
         }
+    }
 
+    private void updatePatch(){
+        Iterator<Patch> iterPatch = patchs.iterator();
         while (iterPatch.hasNext()){
             iterPatch.next().onTick();
         }
+    }
 
+    private void updateEvents(){
+        int i,nb_event;
+        Events curentEvent;
+        Iterator<Events> iterEvents = events.iterator();
         while (iterEvents.hasNext()){
             iterEvents.next().onTick();
         }
 
-        size_list = agents.size();
-        for(i = 0; i < size_list; i++){
+        nb_event = events.size();
 
-            curentAgent = agents.get(i);
-            if(curentAgent.isDead()) {
-                agents.remove(curentAgent);
+        for(i = 0; i < nb_event; i++) {
+
+            curentEvent = events.get(i);
+            if(curentEvent.isComplet()) {
+                events.remove(i);
                 i--;
-                agents.add(new Cars());
+                nb_event--;
             }
 
-        }
-        System.out.println("number of agents: " + agents.size());
-
-        iterEvents = events.iterator();
-
-        while (iterEvents.hasNext()){
-            curentEvent = iterEvents.next();
-            if(curentEvent.isComplet())
-                events.remove(events);
         }
     }
 
@@ -89,6 +95,16 @@ public class TraficFlowContext implements Context{
     @Override
     public ArrayList<Events> getEvents() {
         return events;
+    }
+
+    @Override
+    public boolean isFinish() {
+        return finish;
+    }
+
+    @Override
+    public void setFinish() {
+        finish = true;
     }
 
     @Override
@@ -109,5 +125,10 @@ public class TraficFlowContext implements Context{
     @Override
     public void addEvent(Events event) {
         events.add(event);
+    }
+
+    @Override
+    public long getTick() {
+        return tick;
     }
 }

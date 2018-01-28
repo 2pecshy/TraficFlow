@@ -27,23 +27,25 @@ public class OnDeadCars implements Events {
 
     @Override
     public void onTick() {
-        int i;
-        ArrayList<Agents> agents = context.getAgents();
-        Agents curentAgent;
-        int size_list = agents.size();
-        for(i = 0; i < size_list; i++){
+        if(started) {
+            int i;
+            ArrayList<Agents> agents = context.getAgents();
+            Agents curentAgent;
+            int size_list = agents.size();
+            for (i = 0; i < size_list; i++) {
 
-            curentAgent = agents.get(i);
-            if(curentAgent.isDead()) {
+                curentAgent = agents.get(i);
+                if (curentAgent.isDead()) {
 
-                if(curentAgent instanceof Cars ) {
-                    number_of_dead_cars++;
-                    agents.remove(curentAgent);
-                    i--;
-                    agents.add(new Cars());
+                    if (curentAgent instanceof Cars) {
+                        number_of_dead_cars++;
+                        agents.remove(curentAgent);
+                        i--;
+                        agents.add(new Cars());
+                    }
                 }
-            }
 
+            }
         }
     }
 

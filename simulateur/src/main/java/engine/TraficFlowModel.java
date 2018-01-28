@@ -2,7 +2,9 @@ package engine;
 
 import engine.Agent.Cars;
 import engine.Contexts.TraficFlowContext;
+import engine.Event.EndOfSimulation;
 import engine.Event.OnDeadCars;
+import engine.Event.Setup;
 import org.jgrapht.alg.flow.EdmondsKarpMFImpl;
 import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
 import services.simulateurConfiguration.SimulateurObserver;
@@ -68,11 +70,17 @@ public class TraficFlowModel extends Model {
 
     private void modelEvent(){
 
+        Setup simuSetup = new Setup(simulateur_context);
         OnDeadCars onDeadCars_Event = new OnDeadCars(simulateur_context);
+        EndOfSimulation endOfSimu = new EndOfSimulation(simulateur_context);
+
+        simuSetup.onStart();
         onDeadCars_Event.onStart();
+        endOfSimu.onStart();
+
+        simulateur_context.addEvent(simuSetup);
         simulateur_context.addEvent(onDeadCars_Event);
-
-
+        simulateur_context.addEvent(endOfSimu);
     }
 
     /**
@@ -159,7 +167,8 @@ public class TraficFlowModel extends Model {
         }
         isRunning = RUNNING;
         simulateur_context = new TraficFlowContext();
-        simulateur_context.addAgent(new Cars());
+        //set events of the simulation
+        modelEvent();
         super.start();
     }
 
@@ -181,6 +190,10 @@ public class TraficFlowModel extends Model {
 
             if (isRunning == RUNNING) {
 
+                if(simulateur_context.isFinish()) {
+                    System.out.println("finish!!");
+                    return;
+                }
                 simulateur_context.onTick();
                 //TODO when draw not fake, put draw on an other thread
                 simulateur_context.onDraw();
