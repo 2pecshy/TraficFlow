@@ -12,6 +12,7 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,6 +25,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.context.annotation.Bean;
+import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import sample.SimulationWebConfiguration;
@@ -50,6 +52,9 @@ public class SimulationWebService extends SpringBootServletInitializer implement
         SpringApplication.run(SimulationWebService.class, args);
     }
 
+    @Autowired
+    CustomProcessor processor;
+
     @Bean
     public AlwaysSampler defaultSampler() {
         return new AlwaysSampler();
@@ -61,18 +66,24 @@ public class SimulationWebService extends SpringBootServletInitializer implement
         System.out.println("on lance la simulation avec : " + config);
         MapDownloader downloader = new MapDownloader();
         String mapName = downloader.downloadFile(config.getMapLink());
-        try{
-            SimulateurManager.getInstance();
+        try {
+            Map map = osmLoader.load(mapName);
+            TraficFlowModel model = new TraficFlowModel(map);
+            model.setMap(map);
+            model.getObserver().addObserver(this);
+            try{
+                SimulateurManager.getInstance();
+            }
+            catch(NullPointerException e){
+                SimulateurManager.INIT_Simulateur();
+            }
+            SimulateurManager simu = SimulateurManager.getInstance();
+            pid = simu.addAndRunSimulation(model);
         }
         catch(NullPointerException e){
-            SimulateurManager.INIT_Simulateur();
+            System.out.println("Mauvais format de fichier !");
+            processor.ouputFacadeError().send(MessageBuilder.withPayload("Mauvais format de fichier !").build());
         }
-        SimulateurManager simu = SimulateurManager.getInstance();
-        Map map = osmLoader.load(mapName);
-        TraficFlowModel model = new TraficFlowModel(map);
-        model.setMap(map);
-        model.getObserver().addObserver(this);
-        pid = simu.addAndRunSimulation(model);
     }
 
     @StreamListener(CustomProcessor.INPUT_OBSERVER)

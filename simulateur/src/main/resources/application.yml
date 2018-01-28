@@ -11,6 +11,9 @@ spring:
         outputObserver:
           destination: config.simulateur.observer
           binder: rabbit1
+        outputFacadeError:
+          destination: config.facade.error
+          binder: rabbit1
       binders:
         rabbit1:
           type: rabbit

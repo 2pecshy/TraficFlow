@@ -29,7 +29,7 @@ import java.io.File;
  */
 
 @SpringBootApplication
-@EnableBinding(Processor.class)
+@EnableBinding(CustomProcessor.class)
 public class FacadeApp extends SpringBootServletInitializer {
     private String template = "Hello, %s !";
     public static void main(String[] args) {
@@ -41,11 +41,16 @@ public class FacadeApp extends SpringBootServletInitializer {
         return builder.sources(FacadeApp.class);
     }
 
-    @StreamListener(Processor.INPUT)
-    @SendTo(Processor.OUTPUT)
+    @StreamListener(CustomProcessor.INPUT_CONFIG)
+    @SendTo(CustomProcessor.OUTPUT_SIMULATEUR)
     public SimulationWebConfiguration sendToSimulateur(SimulationWebConfiguration config) {
         System.out.println("j'ai recu " + config.toString());
         return config;
+    }
+
+    @StreamListener(CustomProcessor.INPUT_ERR_SIMULATEUR)
+    public void errorFromSimulateur (String msg){
+        System.out.println(msg);
     }
 
 
