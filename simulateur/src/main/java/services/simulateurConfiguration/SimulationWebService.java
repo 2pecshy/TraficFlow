@@ -1,5 +1,8 @@
 package services.simulateurConfiguration;
 
+import engine.Model;
+import engine.SimulateurManager;
+import engine.TraficFlowModel;
 import org.apache.catalina.filters.RemoteAddrFilter;
 import org.json.JSONObject;
 import org.springframework.amqp.core.Binding;
@@ -24,6 +27,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import sample.SimulationWebConfiguration;
+import utils.Map.Map;
+import utils.Map.Osm.osmLoader;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -62,10 +67,22 @@ public class SimulationWebService extends SpringBootServletInitializer {
 
     @StreamListener(CustomProcessor.INPUT_FACADE)
     public void lauchSimu(SimulationWebConfiguration config) throws  Exception{
+        int pid;
         System.out.println("on lance la simulation avec : " + config);
         MapDownloader downloader = new MapDownloader();
         downloader.downloadFile(config.getMapLink());
-        doSimu(10);
+        try{
+            SimulateurManager.getInstance();
+        }
+        catch(NullPointerException e){
+            SimulateurManager.INIT_Simulateur();
+        }
+        SimulateurManager simu = SimulateurManager.getInstance();
+        Map map = osmLoader.load("map.osm");
+        TraficFlowModel model = new TraficFlowModel(map);
+        model.setMap(map);
+        pid = simu.addAndRunSimulation(model);
+        //doSimu(10);
     }
 
     @StreamListener(CustomProcessor.INPUT_OBSERVER)

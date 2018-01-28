@@ -51,11 +51,12 @@ public class TraficFlowModel extends Model {
      *
      * @param map_ est la map que le simulateur va traiter
      */
+    //TODO Remettre l'ui
     public void setMap(Map map_) {
         this.map = map_;
         this.flow = null;
-        this.ui_graph = new Ui_graph();
-        ui_graph.setUIGraphFromMap(map);
+        //this.ui_graph = new Ui_graph();
+        //ui_graph.setUIGraphFromMap(map);
     }
 
     /**
@@ -146,6 +147,7 @@ public class TraficFlowModel extends Model {
         super.start();
     }
 
+    //TODO Remettre l'ui
     @Override
     public void run(){
 
@@ -153,7 +155,7 @@ public class TraficFlowModel extends Model {
             System.out.println("do not use run methode!");
             return;
         }
-        ui_graph.show_G();
+  //      ui_graph.show_G();
 
         while (isRunning != NOT_RUNNING) {
 
