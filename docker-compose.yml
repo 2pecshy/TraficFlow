@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  webconfig:
+    image: webweb:latest
+    ports:
+          - "8080:8080"
+
+  facade:
+    image: facade:latest
+    ports:
+          - "8091:8080"
+
+  simulateur:
+    image: simulateur:latest
+    ports:
+          - "8090:8080"
+
+  observateur:
+    image: observateur:latest
+    ports:
+          - "8092:8080"
