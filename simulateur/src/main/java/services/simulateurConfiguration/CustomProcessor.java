@@ -11,6 +11,7 @@ import org.springframework.messaging.SubscribableChannel;
 public interface CustomProcessor {
     String INPUT_OBSERVER = "inputObserver";
     String OUTPUT_OBSERVER = "outputObserver";
+    String OUTPUT_ERR_FACADE = "outputFacadeError";
     String INPUT_FACADE = "input";
 
     @Input("inputObserver")
@@ -21,5 +22,8 @@ public interface CustomProcessor {
 
     @Output("outputObserver")
     MessageChannel outputObserver();
+
+    @Output("outputFacadeError")
+    MessageChannel ouputFacadeError();
 }
 

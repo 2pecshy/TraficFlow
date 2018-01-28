@@ -2,10 +2,13 @@ spring:
   cloud:
     stream:
       bindings:
-        input:
+        inputConfig:
           destination: config.facade
           binder: rabbit1
-        output:
+        inputSimulateurError:
+          destination: config.facade.error
+          binder: rabbit1
+        outputSimulateur:
           destination: config.simulateur
           binder: rabbit1
       binders:
