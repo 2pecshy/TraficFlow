@@ -22,10 +22,20 @@ import java.nio.channels.ReadableByteChannel;
 
 public class MapDownloader {
         private File f = null;
-        public void downloadFile(String url) throws  Exception{
+        public String downloadFile(String url) throws  Exception{
                 URL website = new URL(url);
-                String array[] = website.getPath().split("/");
-                f = new File(array[array.length-1]);
+                f = new File("map" + checkLastMap()+".osm");
                 FileUtils.copyURLToFile(website, f);
+                return f.getName();
+        }
+
+        private String checkLastMap(){
+                int i = 1;
+                File f = new File("map" + String.valueOf(i) + ".osm");
+                while(f.exists()){
+                        i++;
+                        f = new File("map" + String.valueOf(i) + ".osm");
+                }
+                return String.valueOf(i);
         }
 }

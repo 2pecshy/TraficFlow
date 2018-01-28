@@ -4,6 +4,7 @@ import utils.Map.Cost.EnumCriter;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observable;
 
 public class SimulateurManager {
 
