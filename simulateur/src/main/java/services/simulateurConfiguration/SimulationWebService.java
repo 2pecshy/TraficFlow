@@ -21,6 +21,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.context.annotation.Bean;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import sample.SimulationWebConfiguration;
 
@@ -34,7 +35,7 @@ import java.nio.channels.ReadableByteChannel;
  * Created by Matthieu on 18/01/2018.
  */
 @SpringBootApplication
-@EnableBinding(Sink.class)
+@EnableBinding(CustomProcessor.class)
 public class SimulationWebService extends SpringBootServletInitializer {
     int step = -1;
 
@@ -56,14 +57,22 @@ public class SimulationWebService extends SpringBootServletInitializer {
                 e.printStackTrace();
             }
         }
+        step = 0;
     }
 
-    @StreamListener(Sink.INPUT)
+    @StreamListener(CustomProcessor.INPUT_FACADE)
     public void lauchSimu(SimulationWebConfiguration config) throws  Exception{
         System.out.println("on lance la simulation avec : " + config);
         MapDownloader downloader = new MapDownloader();
         downloader.downloadFile(config.getMapLink());
         doSimu(10);
+    }
+
+    @StreamListener(CustomProcessor.INPUT_OBSERVER)
+    @SendTo(CustomProcessor.OUTPUT_OBSERVER)
+    public int answerObserver(String msg){
+        System.out.println("je recois de l'observeur");
+        return step;
     }
 
     @Override

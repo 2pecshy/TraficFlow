@@ -3,13 +3,10 @@ spring:
     stream:
       bindings:
         input:
-          destination: config.simulateur
-          binder: rabbit1
-        inputObserver:
-          destination: config.simulateur.simulateur
-          binder: rabbit1
-        outputObserver:
           destination: config.simulateur.observer
+          binder: rabbit1
+        output:
+          destination: config.simulateur.simulateur
           binder: rabbit1
       binders:
         rabbit1:
@@ -23,4 +20,4 @@ spring:
                 password: guest
 
 server:
-  port: ${PORT:2226}
+  port: ${PORT:2227}
