@@ -5,6 +5,7 @@ import engine.Contexts.TraficFlowContext;
 import engine.Event.OnDeadCars;
 import org.jgrapht.alg.flow.EdmondsKarpMFImpl;
 import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
+import services.simulateurConfiguration.SimulateurObserver;
 import utils.Map.Cost.GPS_node;
 import utils.Map.Cost.Route;
 import utils.Map.Map;
@@ -22,6 +23,7 @@ public class TraficFlowModel extends Model {
     private EdmondsKarpMFImpl<GPS_node, Route> flow;
     private GPS_node S_lastSimu,D_lastSimu;
     private TraficFlowContext simulateur_context;
+    private SimulateurObserver observer;
 
     public TraficFlowModel() {
         S_lastSimu = null;
@@ -30,6 +32,7 @@ public class TraficFlowModel extends Model {
         ui_graph = null;
         simulateur_context = null;
         isRunning = NOT_RUNNING;
+        observer = new SimulateurObserver();
     }
 
     public TraficFlowModel(Map map_) {
@@ -39,6 +42,7 @@ public class TraficFlowModel extends Model {
         ui_graph = null;
         simulateur_context = null;
         isRunning = NOT_RUNNING;
+        observer = new SimulateurObserver();
         setMap(map_);
     }
 
@@ -159,6 +163,10 @@ public class TraficFlowModel extends Model {
         super.start();
     }
 
+    public SimulateurObserver getObserver() {
+        return observer;
+    }
+
     //TODO Remettre l'ui
     @Override
     public void run(){
@@ -176,6 +184,7 @@ public class TraficFlowModel extends Model {
                 simulateur_context.onTick();
                 //TODO when draw not fake, put draw on an other thread
                 simulateur_context.onDraw();
+                observer.setStep(observer.getStep()+1);
             }
             try {
                 TimeUnit.MILLISECONDS.sleep(500);

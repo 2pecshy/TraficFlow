@@ -35,13 +35,15 @@ import java.io.FileOutputStream;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Matthieu on 18/01/2018.
  */
 @SpringBootApplication
 @EnableBinding(CustomProcessor.class)
-public class SimulationWebService extends SpringBootServletInitializer {
+public class SimulationWebService extends SpringBootServletInitializer implements Observer {
     int step = -1;
 
     public static void main(String[] args) {
@@ -53,24 +55,12 @@ public class SimulationWebService extends SpringBootServletInitializer {
         return new AlwaysSampler();
     }
 
-    public void doSimu(int duree) {
-        for (; step < duree; step++) {
-            System.out.println("Step");
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        step = 0;
-    }
-
     @StreamListener(CustomProcessor.INPUT_FACADE)
     public void lauchSimu(SimulationWebConfiguration config) throws  Exception{
         int pid;
         System.out.println("on lance la simulation avec : " + config);
         MapDownloader downloader = new MapDownloader();
-        downloader.downloadFile(config.getMapLink());
+        String mapName = downloader.downloadFile(config.getMapLink());
         try{
             SimulateurManager.getInstance();
         }
@@ -78,11 +68,11 @@ public class SimulationWebService extends SpringBootServletInitializer {
             SimulateurManager.INIT_Simulateur();
         }
         SimulateurManager simu = SimulateurManager.getInstance();
-        Map map = osmLoader.load("map.osm");
+        Map map = osmLoader.load(mapName);
         TraficFlowModel model = new TraficFlowModel(map);
         model.setMap(map);
+        model.getObserver().addObserver(this);
         pid = simu.addAndRunSimulation(model);
-        //doSimu(10);
     }
 
     @StreamListener(CustomProcessor.INPUT_OBSERVER)
@@ -95,5 +85,12 @@ public class SimulationWebService extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(SimulationWebService.class);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if(o instanceof SimulateurObserver){
+            step = ((SimulateurObserver) o).getStep();
+        }
     }
 }
