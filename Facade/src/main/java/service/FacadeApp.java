@@ -3,7 +3,9 @@ package service;
 import org.apache.catalina.filters.RemoteAddrFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
@@ -28,10 +30,15 @@ import java.io.File;
 
 @SpringBootApplication
 @EnableBinding(Processor.class)
-public class FacadeApp {
+public class FacadeApp extends SpringBootServletInitializer {
     private String template = "Hello, %s !";
     public static void main(String[] args) {
         SpringApplication.run(FacadeApp.class, args);
+    }
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(FacadeApp.class);
     }
 
     @StreamListener(Processor.INPUT)

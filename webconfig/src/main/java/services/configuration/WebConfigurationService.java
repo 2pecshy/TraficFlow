@@ -7,6 +7,8 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Processor;
@@ -34,7 +36,7 @@ import java.nio.channels.ReadableByteChannel;
 @SpringBootApplication
 @RestController
 @EnableBinding(Source.class)
-public class WebConfigurationService {
+public class WebConfigurationService extends SpringBootServletInitializer {
 
     @Autowired
     Source src;
@@ -43,6 +45,11 @@ public class WebConfigurationService {
     public SimulationWebConfiguration process(@RequestBody SimulationWebConfiguration input) {
         src.output().send(MessageBuilder.withPayload(input).build());
         return input;
+    }
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(WebConfigurationService.class);
     }
 
     /*@RequestMapping("/maplink")

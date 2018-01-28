@@ -17,7 +17,7 @@ sh reload.sh
 cd ..
 
 echo "C'est parti pour le docker-compose"
-docker-compose up -d
+#docker-compose up -d
 #docker run -it -p 8080:8080 webweb:latest
 #docker run -it -p 8091:8080 facade:latest
 #docker run -it -p 8090:8080 simulateur:latest

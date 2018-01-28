@@ -12,7 +12,9 @@ import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
@@ -33,7 +35,7 @@ import java.nio.channels.ReadableByteChannel;
  */
 @SpringBootApplication
 @EnableBinding(Sink.class)
-public class SimulationWebService {
+public class SimulationWebService extends SpringBootServletInitializer {
     int step = -1;
 
     public static void main(String[] args) {
@@ -64,4 +66,8 @@ public class SimulationWebService {
         doSimu(10);
     }
 
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(SimulationWebService.class);
+    }
 }
