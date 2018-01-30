@@ -54,6 +54,6 @@ public class Setup implements Events {
 
     @Override
     public String toString(){
-        return "simulation startde";
+        return "simulation started";
     }
 }
