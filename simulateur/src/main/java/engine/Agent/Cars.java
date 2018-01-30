@@ -1,6 +1,7 @@
 package engine.Agent;
 
 import engine.Contexts.Context;
+import org.jgrapht.GraphPath;
 import utils.Map.Cost.GPS_node;
 import utils.Map.Cost.Route;
 
@@ -14,7 +15,7 @@ public class Cars implements Agents {
     public static final double DEFAULT_SPACE = 2.5;
     public static final double DEFAULT_MAX_ACCELERATION = 0.7; // in G
 
-    private ArrayList<GPS_node> path_road;
+    private GraphPath<GPS_node, Route> path_road;
     private double length;// in M
     private double curent_speed; // in Km/h
     private double curent_acceleration; //in g
@@ -25,7 +26,7 @@ public class Cars implements Agents {
     private GPS_node current_pos;
     private int nb_ticks;
 
-    Cars(GPS_node start_point,ArrayList<GPS_node> path){
+    public Cars(GPS_node start_point, GraphPath<GPS_node, Route> path){
         length = DEFAULT_LENGTH;
         min_space_with_next = DEFAULT_SPACE;
         curent_speed = 0;
@@ -34,6 +35,7 @@ public class Cars implements Agents {
         way_num = 0;
         current_pos = new GPS_node(0,0,0);
         nb_ticks = 0;
+        path_road = path;
     }
 
     public Cars(){
@@ -54,7 +56,8 @@ public class Cars implements Agents {
         /*update_acceleration_and_speed();
         update_distance();*/
         nb_ticks++;
-        System.out.println("Voiture id: " + this + " en vie depuis " + nb_ticks + " ticks");
+        /*System.out.println("Voiture id: " + this + " en vie depuis " + nb_ticks
+                + " ticks. taille chemain: " + path_road.getEdgeList().size());*/
 
     }
 
@@ -108,7 +111,7 @@ public class Cars implements Agents {
         return 0.2;
     }
 
-    public ArrayList<GPS_node> getPath_road() {
+    public GraphPath<GPS_node, Route> getPath_road() {
         return path_road;
     }
 

@@ -4,19 +4,22 @@ import engine.Agent.Agents;
 import engine.Agent.Cars;
 import engine.Event.Events;
 import engine.Patch;
+import utils.Map.Map;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class TraficFlowContext implements Context{
 
+    private Map map;
     private ArrayList<Patch> patchs;
     private ArrayList<Events> events;
     private ArrayList<Agents> agents;
     private boolean finish;
     private long tick;
 
-    public TraficFlowContext(){
+    public TraficFlowContext(Map map_){
+        map = map_;
         patchs = new ArrayList<Patch>();
         events = new ArrayList<Events>();
         agents = new ArrayList<Agents>();
@@ -132,5 +135,9 @@ public class TraficFlowContext implements Context{
     @Override
     public long getTick() {
         return tick;
+    }
+
+    public Map getMap() {
+        return map;
     }
 }

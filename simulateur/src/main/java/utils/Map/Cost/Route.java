@@ -108,7 +108,8 @@ public class Route implements Patch {
 
         if(c == EnumCriter.VOIES)
             return nombre_de_voie;
-
+        else if(c == EnumCriter.DISTANCE)
+            return distance;
         else if(c == EnumCriter.ALL){
             return this.func_eval();
         }

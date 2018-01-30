@@ -10,7 +10,7 @@ public class SimulateurManager {
 
     private static SimulateurManager instance = null;
     private ArrayList<Model> models;
-    private EnumCriter criter = EnumCriter.ALL;
+    private EnumCriter criter = EnumCriter.DISTANCE;
     private int simu_pid;
 
     public static SimulateurManager getInstance(){

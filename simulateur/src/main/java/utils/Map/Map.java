@@ -2,6 +2,8 @@ package utils.Map;
 
 import com.mxgraph.view.mxGraph;
 import engine.SimulateurManager;
+import org.jgrapht.GraphPath;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import utils.Map.Cost.GPS_node;
 import utils.Map.Cost.Route;
 import org.jgrapht.alg.flow.EdmondsKarpMFImpl;
@@ -13,6 +15,8 @@ import java.util.Set;
 public class Map {
 
     private SimpleDirectedWeightedGraph<GPS_node, Route> carrefours;
+    private ArrayList<GPS_node> sources;
+    private ArrayList<GPS_node> sinks;
 
     public Map() {
         carrefours = new SimpleDirectedWeightedGraph<GPS_node, Route>(Route.class) {
@@ -24,6 +28,7 @@ public class Map {
                 return e.getCout(SimulateurManager.getInstance().getCriter());
             }
         };
+        updateSourcesAndSinks();
     }
 
     /**
@@ -227,6 +232,43 @@ public class Map {
 
         }
         return graph;
+    }
+
+    public void updateSourcesAndSinks(){
+
+        sources = new ArrayList<GPS_node>();
+        sinks = new ArrayList<GPS_node>();
+        Iterator<GPS_node> iter_vertex = carrefours.vertexSet().iterator();
+        GPS_node current_vertex;
+
+        while (iter_vertex.hasNext()){
+
+            current_vertex = iter_vertex.next();
+            if(carrefours.outDegreeOf(current_vertex) == 0 && carrefours.inDegreeOf(current_vertex) > 0)
+                sinks.add(current_vertex);
+            else if(carrefours.outDegreeOf(current_vertex) > 0 && carrefours.inDegreeOf(current_vertex) == 0)
+                sources.add(current_vertex);
+        }
+    }
+
+    public ArrayList<GPS_node> getSources(){
+
+        if(sources == null)
+            updateSourcesAndSinks();
+        return sources;
+    }
+
+    public ArrayList<GPS_node> getSinks() {
+
+        if(sources == null)
+            updateSourcesAndSinks();
+        return sinks;
+    }
+
+    public GraphPath<GPS_node, Route> getBestPath(GPS_node src, GPS_node dest){
+
+        DijkstraShortestPath<GPS_node,Route> path = new DijkstraShortestPath<GPS_node, Route>(carrefours);
+        return path.getPath(src,dest);
     }
 
     public Set<Route> getRoutes(){

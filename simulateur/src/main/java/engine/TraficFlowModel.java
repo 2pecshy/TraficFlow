@@ -34,6 +34,7 @@ public class TraficFlowModel extends Model {
         simulateur_context = null;
         isRunning = NOT_RUNNING;
         observer = new SimulateurObserver();
+        map = new Map();
     }
 
     public TraficFlowModel(Map map_) {
@@ -51,7 +52,7 @@ public class TraficFlowModel extends Model {
      *
      * @return renvoie la map actuellement traitée par le simulateur
      */
-    public Map getMap() {
+    protected Map getMap() {
         return map;
     }
 
@@ -165,7 +166,7 @@ public class TraficFlowModel extends Model {
             return;
         }
         isRunning = RUNNING;
-        simulateur_context = new TraficFlowContext();
+        simulateur_context = new TraficFlowContext(map);
         //set events of the simulation
         modelEvent();
         super.start();
@@ -198,7 +199,7 @@ public class TraficFlowModel extends Model {
                 observer.setStep(observer.getStep()+1);
             }
             try {
-                TimeUnit.MILLISECONDS.sleep(500);
+                TimeUnit.MILLISECONDS.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -21,7 +21,7 @@ public class EndOfSimulation implements Events{
     public void onTick() {
 
         if(started) {
-            if (context.getTick() > 100) {
+            if (context.getTick() > 1000) {
                 System.out.println("Event: simulation finish");
                 context.setFinish();
             }
