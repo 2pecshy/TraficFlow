@@ -219,6 +219,10 @@ public class TraficFlowModel extends Model {
         }
     }
 
+    protected void setContext(TraficFlowContext context_){
+        simulateur_context = context_;
+    }
+
     @Override
     public void start(){
         System.out.println("Oops: don't use this methode, use startSimulation()");
