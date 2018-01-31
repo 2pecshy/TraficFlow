@@ -6,7 +6,7 @@ public class EndOfSimulation implements Events{
 
     private Context context;
     private boolean started;
-    private static final int nb_ticks_to_end = 500;
+    private static final int nb_ticks_to_end = 100;
 
     public EndOfSimulation(Context context_){
         context = context_;

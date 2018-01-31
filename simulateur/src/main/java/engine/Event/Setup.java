@@ -18,7 +18,7 @@ public class Setup implements Events {
     public Setup(TraficFlowContext context_){
         context = context_;
         started = false;
-        nb_agent = 100000;
+        nb_agent = 1;
     }
 
     public Setup(TraficFlowContext context_,int nb_agent_){

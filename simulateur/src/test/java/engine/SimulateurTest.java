@@ -1,15 +1,21 @@
 package engine;
 
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SimulateurTest {
 
-    private TraficFlowModel simuUnderTest;
+    private SimulateurManager simuUnderTest;
+    private TraficFlowModel model1;
 
     @BeforeEach
     void setUp(){
+        MockitoAnnotations.initMocks(this);
         SimulateurManager.INIT_Simulateur();
+        model1 = Mockito.mock(TraficFlowModel.class);
     }
     @AfterEach
     void cleanUp(){
@@ -18,31 +24,18 @@ public class SimulateurTest {
 
     @Test
     public void instanceTest() {
-        /*simuUnderTest = TraficFlowModel.getInstance();
-        assertEquals(TraficFlowModel.getInstance(), simuUnderTest);
-        assertTrue(TraficFlowModel.KILL_Simulateur());
-        assertFalse(TraficFlowModel.KILL_Simulateur());
-        assertTrue(TraficFlowModel.INIT_Simulateur());
-        assertFalse(TraficFlowModel.INIT_Simulateur());*/
+        simuUnderTest = SimulateurManager.getInstance();
+        assertEquals(SimulateurManager.getInstance(), simuUnderTest);
+        assertTrue(SimulateurManager.KILL_Simulateur());
+        assertFalse(SimulateurManager.KILL_Simulateur());
+        assertTrue(SimulateurManager.INIT_Simulateur());
+        assertFalse(SimulateurManager.INIT_Simulateur());
     }
 
     @Test
     public void getMaxFlowTest(){
-        /*simuUnderTest = TraficFlowModel.getInstance();
-        TraficFlowModel s2 = TraficFlowModel.getInstance();
-        Map map0 = Map.getDefaultMap();
-
-        assertEquals(null,simuUnderTest.getMaxFlow(3,1));
-
-        simuUnderTest.setMap(map0);
-        assertEquals((double)simuUnderTest.getMaxFlow(3,1).getValue(),(double)4);
-
-        for(Integer i = 0; i < map0.getCarrefours().size();i++){
-            for(Integer j = 0; j < map0.getCarrefours().size();j++){
-                if(i !=j)
-                    assertEquals(simuUnderTest.getMaxFlow(i,j).getValue(),s2.getMaxFlow(i,j).getValue());
-            }
-        }*/
+        simuUnderTest = SimulateurManager.getInstance();
+        assertEquals(simuUnderTest.addAndRunSimulation(model1),0);
     }
 
     @Test
