@@ -25,6 +25,8 @@ public class TraficFlowModel extends Model {
     private GPS_node S_lastSimu,D_lastSimu;
     private TraficFlowContext simulateur_context;
     private SimulateurObserver observer;
+    private long clock_speed;
+    public static final long DEFAULT_CLOCK_SPEED = 500; //0.5sec
 
     public TraficFlowModel() {
         S_lastSimu = null;
@@ -35,6 +37,7 @@ public class TraficFlowModel extends Model {
         isRunning = NOT_RUNNING;
         observer = new SimulateurObserver();
         map = new Map();
+        clock_speed = DEFAULT_CLOCK_SPEED;
     }
 
     public TraficFlowModel(Map map_) {
@@ -46,6 +49,7 @@ public class TraficFlowModel extends Model {
         isRunning = NOT_RUNNING;
         observer = new SimulateurObserver();
         setMap(map_);
+        clock_speed = DEFAULT_CLOCK_SPEED;
     }
 
     /**
@@ -176,6 +180,15 @@ public class TraficFlowModel extends Model {
         return observer;
     }
 
+    public long getClock_speed() {
+        return clock_speed;
+    }
+
+    public void setClock_speed(long clock_speed) {
+        if(clock_speed > 0)
+            this.clock_speed = clock_speed;
+    }
+
     //TODO Remettre l'ui
     @Override
     public void run(){
@@ -199,7 +212,7 @@ public class TraficFlowModel extends Model {
                 observer.setStep(observer.getStep()+1);
             }
             try {
-                TimeUnit.MILLISECONDS.sleep(10);
+                TimeUnit.MILLISECONDS.sleep(clock_speed);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -6,6 +6,7 @@ public class EndOfSimulation implements Events{
 
     private Context context;
     private boolean started;
+    private static final int nb_ticks_to_end = 100;
 
     public EndOfSimulation(Context context_){
         context = context_;
@@ -21,7 +22,7 @@ public class EndOfSimulation implements Events{
     public void onTick() {
 
         if(started) {
-            if (context.getTick() > 1000) {
+            if (context.getTick() > nb_ticks_to_end) {
                 System.out.println("Event: simulation finish");
                 context.setFinish();
             }
@@ -30,12 +31,12 @@ public class EndOfSimulation implements Events{
 
     @Override
     public boolean isComplet() {
-        return context.getTick() > 100;
+        return context.getTick() > nb_ticks_to_end;
     }
 
     @Override
     public String toString(){
-        if(context.getTick() > 100){
+        if(context.getTick() > nb_ticks_to_end){
             return "Event: simulation finish";
         }
         else
