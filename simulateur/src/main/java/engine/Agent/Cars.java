@@ -6,6 +6,7 @@ import utils.Map.Cost.GPS_node;
 import utils.Map.Cost.Route;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Cars implements Agents {
 
@@ -16,6 +17,8 @@ public class Cars implements Agents {
     public static final double DEFAULT_MAX_ACCELERATION = 0.7; // in G
 
     private GraphPath<GPS_node, Route> path_road;
+    private GPS_node start;
+    private GPS_node end;
     private double length;// in M
     private double curent_speed; // in Km/h
     private double curent_acceleration; //in g
@@ -36,6 +39,9 @@ public class Cars implements Agents {
         current_pos = new GPS_node(0,0,0);
         nb_ticks = 0;
         path_road = path;
+        start = path.getStartVertex();
+        end = path.getEndVertex();
+        curent_route = null;//path.getGraph().edgesOf(start).iterator().next();
     }
 
     public Cars(){
@@ -56,6 +62,7 @@ public class Cars implements Agents {
         /*update_acceleration_and_speed();
         update_distance();*/
         nb_ticks++;
+        update_distance();
         /*System.out.println("Voiture id: " + this + " en vie depuis " + nb_ticks
                 + " ticks. taille chemain: " + path_road.getEdgeList().size());*/
 
@@ -85,6 +92,27 @@ public class Cars implements Agents {
 
     private void update_distance(){
         //TODO
+        //path.getGraph().edgesOf(start).iterator().next();
+        Route nextRoute;
+        Iterator<Route> iter_route;
+        if(curent_route == null) {
+            nextRoute = path_road.getGraph().edgesOf(start).iterator().next();
+            if(nextRoute.addAgents(this)) {
+                curent_route = nextRoute;
+            }
+            return;
+        }
+
+        iter_route = path_road.getGraph().edgesOf(curent_route.getV2()).iterator();
+        nextRoute = iter_route.next();
+        if(iter_route.hasNext())
+            nextRoute = iter_route.next();
+        //System.out.println("forward" + nextRoute.getAgents().size());
+        if(nextRoute.addAgents(this)) {
+            curent_route.removeAgents(this);
+            curent_route = nextRoute;
+        }
+
     }
 
     @Override
@@ -94,7 +122,13 @@ public class Cars implements Agents {
 
     @Override
     public boolean isDead() {
-        return nb_ticks > 10;
+        if(curent_route == null) return false;
+        if(curent_route.getV2() == end) {
+            curent_route.removeAgents(this);
+            System.out.println("arrivée!");
+            return true;
+        }
+        return false;
     }
 
     @Override

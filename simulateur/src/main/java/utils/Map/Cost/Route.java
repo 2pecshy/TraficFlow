@@ -1,13 +1,11 @@
 package utils.Map.Cost;
 
+import engine.Agent.Agents;
 import engine.Patch;
 
-public class Route implements Patch {
-    private GPS_node v1,v2;
-    private Integer nombre_de_voie;
+import java.util.ArrayList;
 
-    private Integer vitesse_max;    // Km/h
-    private Double distance;  // Metre
+public class Route implements Patch {
 
     public static final Integer DEFAULT_NB_VOIES = 1;
     public static final Double DEFAULT_DISTANCE = 1000.0;
@@ -15,6 +13,14 @@ public class Route implements Patch {
 
     public static final Integer DEFAULT_DISTANCE_ENTRE_VOITURE = 5;
     public static final Integer DEFAULT_TAILLE_VOITURE = 3;
+
+    private GPS_node v1,v2;
+    private Integer nombre_de_voie;
+
+    private Integer vitesse_max;    // Km/h
+    private Double distance;  // Metre
+
+    private ArrayList<Agents> agentsOnTheRoad;
 
     /**
      *
@@ -31,6 +37,7 @@ public class Route implements Patch {
         v1 = v1_;
         v2 = v2_;
         distance = GPS_node.distFromGpsPos(v1,v2);
+        agentsOnTheRoad = new ArrayList<Agents>();
     }
 
     public Route(GPS_node v1_, GPS_node v2_, Integer nombre_de_voie_, Double distance_, Integer vitesse_max_){
@@ -42,6 +49,7 @@ public class Route implements Patch {
         vitesse_max = vitesse_max_;
         v1 = v1_;
         v2 = v2_;
+        agentsOnTheRoad = new ArrayList<Agents>();
     }
 
     //constructeur par copy
@@ -155,5 +163,28 @@ public class Route implements Patch {
     @Override
     public int getType() {
         return 0;
+    }
+
+    @Override
+    public ArrayList<Agents> getAgents() {
+        return agentsOnTheRoad;
+    }
+
+    @Override
+    public boolean addAgents(Agents to_add) {
+        if(agentsOnTheRoad.size() < 10) {
+            agentsOnTheRoad.add(to_add);
+            //System.out.println("agent add to route");
+            return true;
+        }
+        //
+        return false;
+    }
+
+    @Override
+    public boolean removeAgents(Agents to_remove) {
+        agentsOnTheRoad.remove(to_remove);
+        //System.out.println("agent remove from route");
+        return true;
     }
 }
