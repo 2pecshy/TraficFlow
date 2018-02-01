@@ -2,21 +2,21 @@ version: '2'
 
 services:
   webconfig:
-    image: webweb:latest
+    image: trafficflow/webweb:latest
     ports:
           - "2225:8080"
 
   facade:
-    image: facade:latest
+    image: trafficflow/facade:latest
     ports:
           - "2223:8080"
 
   simulateur:
-    image: simulateur:latest
+    image: trafficflow/simulateur:latest
     ports:
           - "2226:8080"
 
   observateur:
-    image: observateur:latest
+    image: trafficflow/observateur:latest
     ports:
-          - "8092:8080"
+          - "2227:8080"
