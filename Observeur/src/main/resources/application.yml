@@ -1,0 +1,23 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: config.simulateur.observer
+          binder: rabbit1
+        output:
+          destination: config.simulateur.simulateur
+          binder: rabbit1
+      binders:
+        rabbit1:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 127.0.0.1
+                port: 5672
+                username: guest
+                password: guest
+
+server:
+  port: ${PORT:2227}

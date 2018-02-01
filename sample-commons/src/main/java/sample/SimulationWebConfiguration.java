@@ -1,4 +1,4 @@
-package services.simulateurConfiguration;
+package sample;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.json.JSONObject;
@@ -13,12 +13,34 @@ public class SimulationWebConfiguration implements Serializable{
     @JsonProperty("simulationStart") private int simulationStart;
     @JsonProperty("HOVLanes") private boolean HOVLanes;
     @JsonProperty("migrationPendulaiure") private boolean migrationPendulaire;
+    @JsonProperty("mapLink") private String mapLink;
+
+    public boolean isHOVLanes() {
+        return HOVLanes;
+    }
+
+    public boolean isMigrationPendulaire() {
+        return migrationPendulaire;
+    }
+
+    public String getMapLink() {
+        return mapLink;
+    }
+
+    public void setMapLink(String mapLink) {
+        this.mapLink = mapLink;
+    }
+
+    public SimulationWebConfiguration(){
+
+    }
 
     public SimulationWebConfiguration(JSONObject json){
         this.simulationLenght = json.getInt("simulationLength");
         this.simulationStart = json.getInt("simulationStart");
         this.HOVLanes = json.getBoolean("HOVLanes");
         this.migrationPendulaire = json.getBoolean("migrationPendulaire");
+        this.mapLink = json.getString("mapLink");
     }
 
     public void sendConfigToSimulator(Object simu){
@@ -72,6 +94,6 @@ public class SimulationWebConfiguration implements Serializable{
     }
 
     public String toString(){
-        return "{ \"simulationLength\" : "+simulationLenght+", \"simulationStart\" : "+simulationStart+", \"HOVLanes\" : \""+HOVLanes + "\", \"migrationPendulaire\" : \""+migrationPendulaire+"\" }";
+        return "{ \"simulationLength\" : "+simulationLenght+", \"simulationStart\" : "+simulationStart+", \"HOVLanes\" : \""+HOVLanes + "\", \"migrationPendulaire\" : \""+migrationPendulaire+"\", \"mapLink\" : \"" +mapLink+"\" }";
     }
 }

@@ -129,6 +129,7 @@ public class osmLoader {
                 }
             }
         }
+        map.updateSourcesAndSinks();
         return map;
     }
 }

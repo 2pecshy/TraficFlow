@@ -1,7 +1,12 @@
 package engine;
 
+import engine.Contexts.TraficFlowContext;
+import engine.Event.EndOfSimulation;
+import engine.Event.OnDeadAgent;
+import engine.Event.Setup;
 import org.jgrapht.alg.flow.EdmondsKarpMFImpl;
 import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
+import services.simulateurConfiguration.SimulateurObserver;
 import utils.Map.Cost.GPS_node;
 import utils.Map.Cost.Route;
 import utils.Map.Map;
@@ -19,6 +24,9 @@ public class TraficFlowModel extends Model {
     private EdmondsKarpMFImpl<GPS_node, Route> flow;
     private GPS_node S_lastSimu,D_lastSimu;
     private TraficFlowContext simulateur_context;
+    private SimulateurObserver observer;
+    private long clock_speed;
+    public static final long DEFAULT_CLOCK_SPEED = 500; //0.5sec
 
     public TraficFlowModel() {
         S_lastSimu = null;
@@ -27,6 +35,9 @@ public class TraficFlowModel extends Model {
         ui_graph = null;
         simulateur_context = null;
         isRunning = NOT_RUNNING;
+        observer = new SimulateurObserver();
+        map = new Map();
+        clock_speed = DEFAULT_CLOCK_SPEED;
     }
 
     public TraficFlowModel(Map map_) {
@@ -36,14 +47,16 @@ public class TraficFlowModel extends Model {
         ui_graph = null;
         simulateur_context = null;
         isRunning = NOT_RUNNING;
+        observer = new SimulateurObserver();
         setMap(map_);
+        clock_speed = DEFAULT_CLOCK_SPEED;
     }
 
     /**
      *
      * @return renvoie la map actuellement traitée par le simulateur
      */
-    public Map getMap() {
+    protected Map getMap() {
         return map;
     }
 
@@ -51,11 +64,27 @@ public class TraficFlowModel extends Model {
      *
      * @param map_ est la map que le simulateur va traiter
      */
+    //TODO Remettre l'ui
     public void setMap(Map map_) {
         this.map = map_;
         this.flow = null;
-        this.ui_graph = new Ui_graph();
-        ui_graph.setUIGraphFromMap(map);
+        //this.ui_graph = new Ui_graph();
+        //ui_graph.setUIGraphFromMap(map);
+    }
+
+    private void modelEvent(){
+
+        Setup simuSetup = new Setup(simulateur_context);
+        OnDeadAgent onDeadAgent_Event = new OnDeadAgent(simulateur_context);
+        EndOfSimulation endOfSimu = new EndOfSimulation(simulateur_context);
+
+        simuSetup.onStart();
+        onDeadAgent_Event.onStart();
+        endOfSimu.onStart();
+
+        simulateur_context.addEvent(simuSetup);
+        simulateur_context.addEvent(onDeadAgent_Event);
+        simulateur_context.addEvent(endOfSimu);
     }
 
     /**
@@ -141,11 +170,26 @@ public class TraficFlowModel extends Model {
             return;
         }
         isRunning = RUNNING;
-        simulateur_context = new TraficFlowContext();
-        simulateur_context.addAgent(new Cars());
+        simulateur_context = new TraficFlowContext(map);
+        //set events of the simulation
+        modelEvent();
         super.start();
     }
 
+    public SimulateurObserver getObserver() {
+        return observer;
+    }
+
+    public long getClock_speed() {
+        return clock_speed;
+    }
+
+    public void setClock_speed(long clock_speed) {
+        if(clock_speed > 0)
+            this.clock_speed = clock_speed;
+    }
+
+    //TODO Remettre l'ui
     @Override
     public void run(){
 
@@ -153,22 +197,30 @@ public class TraficFlowModel extends Model {
             System.out.println("do not use run methode!");
             return;
         }
-        ui_graph.show_G();
+  //      ui_graph.show_G();
 
         while (isRunning != NOT_RUNNING) {
 
             if (isRunning == RUNNING) {
 
+                if(simulateur_context.isFinish()) {
+                    return;
+                }
                 simulateur_context.onTick();
                 //TODO when draw not fake, put draw on an other thread
                 simulateur_context.onDraw();
+                observer.setStep(observer.getStep()+1);
             }
             try {
-                TimeUnit.MILLISECONDS.sleep(500);
+                TimeUnit.MILLISECONDS.sleep(clock_speed);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    protected void setContext(TraficFlowContext context_){
+        simulateur_context = context_;
     }
 
     @Override

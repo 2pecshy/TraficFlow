@@ -1,0 +1,26 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        inputConfig:
+          destination: config.facade
+          binder: rabbit1
+        inputSimulateurError:
+          destination: config.facade.error
+          binder: rabbit1
+        outputSimulateur:
+          destination: config.simulateur
+          binder: rabbit1
+      binders:
+        rabbit1:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 127.0.0.1
+                port: 5672
+                username: guest
+                password: guest
+                
+server:  
+  port: ${PORT:2223}

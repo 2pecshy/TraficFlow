@@ -1,4 +1,6 @@
-package engine;
+package engine.Agent;
+
+import engine.Contexts.Context;
 
 public interface Agents {
 
