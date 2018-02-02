@@ -52,6 +52,7 @@ public class SimulationWebService extends SpringBootServletInitializer implement
         SpringApplication.run(SimulationWebService.class, args);
     }
 
+
     @Autowired
     CustomProcessor processor;
 
@@ -65,7 +66,14 @@ public class SimulationWebService extends SpringBootServletInitializer implement
         int pid;
         System.out.println("on lance la simulation avec : " + config);
         MapDownloader downloader = new MapDownloader();
-        String mapName = downloader.downloadFile(config.getMapLink());
+        String mapName = "";
+        try {
+            mapName = downloader.downloadFile(config.getMapLink());
+        }
+        catch(Exception e ){
+            System.out.println("Mauvais format de fichier !");
+            processor.ouputFacadeError().send(MessageBuilder.withPayload("Mauvais format de fichier !").build());
+        }
         try {
             Map map = osmLoader.load(mapName);
             TraficFlowModel model = new TraficFlowModel(map);

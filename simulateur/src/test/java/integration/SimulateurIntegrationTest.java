@@ -1,3 +1,4 @@
+package integration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,9 @@ import org.springframework.messaging.Message;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import sample.SimulationWebConfiguration;
-import service.CustomProcessor;
 import service.FacadeApp;
+import services.simulateurConfiguration.CustomProcessor;
+import services.simulateurConfiguration.SimulationWebService;
 
 import java.util.concurrent.BlockingQueue;
 
@@ -22,10 +24,10 @@ import static org.springframework.cloud.stream.test.matcher.MessageQueueMatcher.
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = FacadeApp.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(classes = SimulationWebService.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @DirtiesContext
 @EnableBinding(CustomProcessor.class)
-public class FacadeIntegrationTest {
+public class SimulateurIntegrationTest {
 
     @Autowired
     private CustomProcessor channels;
@@ -34,12 +36,21 @@ public class FacadeIntegrationTest {
     private MessageCollector collector;
 
     @Test
-    public void receptionFromConfig() throws InterruptedException {
+    public void receptionFromFacadeError() throws InterruptedException {
         SimulationWebConfiguration input = new SimulationWebConfiguration();
-        this.channels.inputConfig().send(MessageBuilder.withPayload(input).build());
-        BlockingQueue<Message<?>> messages = collector.forChannel(channels.outputSimulateur());
+        input.setMapLink("http://totovaalaplageavecsesjouetspourfairedesjolischateauxdesableonaimetoustotomdrlolxd.com/totofaiDchato.test");
+        this.channels.input().send(MessageBuilder.withPayload(input).build());
+        BlockingQueue<Message<?>> messages = collector.forChannel(channels.ouputFacadeError());
         //assertThat(messages, receivesPayloadThat(is(input)));
-        assertEquals(messages.take().getPayload(), input);
+        assertEquals(messages.take().getPayload(), "Mauvais format de fichier !");
+    }
+
+    @Test
+    public void receptionFromObserver() throws InterruptedException {
+        String msg = "state";
+        this.channels.inputObserver().send(MessageBuilder.withPayload(msg).build());
+        BlockingQueue<Message<?>> messages = collector.forChannel(channels.outputObserver());
+        assertEquals(messages.take().getPayload(), -1);
     }
 
     /*@Test
