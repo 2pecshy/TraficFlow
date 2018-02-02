@@ -14,6 +14,8 @@ import service.CustomProcessor;
 import service.FacadeApp;
 
 import java.util.concurrent.BlockingQueue;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
@@ -23,8 +25,9 @@ import static org.junit.Assert.assertTrue;
 @DirtiesContext
 public class FacadeIntegrationTest {
 
-    @SpyBean
-    private FacadeApp facadeApp;
+
+    //@SpyBean
+    //FacadeApp app;
 
     @Autowired
     private CustomProcessor channels;
@@ -33,11 +36,16 @@ public class FacadeIntegrationTest {
     private MessageCollector collector;
 
     @Test
-    public void testMessages() {
+    public void receptionFromConfig() throws InterruptedException {
         SimulationWebConfiguration input = new SimulationWebConfiguration();
         this.channels.inputConfig().send(MessageBuilder.withPayload(input).build());
         BlockingQueue<Message<?>> messages = collector.forChannel(channels.outputSimulateur());
-        assertTrue(messages.contains(input));
+        assertEquals(messages.take().getPayload(), input);
     }
+
+    /*@Test
+    public void envoieAuSimulateur(){
+        SimulationWebConfiguration input = new SimulationWebConfiguration();
+    }*/
 
 }
