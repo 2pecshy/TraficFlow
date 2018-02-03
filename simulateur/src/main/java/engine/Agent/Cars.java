@@ -7,6 +7,7 @@ import utils.Map.Cost.Route;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class Cars implements Agents {
 
@@ -17,6 +18,7 @@ public class Cars implements Agents {
     public static final double DEFAULT_MAX_ACCELERATION = 0.7; // in G
 
     private GraphPath<GPS_node, Route> path_road;
+    private List<Route> currentPath;
     private GPS_node start;
     private GPS_node end;
     private double length;// in M
@@ -41,6 +43,7 @@ public class Cars implements Agents {
         path_road = path;
         start = path.getStartVertex();
         end = path.getEndVertex();
+        currentPath = path_road.getEdgeList();
         curent_route = null;//path.getGraph().edgesOf(start).iterator().next();
     }
 
@@ -96,21 +99,22 @@ public class Cars implements Agents {
         Route nextRoute;
         Iterator<Route> iter_route;
         if(curent_route == null) {
-            nextRoute = path_road.getGraph().edgesOf(start).iterator().next();
+            nextRoute = currentPath.get(0);
             if(nextRoute.addAgents(this)) {
                 curent_route = nextRoute;
+                currentPath.remove(0);
             }
             return;
         }
 
-        iter_route = path_road.getGraph().edgesOf(curent_route.getV2()).iterator();
-        nextRoute = iter_route.next();
-        if(iter_route.hasNext())
-            nextRoute = iter_route.next();
+        //iter_route = path_road.getGraph().edgesOf(curent_route.getV2()).iterator();
+        //nextRoute = iter_route.next();
+        nextRoute = currentPath.get(0);
         //System.out.println("forward" + nextRoute.getAgents().size());
         if(nextRoute.addAgents(this)) {
             curent_route.removeAgents(this);
             curent_route = nextRoute;
+            currentPath.remove(0);
         }
 
     }
@@ -125,7 +129,7 @@ public class Cars implements Agents {
         if(curent_route == null) return false;
         if(curent_route.getV2() == end) {
             curent_route.removeAgents(this);
-            System.out.println("arrivée!");
+            System.out.println(this + " finish!");
             return true;
         }
         return false;

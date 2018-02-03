@@ -17,6 +17,7 @@ public class OnDeadAgent implements Events {
     private long number_of_dead_cars;
     private boolean started;
     private Random rand;
+    public static final int MAX_DEAD = 10;
 
     public OnDeadAgent(TraficFlowContext context_){
 
@@ -53,6 +54,10 @@ public class OnDeadAgent implements Events {
 
                     number_of_dead_cars++;
                     agents.remove(curentAgent);
+                    if(number_of_dead_cars >= MAX_DEAD) {
+                        System.out.println("PID: "+ context +"Event OnDeadAgent: simulation finish");
+                        context.setFinish();
+                    }
                     i--;
                     agents.add(new Cars(src,path));
                 }

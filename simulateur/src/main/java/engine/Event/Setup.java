@@ -8,6 +8,7 @@ import utils.Map.Cost.GPS_node;
 import utils.Map.Cost.Route;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Setup implements Events {
 
@@ -18,7 +19,7 @@ public class Setup implements Events {
     public Setup(TraficFlowContext context_){
         context = context_;
         started = false;
-        nb_agent = 1;
+        nb_agent = 10;
     }
 
     public Setup(TraficFlowContext context_,int nb_agent_){
@@ -36,14 +37,21 @@ public class Setup implements Events {
     public void onTick() {
 
         int i;
-        ArrayList<GPS_node> src_s = context.getMap().getSources();
-        ArrayList<GPS_node> sink_s = context.getMap().getSinks();
-        GPS_node src = src_s.get(0);
-        GPS_node sink = sink_s.get(0);
-        GraphPath<GPS_node, Route> path = context.getMap().getBestPath(src, sink);
+        Random rand = new Random();
+        GPS_node src = null,sink;
+        GraphPath<GPS_node, Route> path = null;
         if (context.getTick() == 1) {
-            for (i = 0; i < nb_agent; i++)
+            for (i = 0; i < nb_agent; i++) {
+                while (path == null){
+                    ArrayList<GPS_node> src_s = context.getMap().getSources();
+                    ArrayList<GPS_node> sink_s = context.getMap().getSinks();
+                    src = src_s.get(0);//rand.nextInt(src_s.size()));
+                    sink = sink_s.get(0);//rand.nextInt(sink_s.size()));
+                    path = context.getMap().getBestPath(src, sink);
+                }
                 context.addAgent(new Cars(src, path));
+                path = null;
+            }
         }
     }
 

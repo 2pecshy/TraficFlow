@@ -68,8 +68,8 @@ public class TraficFlowModel extends Model {
     public void setMap(Map map_) {
         this.map = map_;
         this.flow = null;
-        //this.ui_graph = new Ui_graph();
-        //ui_graph.setUIGraphFromMap(map);
+        this.ui_graph = new Ui_graph();
+        ui_graph.setUIGraphFromMap(map);
     }
 
     private void modelEvent(){
@@ -197,7 +197,7 @@ public class TraficFlowModel extends Model {
             System.out.println("do not use run methode!");
             return;
         }
-  //      ui_graph.show_G();
+        ui_graph.show_G();
 
         while (isRunning != NOT_RUNNING) {
 

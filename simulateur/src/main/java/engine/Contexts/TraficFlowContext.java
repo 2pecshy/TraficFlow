@@ -29,7 +29,7 @@ public class TraficFlowContext implements Context{
 
     @Override
     public void onDraw() {
-        System.out.println("update ui!!");
+        //System.out.println("update ui!!");
         Iterator<Agents> iterAgents = agents.iterator();
 
         while (iterAgents.hasNext()){
@@ -40,14 +40,14 @@ public class TraficFlowContext implements Context{
     @Override
     public void onTick() {
 
-        System.out.println("Tick");
+        //System.out.println("Tick");
         tick++;
         updateEvents();
         if(!finish) {
             updatePatch();
             updateAgent();
         }
-        System.out.println("number of agents: " + agents.size());
+        //System.out.println(this + "number of agents: " + agents.size());
 
     }
 
