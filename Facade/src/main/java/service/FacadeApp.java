@@ -32,6 +32,12 @@ import java.io.File;
 @EnableBinding(CustomProcessor.class)
 public class FacadeApp extends SpringBootServletInitializer {
     private String template = "Hello, %s !";
+    private String error;
+
+    public String getError() {
+        return error;
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(FacadeApp.class, args);
     }
@@ -50,7 +56,9 @@ public class FacadeApp extends SpringBootServletInitializer {
 
     @StreamListener(CustomProcessor.INPUT_ERR_SIMULATEUR)
     public void errorFromSimulateur (String msg){
+        error = msg;
         System.out.println(msg);
+        //return  msg;
     }
 
 
