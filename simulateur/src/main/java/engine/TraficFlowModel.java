@@ -25,8 +25,7 @@ public class TraficFlowModel extends Model {
     private GPS_node S_lastSimu,D_lastSimu;
     private TraficFlowContext simulateur_context;
     private SimulateurObserver observer;
-    private long clock_speed;
-    public static final long DEFAULT_CLOCK_SPEED = 500; //0.5sec
+
 
     public TraficFlowModel() {
         S_lastSimu = null;
@@ -204,6 +203,7 @@ public class TraficFlowModel extends Model {
             if (isRunning == RUNNING) {
 
                 if(simulateur_context.isFinish()) {
+                    isRunning = FINISH;
                     return;
                 }
                 simulateur_context.onTick();

@@ -46,15 +46,6 @@ public class SimulateurManager {
         return false;
     }
 
-    public int addAndRunSimulation(Model model){
-
-        int pid_ = simu_pid++;
-        model.setPid(pid_);
-        models.add(model);
-        model.startSimulation();
-        return pid_;
-    }
-
     public void pauseSimulation(int pid){
         Iterator<Model> iter_mod = models.iterator();
         Model curent_mod;
@@ -77,6 +68,52 @@ public class SimulateurManager {
             }
         }
     }
+
+    public int addAndRunSimulation(Model model){
+
+        int pid_ = simu_pid++;
+        model.setPid(pid_);
+        models.add(model);
+        model.startSimulation();
+        return pid_;
+    }
+
+    public ArrayList<Integer> listRuningSimulation(){
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        Iterator<Model> iter = models.iterator();
+        Model curent;
+        while (iter.hasNext()){
+            curent = iter.next();
+            if(curent.isRunning() == TraficFlowModel.RUNNING)
+                res.add(curent.getPid());
+        }
+        return res;
+    }
+
+    public ArrayList<Integer> listPausedSimulation(){
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        Iterator<Model> iter = models.iterator();
+        Model curent;
+        while (iter.hasNext()){
+            curent = iter.next();
+            if(curent.isRunning() == TraficFlowModel.PAUSE)
+                res.add(curent.getPid());
+        }
+        return res;
+    }
+
+    public ArrayList<Integer> listFinishSimulation(){
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        Iterator<Model> iter = models.iterator();
+        Model curent;
+        while (iter.hasNext()){
+            curent = iter.next();
+            if(curent.isRunning() == TraficFlowModel.FINISH)
+                res.add(curent.getPid());
+        }
+        return res;
+    }
+
 
     /**
      *

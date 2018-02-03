@@ -12,14 +12,15 @@ public class Main {
         int pid;
         Map map = osmLoader.load("map.osm");
         Map map2 = osmLoader.load("map11.osm");
-        SimulateurManager.INIT_Simulateur();
-        SimulateurManager manager = SimulateurManager.getInstance();
 
         TraficFlowModel model = new TraficFlowModel(map);
         TraficFlowModel model2 = new TraficFlowModel(map2);
 
         model.setMap(map);
         model2.setMap(map2);
+
+        SimulateurManager.INIT_Simulateur();
+        SimulateurManager manager = SimulateurManager.getInstance();
 
 
         System.out.println("run model on a thread");

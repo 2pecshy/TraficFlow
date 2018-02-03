@@ -17,21 +17,7 @@ public class Ui_graph extends JFrame {
     public Ui_graph(){
 
         super("TraficFlow");
-
         graph = new mxGraph();
-        //Object parent = graph.getDefaultParent();
-
-        /*graph.getModel().beginUpdate();
-        try {
-            Object v1_ = graph.insertVertex(parent, null, "v1", 20, 20, 10, 10);
-            Object v2_ = graph.insertVertex(parent, null, "v2", 240, 150, 10, 10);
-            graph.insertEdge(parent, null, 230, v1_, v2_);
-        } finally {
-            graph.getModel().endUpdate();
-        }*/
-
-        /*mxGraphComponent graphComponent = new mxGraphComponent(graph);
-        getContentPane().add(graphComponent);*/
 
     }
 
@@ -91,9 +77,10 @@ public class Ui_graph extends JFrame {
 
     public void show_G(){
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(700, 500);
         this.setVisible(true);
     }
+
 
 }
