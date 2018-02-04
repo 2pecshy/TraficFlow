@@ -1,6 +1,7 @@
 package utils.Map;
 
 import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxGraph;
 import utils.Map.Cost.Route;
 
@@ -35,6 +36,13 @@ public class Ui_graph extends JFrame {
         String colorGreen;
 
         graph.getModel().beginUpdate();
+
+        graph.removeCells(graph.getChildVertices(graph.getDefaultParent()));
+        graph.removeCells(graph.getChildEdges(graph.getDefaultParent()));
+
+        parent = graph.getDefaultParent();
+        String styleParent = mxConstants.STYLE_FILLCOLOR + "=#ff0000";
+
         min_lat = Double.MAX_VALUE;
         min_lon = Double.MAX_VALUE;
         try {
@@ -58,9 +66,17 @@ public class Ui_graph extends JFrame {
             while (iterRoute.hasNext()){
 
                 currentRoute = iterRoute.next();
-                v1 = graph.insertVertex(parent, null, "", currentRoute.getV1().getLon()*50000-min_lon+10, -currentRoute.getV1().getLat()*50000-min_lat+10, 1, 1);
-                v2 = graph.insertVertex(parent, null, "", currentRoute.getV2().getLon()*50000-min_lon+10, -currentRoute.getV2().getLat()*50000-min_lat+10, 1, 1);
-                graph.insertEdge(parent,null,null,v1,v2);
+                v1 = graph.insertVertex(parent, null, "", currentRoute.getV1().getLon()*50000-min_lon+10, -currentRoute.getV1().getLat()*50000-min_lat+10, 1, 1,mxConstants.STYLE_FILLCOLOR+"=#FF0000");
+                v2 = graph.insertVertex(parent, null, "", currentRoute.getV2().getLon()*50000-min_lon+10, -currentRoute.getV2().getLat()*50000-min_lat+10, 1, 1,mxConstants.STYLE_FILLCOLOR+"=#FF0000");
+                if(currentRoute.getAgents().size() >= 10) {
+                    graph.insertEdge(parent, null, null, v1, v2, "strokeColor=#FF0000");
+                }
+                else if(currentRoute.getAgents().size() >= 5){
+                    graph.insertEdge(parent, null, null, v1, v2, "strokeColor=#CCCC00");
+                }
+                else{
+                    graph.insertEdge(parent, null, null, v1, v2, "strokeColor=#0000FF");
+                }
 
             }
         } finally {

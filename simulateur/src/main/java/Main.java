@@ -41,8 +41,8 @@ public class Main {
         System.out.println("resume simu");
         manager.resumeSimulation(pid);
 
-        System.out.println("Run a second simu in //");
-        manager.addAndRunSimulation(model2);
+        //System.out.println("Run a second simu in //");
+        //manager.addAndRunSimulation(model2);
 
         return;
     }

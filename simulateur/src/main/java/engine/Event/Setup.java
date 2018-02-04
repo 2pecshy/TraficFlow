@@ -19,7 +19,7 @@ public class Setup implements Events {
     public Setup(TraficFlowContext context_){
         context = context_;
         started = false;
-        nb_agent = 10;
+        nb_agent = 490;
     }
 
     public Setup(TraficFlowContext context_,int nb_agent_){
@@ -45,8 +45,8 @@ public class Setup implements Events {
                 while (path == null){
                     ArrayList<GPS_node> src_s = context.getMap().getSources();
                     ArrayList<GPS_node> sink_s = context.getMap().getSinks();
-                    src = src_s.get(0);//rand.nextInt(src_s.size()));
-                    sink = sink_s.get(0);//rand.nextInt(sink_s.size()));
+                    src = src_s.get(rand.nextInt(src_s.size()));
+                    sink = sink_s.get(rand.nextInt(sink_s.size()));
                     path = context.getMap().getBestPath(src, sink);
                 }
                 context.addAgent(new Cars(src, path));

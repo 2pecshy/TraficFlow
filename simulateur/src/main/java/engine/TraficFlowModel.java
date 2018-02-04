@@ -210,6 +210,7 @@ public class TraficFlowModel extends Model {
                 //TODO when draw not fake, put draw on an other thread
                 simulateur_context.onDraw();
                 observer.setStep(observer.getStep()+1);
+                ui_graph.setUIGraphFromMap(map);
             }
             try {
                 TimeUnit.MILLISECONDS.sleep(clock_speed);

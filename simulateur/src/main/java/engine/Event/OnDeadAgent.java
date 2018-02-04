@@ -17,7 +17,7 @@ public class OnDeadAgent implements Events {
     private long number_of_dead_cars;
     private boolean started;
     private Random rand;
-    public static final int MAX_DEAD = 10;
+    public static final int MAX_DEAD = 100000;
 
     public OnDeadAgent(TraficFlowContext context_){
 
@@ -34,15 +34,14 @@ public class OnDeadAgent implements Events {
 
     @Override
     public void onTick() {
-        ArrayList<GPS_node> src_s = context.getMap().getSources();
-        ArrayList<GPS_node> sink_s = context.getMap().getSinks();
-        GPS_node src = src_s.get(rand.nextInt(src_s.size()));
-        GPS_node sink = sink_s.get(rand.nextInt(sink_s.size()));
-        GraphPath<GPS_node, Route> path = context.getMap().getBestPath(src, sink);
-        if(path == null){
-            this.onTick();
-        }
+
         if(started) {
+            GraphPath<GPS_node, Route> path;
+            ArrayList<GPS_node> src_s;
+            ArrayList<GPS_node> sink_s;
+            GPS_node src = null;
+            GPS_node sink;
+
             int i;
             ArrayList<Agents> agents = context.getAgents();
             Agents curentAgent;
@@ -51,7 +50,14 @@ public class OnDeadAgent implements Events {
 
                 curentAgent = agents.get(i);
                 if (curentAgent.isDead()) {
-
+                    path = null;
+                    while (path == null){
+                        src_s = context.getMap().getSources();
+                        sink_s = context.getMap().getSinks();
+                        src = src_s.get(rand.nextInt(src_s.size()));
+                        sink = sink_s.get(rand.nextInt(sink_s.size()));
+                        path = context.getMap().getBestPath(src, sink);
+                    }
                     number_of_dead_cars++;
                     agents.remove(curentAgent);
                     if(number_of_dead_cars >= MAX_DEAD) {
