@@ -1,16 +1,24 @@
 package engine.Event;
 
 import engine.Contexts.Context;
+import engine.Contexts.TraficFlowContext;
 
 public class EndOfSimulation implements Events{
 
     private Context context;
     private boolean started;
-    public static final int nb_ticks_to_end = 1000;
+    private int nb_ticks_to_end;
 
     public EndOfSimulation(Context context_){
         context = context_;
         started = false;
+        nb_ticks_to_end = 1000;
+    }
+
+    public EndOfSimulation(TraficFlowContext context_, int simulationLenght) {
+        context = context_;
+        started = false;
+        nb_ticks_to_end = simulationLenght;
     }
 
     @Override

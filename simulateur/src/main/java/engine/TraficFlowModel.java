@@ -6,6 +6,7 @@ import engine.Event.OnDeadAgent;
 import engine.Event.Setup;
 import org.jgrapht.alg.flow.EdmondsKarpMFImpl;
 import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
+import sample.SimulationWebConfiguration;
 import services.simulateurConfiguration.SimulateurObserver;
 import utils.Map.Cost.GPS_node;
 import utils.Map.Cost.Route;
@@ -25,6 +26,8 @@ public class TraficFlowModel extends Model {
     private GPS_node S_lastSimu,D_lastSimu;
     private TraficFlowContext simulateur_context;
     private SimulateurObserver observer;
+    private SimulationWebConfiguration configuration;
+    private boolean no_UI;
 
 
     public TraficFlowModel() {
@@ -37,6 +40,8 @@ public class TraficFlowModel extends Model {
         observer = new SimulateurObserver();
         map = new Map();
         clock_speed = DEFAULT_CLOCK_SPEED;
+        configuration = null;
+        no_UI = true;
     }
 
     public TraficFlowModel(Map map_) {
@@ -49,6 +54,23 @@ public class TraficFlowModel extends Model {
         observer = new SimulateurObserver();
         setMap(map_);
         clock_speed = DEFAULT_CLOCK_SPEED;
+        configuration = null;
+        no_UI = true;
+    }
+
+    public TraficFlowModel(Map map_, SimulationWebConfiguration config){
+
+        S_lastSimu = null;
+        D_lastSimu = null;
+        map = null;
+        ui_graph = null;
+        simulateur_context = null;
+        isRunning = NOT_RUNNING;
+        observer = new SimulateurObserver();
+        setMap(map_);
+        clock_speed = DEFAULT_CLOCK_SPEED;
+        configuration = config;
+        no_UI = true;
     }
 
     /**
@@ -68,14 +90,24 @@ public class TraficFlowModel extends Model {
         this.map = map_;
         this.flow = null;
         this.ui_graph = new Ui_graph();
-        ui_graph.setUIGraphFromMap(map);
+        if(!no_UI)
+            ui_graph.setUIGraphFromMap(map);
     }
 
     private void modelEvent(){
-
-        Setup simuSetup = new Setup(simulateur_context);
-        OnDeadAgent onDeadAgent_Event = new OnDeadAgent(simulateur_context);
-        EndOfSimulation endOfSimu = new EndOfSimulation(simulateur_context);
+        Setup simuSetup;
+        OnDeadAgent onDeadAgent_Event;
+        EndOfSimulation endOfSimu;
+        if(configuration == null) {
+            simuSetup = new Setup(simulateur_context);
+            onDeadAgent_Event = new OnDeadAgent(simulateur_context);
+            endOfSimu = new EndOfSimulation(simulateur_context);
+        }
+        else{
+            simuSetup = new Setup(simulateur_context);
+            onDeadAgent_Event = new OnDeadAgent(simulateur_context);
+            endOfSimu = new EndOfSimulation(simulateur_context,configuration.getSimulationLenght());
+        }
 
         simuSetup.onStart();
         onDeadAgent_Event.onStart();
@@ -196,7 +228,8 @@ public class TraficFlowModel extends Model {
             System.out.println("do not use run methode!");
             return;
         }
-        ui_graph.show_G();
+        if(!no_UI)
+            ui_graph.show_G();
 
         while (isRunning != NOT_RUNNING) {
 
@@ -210,7 +243,8 @@ public class TraficFlowModel extends Model {
                 //TODO when draw not fake, put draw on an other thread
                 simulateur_context.onDraw();
                 observer.setStep(observer.getStep()+1);
-                ui_graph.setUIGraphFromMap(map);
+                if(!no_UI)
+                    ui_graph.setUIGraphFromMap(map);
             }
             try {
                 TimeUnit.MILLISECONDS.sleep(clock_speed);
@@ -227,5 +261,9 @@ public class TraficFlowModel extends Model {
     @Override
     public void start(){
         System.out.println("Oops: don't use this methode, use startSimulation()");
+    }
+
+    public void setNo_UI(boolean no_UI) {
+        this.no_UI = no_UI;
     }
 }

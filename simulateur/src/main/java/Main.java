@@ -14,10 +14,11 @@ public class Main {
         Map map2 = osmLoader.load("map11.osm");
 
         TraficFlowModel model = new TraficFlowModel(map);
+        model.setNo_UI(false);
         TraficFlowModel model2 = new TraficFlowModel(map2);
 
-        model.setMap(map);
-        model2.setMap(map2);
+        //model.setMap(map);
+        //model2.setMap(map2);
 
         SimulateurManager.INIT_Simulateur();
         SimulateurManager manager = SimulateurManager.getInstance();

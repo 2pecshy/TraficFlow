@@ -1,6 +1,10 @@
 package engine;
 
+import sample.SimulationWebConfiguration;
+import services.simulateurConfiguration.MapDownloader;
 import utils.Map.Cost.EnumCriter;
+import utils.Map.Map;
+import utils.Map.Osm.osmLoader;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,6 +16,7 @@ public class SimulateurManager {
     private ArrayList<Model> models;
     private EnumCriter criter = EnumCriter.DISTANCE;
     private int simu_pid;
+    private MapDownloader downloader = new MapDownloader();
 
     public static SimulateurManager getInstance(){
 
@@ -46,6 +51,33 @@ public class SimulateurManager {
         return false;
     }
 
+    public int addSimuFromConfig(int pid_, SimulationWebConfiguration conf){
+
+        Map map;
+        TraficFlowModel model;
+        String mapName = "";
+
+        try {
+            mapName = downloader.downloadFile(conf.getMapLink());
+            map = osmLoader.load(mapName);
+            model = new TraficFlowModel(map,conf);
+            model.setPid(pid_);
+            models.add(model);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return pid_;
+    }
+
+    public int addAndRunFromConfig(int pid_, SimulationWebConfiguration conf){
+        if(addSimuFromConfig(pid_,conf) != -1){
+            startSimulation(pid_);
+            return pid_;
+        }
+        return -1;
+    }
+
     public void pauseSimulation(int pid){
         Iterator<Model> iter_mod = models.iterator();
         Model curent_mod;
@@ -65,6 +97,18 @@ public class SimulateurManager {
             curent_mod = iter_mod.next();
             if(curent_mod.getPid() == pid){
                 curent_mod.resumeSimulation();
+            }
+        }
+    }
+
+    public void startSimulation(int pid){
+
+        Iterator<Model> iter_mod = models.iterator();
+        Model curent_mod;
+        while (iter_mod.hasNext()){
+            curent_mod = iter_mod.next();
+            if(curent_mod.getPid() == pid){
+                curent_mod.startSimulation();
             }
         }
     }
@@ -130,4 +174,6 @@ public class SimulateurManager {
     public void setCriter(EnumCriter criter) {
         this.criter = criter;
     }
+
+
 }
