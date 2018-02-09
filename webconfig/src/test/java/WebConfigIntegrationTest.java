@@ -8,9 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
-import org.springframework.cloud.stream.test.binder.MessageCollector;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
+import org.springframework.cloud.stream.test.binder.MessageCollector;
+
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import services.configuration.ICustomProcessorWebConfig;
@@ -19,13 +20,8 @@ import services.configuration.WebConfigurationService;
 
 import java.util.concurrent.BlockingQueue;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.springframework.cloud.stream.test.matcher.MessageQueueMatcher.receivesPayloadThat;
-import static org.springframework.integration.support.management.graph.LinkNode.Type.input;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = WebConfigurationService.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -65,13 +61,15 @@ public class WebConfigIntegrationTest {
     @Test
     public void postMethodShouldReturnGoodWebConfig() throws InterruptedException {
 
+        BlockingQueue<Message<?>> messages = collector.forChannel(channels.output());
+
         SimulationWebConfiguration test = (SimulationWebConfiguration) this.restTemplate.postForObject(
-                "http://localhost:" + port + "/webconfig",
+                "http://localhost:" + port + "/config",
                 goodWebConfig,
-                WebConfigurationService.class)
-                .process(goodWebConfig);
-        //assertThat(messages, receivesPayloadThat(is(goodWebConfig)));
+                SimulationWebConfiguration.class);
+
         assertEquals(test.getSimulationLenght(), goodWebConfig.getSimulationLenght());
+        assertEquals(test.getSimulationLenght(),((SimulationWebConfiguration) messages.take().getPayload()).getSimulationLenght());
     }
 
 }
