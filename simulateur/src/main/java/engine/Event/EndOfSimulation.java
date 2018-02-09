@@ -44,6 +44,10 @@ public class EndOfSimulation implements Events{
         return false;
     }
 
+    public int getNb_ticks_to_end() {
+        return nb_ticks_to_end;
+    }
+
     @Override
     public String toString(){
         if(context.getTick() > nb_ticks_to_end){

@@ -11,7 +11,6 @@ import org.springframework.messaging.Message;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import sample.SimulationWebConfiguration;
-import service.FacadeApp;
 import services.simulateurConfiguration.CustomProcessor;
 import services.simulateurConfiguration.SimulationWebService;
 
