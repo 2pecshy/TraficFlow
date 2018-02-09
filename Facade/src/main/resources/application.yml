@@ -4,12 +4,15 @@ spring:
       bindings:
         inputConfig:
           destination: config.facade
+          group: facade
           binder: rabbit1
         inputSimulateurError:
           destination: config.facade.error
+          group: facade
           binder: rabbit1
         outputSimulateur:
           destination: config.simulateur
+          group: simulateur
           binder: rabbit1
       binders:
         rabbit1:

@@ -89,9 +89,9 @@ public class TraficFlowModel extends Model {
     public void setMap(Map map_) {
         this.map = map_;
         this.flow = null;
-        this.ui_graph = new Ui_graph();
-        if(!no_UI)
-            ui_graph.setUIGraphFromMap(map);
+        /*if(!no_UI)
+            this.ui_graph = new Ui_graph();
+            ui_graph.setUIGraphFromMap(map);*/
     }
 
     private void modelEvent(){

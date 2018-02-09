@@ -11,16 +11,12 @@ import org.springframework.messaging.Message;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import sample.SimulationWebConfiguration;
-import service.FacadeApp;
 import services.simulateurConfiguration.CustomProcessor;
 import services.simulateurConfiguration.SimulationWebService;
 
 import java.util.concurrent.BlockingQueue;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.springframework.cloud.stream.test.matcher.MessageQueueMatcher.receivesPayloadThat;
 
 
 @RunWith(SpringRunner.class)

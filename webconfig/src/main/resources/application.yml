@@ -4,6 +4,7 @@ spring:
       bindings:
         output:
           destination: config.facade
+          group: config
           binder: rabbit1
       binders:
         rabbit1:

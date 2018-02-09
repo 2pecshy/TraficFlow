@@ -76,7 +76,7 @@ public class SimulationWebService extends SpringBootServletInitializer implement
         }
         try {
             Map map = osmLoader.load(mapName);
-            TraficFlowModel model = new TraficFlowModel(map);
+            TraficFlowModel model = new TraficFlowModel(map, config);
             model.setMap(map);
             model.getObserver().addObserver(this);
             try{

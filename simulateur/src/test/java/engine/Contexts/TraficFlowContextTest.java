@@ -49,7 +49,7 @@ public class TraficFlowContextTest {
         }
     }
 
-    @Test
+    /*@Test
     void eventTest(){
         Events event;
         traficFlowContext = new TraficFlowContext(map);
@@ -64,5 +64,5 @@ public class TraficFlowContextTest {
         event.onStart();
         traficFlowContext.onTick();
         assertTrue(traficFlowContext.isFinish());
-    }
+    }*/
 }
