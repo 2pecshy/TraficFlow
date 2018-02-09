@@ -3,7 +3,7 @@
 echo "Build du projet"
 echo "Création des conteneurs"
 
-./docker_automagic_button.sh
+#./docker_automagic_button.sh
 
 deployFolder="./AutoDeploy"
 

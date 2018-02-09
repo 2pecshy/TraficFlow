@@ -8,7 +8,7 @@
     <artifactId>Facade</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>Service Facade Load Balancer</name>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <parent>
         <groupId>TraficFlow</groupId>
         <artifactId>TraficFlow</artifactId>

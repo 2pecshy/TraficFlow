@@ -17,10 +17,10 @@ spring:
           environment:
             spring:
               rabbitmq:
-                host: 127.0.0.1
+                host: 10.212.118.49
                 port: 5672
-                username: guest
-                password: guest
+                username: docko
+                password: docko
                 
 server:  
   port: ${PORT:2223}
