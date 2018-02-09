@@ -1,0 +1,20 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        output:
+          destination: config.facade
+          group: config
+          binder: rabbit1
+      binders:
+        rabbit1:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: IP_KEY
+                port: 5672
+                username: USER_KEY
+                password: USER_KEY
+server:
+  port: ${PORT:2225}
