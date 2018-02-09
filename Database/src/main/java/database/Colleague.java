@@ -5,9 +5,7 @@ import org.springframework.data.annotation.Id;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by bartoszjedrzejewski on 31/10/2016.
- */
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Colleague {
 

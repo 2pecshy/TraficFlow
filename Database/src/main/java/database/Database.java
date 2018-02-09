@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * Created by bartoszjedrzejewski on 01/11/2016.
- */
 @SpringBootApplication
 @RestController
 @EnableBinding(Source.class)
