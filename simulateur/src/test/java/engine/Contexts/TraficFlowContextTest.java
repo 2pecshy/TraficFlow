@@ -51,11 +51,11 @@ public class TraficFlowContextTest {
 
     /*@Test
     void eventTest(){
-        Events event;
+        EndOfSimulation event;
         traficFlowContext = new TraficFlowContext(map);
         event = new EndOfSimulation(traficFlowContext);
         traficFlowContext.addEvent(event);
-        for(int i = 0; i <= EndOfSimulation.nb_ticks_to_end+1; i++){
+        for(int i = 0; i <= event.getNb_ticks_to_end() +1; i++){
             traficFlowContext.onTick();
             assertFalse(traficFlowContext.isFinish());
         }

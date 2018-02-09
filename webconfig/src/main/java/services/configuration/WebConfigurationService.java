@@ -43,8 +43,10 @@ public class WebConfigurationService extends SpringBootServletInitializer {
 
     @RequestMapping("/config")
     public SimulationWebConfiguration process(@RequestBody SimulationWebConfiguration input) {
-
-        src.output().send(MessageBuilder.withPayload(input).build());
+        System.out.println("Before Envoi to FACADE");
+        String test = "";
+        test = (src.output().send(MessageBuilder.withPayload(input).build())) ? "Youpi" : "NIKE"; ;
+        System.out.println("After Envoi to FACADE ->" + test );
         return input;
     }
 
