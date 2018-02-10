@@ -4,6 +4,7 @@ package database;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
@@ -20,9 +21,14 @@ public class Database extends SpringBootServletInitializer {
     @Autowired
     private SimulatorDataRepository repository;
 
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(Database.class);
+    }
+
     @StreamListener(CustomProcessor.INPUT_SIMULATEUR)
     public void getSimu(SimulatorData data){
-        repository.save(data);
+//        repository.save(data);
         System.out.println("j'ai reçu un SimulatorData");
     }
 //
