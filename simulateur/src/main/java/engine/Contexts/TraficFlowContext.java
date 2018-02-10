@@ -1,9 +1,10 @@
 package engine.Contexts;
 
 import engine.Agent.Agents;
-import engine.Agent.Cars;
 import engine.Event.Events;
 import engine.Patch;
+import sample.SimulatorData;
+import services.simulateurConfiguration.SimulateurObserver;
 import utils.Map.Map;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class TraficFlowContext implements Context{
     private ArrayList<Agents> agents;
     private boolean finish;
     private long tick;
+    private SimulateurObserver observer;
 
     public TraficFlowContext(Map map_){
         map = map_;
@@ -25,7 +27,9 @@ public class TraficFlowContext implements Context{
         agents = new ArrayList<Agents>();
         finish = false;
         tick = 0;
+        observer = new SimulateurObserver();
     }
+//    trafficflow model verifie obser.setMap
 
     @Override
     public void onDraw() {
@@ -60,10 +64,17 @@ public class TraficFlowContext implements Context{
 
     private void updatePatch(){
         Iterator<Patch> iterPatch = patchs.iterator();
-        while (iterPatch.hasNext()){
-            iterPatch.next().onTick();
+        while (iterPatch.hasNext()){ // toujours false !
+            if(iterPatch.next().onTick() > 0){
+                SimulatorData data = new SimulatorData(1, iterPatch.next().onTick());
+                System.out.println("SEND DANS LA DATABASE");
+                observer.setData(data);
+            }
+//            != 0
+//                    envoyer queue
         }
     }
+
 
     private void updateEvents(){
         int i,nb_event;

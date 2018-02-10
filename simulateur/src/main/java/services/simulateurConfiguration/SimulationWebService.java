@@ -1,45 +1,25 @@
 package services.simulateurConfiguration;
 
-import engine.Model;
 import engine.SimulateurManager;
 import engine.TraficFlowModel;
-import org.apache.catalina.filters.RemoteAddrFilter;
-import org.json.JSONObject;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.cloud.stream.messaging.Sink;
-import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.context.annotation.Bean;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.*;
 import sample.SimulationWebConfiguration;
+import sample.SimulatorData;
 import utils.Map.Map;
 import utils.Map.Osm.osmLoader;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
 import java.util.Observable;
 import java.util.Observer;
-
 /**
  * Created by Matthieu on 18/01/2018.
  */
@@ -47,6 +27,7 @@ import java.util.Observer;
 @EnableBinding(CustomProcessor.class)
 public class SimulationWebService extends SpringBootServletInitializer implements Observer {
     int step = -1;
+    SimulatorData data = new SimulatorData();
 
     public static void main(String[] args) {
         SpringApplication.run(SimulationWebService.class, args);
@@ -109,6 +90,11 @@ public class SimulationWebService extends SpringBootServletInitializer implement
     @Override
     public void update(Observable o, Object arg) {
         if(o instanceof SimulateurObserver){
+            if(data.getNbCars() != ((SimulateurObserver) o).getData().getNbCars()){
+                data.setNbCars(((SimulateurObserver) o).getData().getNbCars());
+                data.setId(((SimulateurObserver) o).getData().getId());
+                processor.ouputDatabase().send(MessageBuilder.withPayload(data).build());
+            }
             step = ((SimulateurObserver) o).getStep();
         }
     }

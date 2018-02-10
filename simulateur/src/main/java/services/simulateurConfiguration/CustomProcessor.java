@@ -13,6 +13,7 @@ public interface CustomProcessor {
     String OUTPUT_OBSERVER = "outputObserver";
     String OUTPUT_ERR_FACADE = "outputFacadeError";
     String INPUT_FACADE = "input";
+    String OUTPUT_DATABASE = "outputDatabase";
 
     @Input("inputObserver")
     SubscribableChannel inputObserver();
@@ -25,5 +26,8 @@ public interface CustomProcessor {
 
     @Output("outputFacadeError")
     MessageChannel ouputFacadeError();
+
+    @Output("outputDatabase")
+    MessageChannel ouputDatabase();
 }
 

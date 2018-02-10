@@ -157,7 +157,12 @@ public class Route implements Patch {
     @Override
     public int onTick() {
         //TODO
-        return 0;
+        if(agentsOnTheRoad.size() > 7){
+            return agentsOnTheRoad.size();
+        }
+        else{
+            return 0;
+        }
     }
 
     @Override

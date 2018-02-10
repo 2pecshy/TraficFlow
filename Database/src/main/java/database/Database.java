@@ -6,16 +6,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.messaging.Source;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.cloud.stream.annotation.StreamListener;
+import sample.SimulatorData;
 
 @SpringBootApplication
-@RestController
-@EnableBinding(Source.class)
+@EnableBinding(CustomProcessor.class)
 public class Database extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
@@ -23,33 +18,39 @@ public class Database extends SpringBootServletInitializer {
     }
 
     @Autowired
-    private ColleagueRepository repository;
+    private SimulatorDataRepository repository;
 
-    @RequestMapping("/colleagues/{name}")
-    public List<Colleague> getRecognition(@PathVariable("name") String name){
-        return repository.findByName(name);
+    @StreamListener(CustomProcessor.INPUT_SIMULATEUR)
+    public void getSimu(SimulatorData data){
+        repository.save(data);
+        System.out.println("j'ai reçu un SimulatorData");
     }
-
-    @RequestMapping("/colleagues")
-    public List<Colleague> getColleagues(){
-        return repository.findAll();
-    }
-
-    @PostMapping("/colleagues")
-    public ResponseEntity<String> addColleague(@RequestBody Colleague colleague){
-        repository.save(colleague);
-        return new ResponseEntity<String>(HttpStatus.CREATED);
-    }
-
-    //This is of course a very naive implementation! We are assuming unique names...
-    @DeleteMapping("/colleagues/{name}")
-    public ResponseEntity<String> deleteColleague(@PathVariable  String name){
-        List<Colleague> colleagues = repository.findByName(name);
-        if(colleagues.size() == 1) {
-            Colleague colleague = colleagues.get(0);
-            repository.delete(colleague);
-            return new ResponseEntity<String>(HttpStatus.ACCEPTED);
-        }
-        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-    }
+//
+//    @RequestMapping("/simu/{id}")
+//    public List<SimulatorData> getRecognition(@PathVariable("id") int id){
+//        return repository.findByName(id);
+//    }
+//
+//    @RequestMapping("/simu")
+//    public List<SimulatorData> getSimulatorData(){
+//        return repository.findAll();
+//    }
+//
+//    @PostMapping("/simu")
+//    public ResponseEntity<String> addColleague(@RequestBody SimulatorData data){
+//        repository.save(data);
+//        return new ResponseEntity<String>(HttpStatus.CREATED);
+//    }
+//
+//    //This is of course a very naive implementation! We are assuming unique names...
+//    @DeleteMapping("/simu/{id}")
+//    public ResponseEntity<String> deleteSimulatorData(@PathVariable int id){
+//        List<SimulatorData> data = repository.findByName(id);
+//        if(data.size() == 1) {
+//            SimulatorData simu = data.get(0);
+//            repository.delete(simu);
+//            return new ResponseEntity<String>(HttpStatus.ACCEPTED);
+//        }
+//        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+//    }
 }
