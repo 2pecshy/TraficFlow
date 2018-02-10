@@ -1,23 +1,25 @@
 #!/bin/bash
 
+mvn clean install
+
 echo "Start webconfig..."
 cd webconfig
-mvn spring-boot:run &
+xterm -e mvn spring-boot:run &
 
 sleep 5
 
 echo "Start Facade..."
 cd ../Facade
-mvn spring-boot:run &
+xterm -e mvn spring-boot:run &
 
 sleep 5
 
 echo "Start Observeur..."
 cd ../Observeur
-mvn spring-boot:run &
+xterm -e mvn spring-boot:run &
 
 sleep 5
 
 echo "Start simulateur"
 cd ../simulateur
-mvn spring-boot:run &
+xterm -e mvn spring-boot:run &
