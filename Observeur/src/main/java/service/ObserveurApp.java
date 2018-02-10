@@ -70,7 +70,6 @@ public class ObserveurApp extends SpringBootServletInitializer {
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
         headers.add("Content-Type", "application/json");
         ResponseEntity<Integer> response = restTemplate.getForEntity(urlSimu,Integer.class);*/
-        System.out.println("fsdfsfsdfsd");
         processor.output().send(MessageBuilder.withPayload("state").build());
         return "Simulateur went to " + step + " steps !";
     }

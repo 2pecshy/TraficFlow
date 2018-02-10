@@ -9,6 +9,10 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.cloud.stream.test.binder.MessageCollector;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import sample.SimulationWebConfiguration;
@@ -34,6 +38,8 @@ public class WebConfigIntegrationTest {
     private MessageCollector collector;
 
 
+    private String localURL = "http://localhost:";
+    private String resURL = "/config";
 
     private String jsonBody = "{" +
             " \"simulationLength\" : 1," +
@@ -52,13 +58,27 @@ public class WebConfigIntegrationTest {
 
     @Test
     public void postMethodShouldReturnGoodWebConfig() throws InterruptedException {
-
         SimulationWebConfiguration test = (SimulationWebConfiguration) this.restTemplate.postForObject(
-                "http://localhost:" + port + "/config",
+                localURL+port+resURL,
                 goodWebConfig,
                 SimulationWebConfiguration.class);
-        //assertThat(messages, receivesPayloadThat(is(goodWebConfig)));
         assertEquals(test.getSimulationLenght(), goodWebConfig.getSimulationLenght());
+
     }
+
+    @Test
+    public void postMethodShouldReturn200OK(){
+        HttpEntity<SimulationWebConfiguration> request = new HttpEntity<>(goodWebConfig);
+        ResponseEntity<SimulationWebConfiguration> response = restTemplate
+                .exchange(localURL+port+resURL, HttpMethod.POST, request, SimulationWebConfiguration.class);
+
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+
+        /*
+        SimulationWebConfiguration foo = response.getBody();
+        assertEquals(foo.getMigrationPendulaire(), true);
+        */
+    }
+
 
 }
