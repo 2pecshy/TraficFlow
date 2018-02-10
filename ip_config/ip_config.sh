@@ -2,18 +2,21 @@
 
 echo "============IP config============"
 
-if [ "$#" -ne 1 ]; then
+if [ "$#" -ne 2 ]; then
     echo "Illegal number of parameters
-usage: ./ip_config.sh [interface]
+usage: ./ip_config.sh [interface] [username]
 "
 	exit -1
 fi
 
 PATH_TEMPLATE_FILE=template
 PATH_FILE_GEN=gen
-USER_GROUP_ID=guest
-ADDR_IP=$(ifconfig $1 | grep "inet adr" | cut -d ':' -f 2 | cut -d ' ' -f 1)
+USER_GROUP_ID=$2
+INTERFACE=$1
+ADDR_IP=$(ifconfig ${INTERFACE} | grep "inet adr" | cut -d ':' -f 2 | cut -d ' ' -f 1)
 echo "
+CONFIGURE WITH USER_NAME======> ${USER_GROUP_ID}
+CONFIGURE WITH INTERFACE======> ${INTERFACE}
 IP FOUND======>" ${ADDR_IP} "
 "
 IP_KEY=IP_KEY
