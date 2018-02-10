@@ -1,9 +1,14 @@
 package sample;
 
+import org.springframework.data.annotation.Id;
+
 /**
  * Created by Michael on 09/02/2018.
  */
 public class SimulatorData {
+
+    @Id
+    private String mongo_id;
 
     private int id;
     private int nbCars;

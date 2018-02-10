@@ -65,6 +65,7 @@ public class TraficFlowContext implements Context{
     private void updatePatch(){
         Iterator<Patch> iterPatch = patchs.iterator();
         while (iterPatch.hasNext()){ // toujours false !
+
             if(iterPatch.next().onTick() > 0){
                 SimulatorData data = new SimulatorData(1, iterPatch.next().onTick());
                 System.out.println("SEND DANS LA DATABASE");

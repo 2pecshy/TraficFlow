@@ -93,7 +93,7 @@ public class SimulationWebService extends SpringBootServletInitializer implement
             if(data.getNbCars() != ((SimulateurObserver) o).getData().getNbCars()){
                 data.setNbCars(((SimulateurObserver) o).getData().getNbCars());
                 data.setId(((SimulateurObserver) o).getData().getId());
-                processor.ouputDatabase().send(MessageBuilder.withPayload(data).build());
+                processor.outputDatabase().send(MessageBuilder.withPayload(data).build());
             }
             step = ((SimulateurObserver) o).getStep();
         }

@@ -8,9 +8,15 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import sample.SimulatorData;
 
+import java.util.List;
+
 @SpringBootApplication
+@RestController
 @EnableBinding(CustomProcessor.class)
 public class Database extends SpringBootServletInitializer {
 
@@ -28,19 +34,19 @@ public class Database extends SpringBootServletInitializer {
 
     @StreamListener(CustomProcessor.INPUT_SIMULATEUR)
     public void getSimu(SimulatorData data){
-//        repository.save(data);
-        System.out.println("j'ai reçu un SimulatorData");
+        repository.save(data);
+        System.out.println(data);
     }
-//
-//    @RequestMapping("/simu/{id}")
-//    public List<SimulatorData> getRecognition(@PathVariable("id") int id){
-//        return repository.findByName(id);
-//    }
-//
-//    @RequestMapping("/simu")
-//    public List<SimulatorData> getSimulatorData(){
-//        return repository.findAll();
-//    }
+
+    @RequestMapping("/database")
+    public List<SimulatorData> getSimulatorData(){
+        return repository.findAll();
+    }
+
+    @RequestMapping("/database/{id}")
+    public List<SimulatorData> getSimulatorDataId(@PathVariable("id") int id){
+        return repository.findById(id);
+    }
 //
 //    @PostMapping("/simu")
 //    public ResponseEntity<String> addColleague(@RequestBody SimulatorData data){

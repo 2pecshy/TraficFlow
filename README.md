@@ -30,6 +30,15 @@ Web Service Simulateur :
       il accepte des requetes POST contenant une url de la forme :  
       {"url" : "http://totofaitdelapeinturealaplae.png" }  
   
+Service Database :
+
+Base MongoDB
+Pour utiliser le service database, il faut installer mongodb et le lancer
+
+Pour visualiser l'interieur de la base de données :
+
+GET http://localhost:2229/database
+GET http://localhost:2229/database/id
 
 Résumé scéance AL
 

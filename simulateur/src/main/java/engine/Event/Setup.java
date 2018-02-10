@@ -47,7 +47,7 @@ public class Setup implements Events {
                     src = src_s.get(rand.nextInt(src_s.size()));
                     sink = sink_s.get(rand.nextInt(sink_s.size()));
                     path = context.getMap().getBestPath(src, sink);
-//                    System.out.println("src_size: " + src_s.size());
+                    System.out.println("src_size: " + src_s.size());
                 }
                 context.addAgent(new Cars(src, path));
                 path = null;

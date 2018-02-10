@@ -28,6 +28,6 @@ public interface CustomProcessor {
     MessageChannel ouputFacadeError();
 
     @Output("outputDatabase")
-    MessageChannel ouputDatabase();
+    MessageChannel outputDatabase();
 }
 
