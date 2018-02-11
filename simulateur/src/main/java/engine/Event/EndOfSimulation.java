@@ -12,7 +12,7 @@ public class EndOfSimulation implements Events{
     public EndOfSimulation(Context context_){
         context = context_;
         started = false;
-        nb_ticks_to_end = 1000;
+        nb_ticks_to_end = 100;
     }
 
     public EndOfSimulation(TraficFlowContext context_, int simulationLenght) {

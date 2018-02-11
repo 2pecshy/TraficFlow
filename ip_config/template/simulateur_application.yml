@@ -18,6 +18,10 @@ spring:
           destination: config.facade.error
           group: facade
           binder: rabbit1
+        outputDatabase:
+          destination: config.database
+          group: database
+          binder: rabbit1
       binders:
         rabbit1:
           type: rabbit

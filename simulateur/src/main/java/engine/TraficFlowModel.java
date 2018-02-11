@@ -228,8 +228,8 @@ public class TraficFlowModel extends Model {
             System.out.println("do not use run methode!");
             return;
         }
-        if(!no_UI)
-            ui_graph.show_G();
+        /*if(!no_UI)
+            ui_graph.show_G();*/
 
         while (isRunning != NOT_RUNNING) {
 
@@ -243,8 +243,8 @@ public class TraficFlowModel extends Model {
                 //TODO when draw not fake, put draw on an other thread
                 simulateur_context.onDraw();
                 observer.setStep(observer.getStep()+1);
-                if(!no_UI)
-                    ui_graph.setUIGraphFromMap(map);
+                /*if(!no_UI)
+                    ui_graph.setUIGraphFromMap(map);*/
             }
             try {
                 TimeUnit.MILLISECONDS.sleep(clock_speed);

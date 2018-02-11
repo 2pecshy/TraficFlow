@@ -15,6 +15,7 @@ public class Main {
 
         TraficFlowModel model = new TraficFlowModel(map);
         model.setNo_UI(false);
+        model.setClock_speed(10);
         TraficFlowModel model2 = new TraficFlowModel(map2);
 
         //model.setMap(map);

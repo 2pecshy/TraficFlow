@@ -18,7 +18,7 @@ public class Setup implements Events {
     public Setup(TraficFlowContext context_){
         context = context_;
         started = false;
-        nb_agent = 530;
+        nb_agent = 10000;
     }
 
     public Setup(TraficFlowContext context_,int nb_agent_){
@@ -36,23 +36,30 @@ public class Setup implements Events {
     public void onTick() {
 
         int i;
+        System.out.println("=======setup=======");
         Random rand = new Random();
         GPS_node src = null,sink;
         GraphPath<GPS_node, Route> path = null;
         if (context.getTick() == 1) {
+            //ArrayList<GPS_node> src_s = context.getMap().getSources();
+            //ArrayList<GPS_node> sink_s = context.getMap().getSinks();
+            //src = src_s.get(rand.nextInt(src_s.size()));
+            //sink = sink_s.get(rand.nextInt(sink_s.size()));
             for (i = 0; i < nb_agent; i++) {
+                //System.out.println("setup add car");
                 while (path == null){
                     ArrayList<GPS_node> src_s = context.getMap().getSources();
-                    ArrayList<GPS_node> sink_s = context.getMap().getSinks();
+                    ArrayList<GPS_node>sink_s = context.getMap().getSinks();
                     src = src_s.get(rand.nextInt(src_s.size()));
                     sink = sink_s.get(rand.nextInt(sink_s.size()));
                     path = context.getMap().getBestPath(src, sink);
-                    System.out.println("src_size: " + src_s.size());
+                    //System.out.println("src_size: " + src_s.size() + "path: " + path);
                 }
                 context.addAgent(new Cars(src, path));
                 path = null;
             }
         }
+        System.out.println("=======setup end=======");
     }
 
     @Override

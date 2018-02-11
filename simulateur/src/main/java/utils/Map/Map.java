@@ -17,6 +17,7 @@ public class Map {
     private SimpleDirectedWeightedGraph<GPS_node, Route> carrefours;
     private ArrayList<GPS_node> sources;
     private ArrayList<GPS_node> sinks;
+    private DijkstraShortestPath<GPS_node,Route> path;
 
     public Map() {
         carrefours = new SimpleDirectedWeightedGraph<GPS_node, Route>(Route.class) {
@@ -29,6 +30,7 @@ public class Map {
             }
         };
         updateSourcesAndSinks();
+        path=null;
     }
 
     /**
@@ -61,6 +63,7 @@ public class Map {
                 this.addRoute(route_to_copy.getV1(),route_to_copy.getV2(),route_to_copy.getNombre_de_voie());
             }
         }
+        path = null;
     }
 
     /**
@@ -83,6 +86,7 @@ public class Map {
             this.addCarrefours();
         }
         */
+        path = null;
     }
 
     /**
@@ -267,7 +271,9 @@ public class Map {
 
     public GraphPath<GPS_node, Route> getBestPath(GPS_node src, GPS_node dest){
 
-        DijkstraShortestPath<GPS_node,Route> path = new DijkstraShortestPath<GPS_node, Route>(carrefours);
+        if(path == null) {
+            path = new DijkstraShortestPath<GPS_node, Route>(carrefours);
+        }
         return path.getPath(src,dest);
     }
 

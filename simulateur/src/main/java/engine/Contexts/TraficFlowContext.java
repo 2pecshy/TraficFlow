@@ -5,6 +5,7 @@ import engine.Event.Events;
 import engine.Patch;
 import sample.SimulatorData;
 import services.simulateurConfiguration.SimulateurObserver;
+import utils.Map.Cost.Route;
 import utils.Map.Map;
 
 import java.util.ArrayList;
@@ -28,12 +29,19 @@ public class TraficFlowContext implements Context{
         finish = false;
         tick = 0;
         observer = new SimulateurObserver();
+
+        Iterator<Route> iter_route = map.getRoutes().iterator();
+        Route curent;
+        while (iter_route.hasNext()){
+            curent = iter_route.next();
+            patchs.add(curent);
+        }
     }
 //    trafficflow model verifie obser.setMap
 
     @Override
     public void onDraw() {
-        //System.out.println("update ui!!");
+        System.out.println("update ui!!");
         Iterator<Agents> iterAgents = agents.iterator();
 
         while (iterAgents.hasNext()){
@@ -44,7 +52,7 @@ public class TraficFlowContext implements Context{
     @Override
     public void onTick() {
 
-        //System.out.println("Tick");
+        System.out.println("Tick " + tick);
         tick++;
         updateEvents();
         if(!finish) {
@@ -64,11 +72,12 @@ public class TraficFlowContext implements Context{
 
     private void updatePatch(){
         Iterator<Patch> iterPatch = patchs.iterator();
+        Patch current;
         while (iterPatch.hasNext()){ // toujours false !
-
-            if(iterPatch.next().onTick() > 0){
-                SimulatorData data = new SimulatorData(1, iterPatch.next().onTick());
-                System.out.println("SEND DANS LA DATABASE");
+            current = iterPatch.next();
+            if(current.onTick() > 0){
+                SimulatorData data = new SimulatorData(1, current.getAgents().size());
+                //System.out.println("SEND DANS LA DATABASE");
                 observer.setData(data);
             }
 //            != 0
