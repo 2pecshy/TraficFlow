@@ -3,7 +3,7 @@
 DEFAULT_INTERFACE=lo
 DEFAULT_USER=guest
 
-cd ./ip_config
+cd ./tools/
 if [ "$#" -eq 0 ]; then
     ./ip_config.sh ${DEFAULT_INTERFACE} ${DEFAULT_USER}
 elif [ "$#" -eq 2 ]; then
