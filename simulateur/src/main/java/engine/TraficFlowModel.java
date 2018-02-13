@@ -104,8 +104,8 @@ public class TraficFlowModel extends Model {
             endOfSimu = new EndOfSimulation(simulateur_context);
         }
         else{
-            simuSetup = new Setup(simulateur_context);
-            onDeadAgent_Event = new OnDeadAgent(simulateur_context);
+            simuSetup = new Setup(simulateur_context,100);
+            onDeadAgent_Event = new OnDeadAgent(simulateur_context,10);
             endOfSimu = new EndOfSimulation(simulateur_context,configuration.getSimulationLenght());
         }
 

@@ -17,6 +17,7 @@ public class OnDeadAgent implements Events {
     private long number_of_dead_cars;
     private boolean started;
     private Random rand;
+    private int nb_spawn_on_dead;
     public static final int MAX_DEAD = 100000;
 
     public OnDeadAgent(TraficFlowContext context_){
@@ -24,8 +25,18 @@ public class OnDeadAgent implements Events {
         context = context_;
         number_of_dead_cars = 0;
         started = false;
+        nb_spawn_on_dead = 1;
         rand = new Random();
     }
+    public OnDeadAgent(TraficFlowContext context_, int nb_spawn_on_dead_){
+
+        context = context_;
+        number_of_dead_cars = 0;
+        started = false;
+        nb_spawn_on_dead = nb_spawn_on_dead_;
+        rand = new Random();
+    }
+
 
     @Override
     public void onStart() {
@@ -36,7 +47,7 @@ public class OnDeadAgent implements Events {
     public void onTick() {
 
         if(started) {
-            GraphPath<GPS_node, Route> path;
+            GraphPath<GPS_node, Route> path = null;
             ArrayList<GPS_node> src_s;
             ArrayList<GPS_node> sink_s;
             GPS_node src = null;
@@ -50,26 +61,34 @@ public class OnDeadAgent implements Events {
 
                 curentAgent = agents.get(i);
                 if (curentAgent.isDead()) {
-                    path = null;
-                    while (path == null){
-                        src_s = context.getMap().getSources();
-                        sink_s = context.getMap().getSinks();
-                        src = src_s.get(rand.nextInt(src_s.size()));
-                        sink = sink_s.get(rand.nextInt(sink_s.size()));
-                        path = context.getMap().getBestPath(src, sink);
+                    for(int k = 0; k < nb_spawn_on_dead; k++) {
+                        path = null;
+                        while (path == null) {
+                            src_s = context.getMap().getSources();
+                            sink_s = context.getMap().getSinks();
+                            src = src_s.get(rand.nextInt(src_s.size()));
+                            sink = sink_s.get(rand.nextInt(sink_s.size()));
+                            path = context.getMap().getBestPath(src, sink);
+                        }
+                        agents.add(new Cars(src,path));
                     }
-                    number_of_dead_cars++;
-                    agents.remove(curentAgent);
+
                     if(number_of_dead_cars >= MAX_DEAD) {
                         System.out.println("PID: "+ context +"Event OnDeadAgent: simulation finish");
                         context.setFinish();
                     }
+                    number_of_dead_cars++;
+                    agents.remove(curentAgent);
                     i--;
-                    agents.add(new Cars(src,path));
+
                 }
 
             }
         }
+    }
+
+    public long getNumber_of_dead_cars() {
+        return number_of_dead_cars;
     }
 
     @Override
