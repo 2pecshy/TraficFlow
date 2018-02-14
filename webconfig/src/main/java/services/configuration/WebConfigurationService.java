@@ -35,17 +35,17 @@ import java.nio.channels.ReadableByteChannel;
 
 @SpringBootApplication
 @RestController
-@EnableBinding(Source.class)
+@EnableBinding(CustomProcessorConfig.class)
 public class WebConfigurationService extends SpringBootServletInitializer {
 
     @Autowired
-    Source src;
+    CustomProcessorConfig src;
 
     @RequestMapping("/config")
     public SimulationWebConfiguration process(@RequestBody SimulationWebConfiguration input) {
         System.out.println("Before Envoi to FACADE");
         String test = "";
-        test = (src.output().send(MessageBuilder.withPayload(input).build())) ? "Youpi" : "NIKE"; ;
+        test = (src.ouputFacade().send(MessageBuilder.withPayload(input).build())) ? "Youpi" : "NIKE"; ;
         System.out.println("After Envoi to FACADE ->" + test );
         return input;
     }

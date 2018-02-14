@@ -24,7 +24,7 @@ import java.util.Observer;
  * Created by Matthieu on 18/01/2018.
  */
 @SpringBootApplication
-@EnableBinding(CustomProcessor.class)
+@EnableBinding(CustomProcessorSimulateur.class)
 public class SimulationWebService extends SpringBootServletInitializer implements Observer {
     int step = -1;
     SimulatorData data = new SimulatorData();
@@ -35,14 +35,14 @@ public class SimulationWebService extends SpringBootServletInitializer implement
 
 
     @Autowired
-    CustomProcessor processor;
+    CustomProcessorSimulateur processor;
 
     @Bean
     public AlwaysSampler defaultSampler() {
         return new AlwaysSampler();
     }
 
-    @StreamListener(CustomProcessor.INPUT_FACADE)
+    @StreamListener(CustomProcessorSimulateur.INPUT_FACADE)
     public void lauchSimu(SimulationWebConfiguration config) throws  Exception{
         int pid;
         System.out.println("on lance la simulation avec : " + config);
@@ -59,7 +59,7 @@ public class SimulationWebService extends SpringBootServletInitializer implement
             Map map = osmLoader.load(mapName);
             TraficFlowModel model = new TraficFlowModel(map, config);
             model.setMap(map);
-            model.getObserver().addObserver(this);
+            model.addObserver(this);
             try{
                 SimulateurManager.getInstance();
             }
@@ -75,8 +75,8 @@ public class SimulationWebService extends SpringBootServletInitializer implement
         }
     }
 
-    @StreamListener(CustomProcessor.INPUT_OBSERVER)
-    @SendTo(CustomProcessor.OUTPUT_OBSERVER)
+    @StreamListener(CustomProcessorSimulateur.INPUT_OBSERVER)
+    @SendTo(CustomProcessorSimulateur.OUTPUT_OBSERVER)
     public int answerObserver(String msg){
         System.out.println("je recois de l'observeur");
         return step;
