@@ -52,11 +52,14 @@ public class SimulationWebService extends SpringBootServletInitializer implement
             mapName = downloader.downloadFile(config.getMapLink());
         }
         catch(Exception e ){
-            System.out.println("Mauvais format de fichier !");
-            processor.ouputFacadeError().send(MessageBuilder.withPayload("Mauvais format de fichier !").build());
+            System.out.println("Mauvaise URL");
+            System.out.println(e);
+            processor.ouputFacadeError().send(MessageBuilder.withPayload("Mauvaise URL").build());
+            return;
         }
         try {
             Map map = osmLoader.load(mapName);
+            System.out.println("Download done!");
             TraficFlowModel model = new TraficFlowModel(map, config);
             model.setMap(map);
             model.addObserver(this);
@@ -72,6 +75,7 @@ public class SimulationWebService extends SpringBootServletInitializer implement
         catch(NullPointerException e){
             System.out.println("Mauvais format de fichier !");
             processor.ouputFacadeError().send(MessageBuilder.withPayload("Mauvais format de fichier !").build());
+            return;
         }
     }
 
