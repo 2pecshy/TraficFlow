@@ -26,7 +26,7 @@ d'appels directes, ce qui nous permet d'ajouter/retirer/modifier les différente
 couches de services ainsi qu'ajouter ou supprimer des communications inter-services
 de manière aisée et localisée. 
 
-#Lancer le projet avec mvn:springboot
+# Lancer le projet avec mvn:springboot
 
 * Se placer à la racine du projet
 * Lancer le script exec.sh
@@ -39,13 +39,13 @@ de manière aisée et localisée.
         "mapLink": "http://api.openstreetmap.org/api/0.6/map?bbox=11.54,48.14,11.543,48.145"
         })
         
-##URL des services 
+## URL des services 
 __WebConfiguration__ : http://localhost:2225/config
 __Facade__ : http://localhost:2223/facade
 __Simulateur__ : http://localhost:2226/simulateur
 __Observateur__ : http://localhost:2227/observateur
         
-#Lancer le projet avec docker
+# Lancer le projet avec docker
 
 * Se placer à la racine du projet
 * Lancer le script "docker_automagic_button.sh"
@@ -58,7 +58,7 @@ __Observateur__ : http://localhost:2227/observateur
         "mapLink": "http://api.openstreetmap.org/api/0.6/map?bbox=11.54,48.14,11.543,48.145"
         })
         
-##URL des services 
+## URL des services 
 __WebConfiguration__ : http://localhost:2225/configuration/config
 __Facade__ : http://localhost:2223/facade/facade
 __Simulateur__ : http://localhost:2226/simulateur/simulateur
