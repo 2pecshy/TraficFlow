@@ -158,6 +158,18 @@ public class SimulateurManager {
         return res;
     }
 
+    public Model getModelOfPID(int pid_){
+        Iterator<Model> iter_mod = models.iterator();
+        Model curent_mod;
+        while (iter_mod.hasNext()){
+            curent_mod = iter_mod.next();
+            if(curent_mod.getPid() == pid_){
+                return curent_mod;
+            }
+        }
+        return null;
+    }
+
 
     /**
      *

@@ -15,10 +15,13 @@ public class OnDeadAgent implements Events {
 
     private TraficFlowContext context;
     private long number_of_dead_cars;
+    private long number_of_created_cars;
     private boolean started;
     private Random rand;
     private int nb_spawn_on_dead;
     public static final int MAX_DEAD = 100000;
+
+    private long nb_tick_arrivee;
 
     public OnDeadAgent(TraficFlowContext context_){
 
@@ -27,6 +30,8 @@ public class OnDeadAgent implements Events {
         started = false;
         nb_spawn_on_dead = 1;
         rand = new Random();
+        number_of_created_cars = 0;
+        nb_tick_arrivee = 0;
     }
     public OnDeadAgent(TraficFlowContext context_, int nb_spawn_on_dead_){
 
@@ -35,6 +40,8 @@ public class OnDeadAgent implements Events {
         started = false;
         nb_spawn_on_dead = nb_spawn_on_dead_;
         rand = new Random();
+        number_of_created_cars = 0;
+        nb_tick_arrivee = 0;
     }
 
 
@@ -57,6 +64,8 @@ public class OnDeadAgent implements Events {
             ArrayList<Agents> agents = context.getAgents();
             Agents curentAgent;
             int size_list = agents.size();
+            if(number_of_created_cars == 0)
+                number_of_created_cars = agents.size();
             for (i = 0; i < size_list; i++) {
 
                 curentAgent = agents.get(i);
@@ -71,6 +80,7 @@ public class OnDeadAgent implements Events {
                             path = context.getMap().getBestPath(src, sink);
                         }
                         agents.add(new Cars(src,path));
+                        number_of_created_cars++;
                     }
 
                     if(number_of_dead_cars >= MAX_DEAD) {
@@ -78,6 +88,7 @@ public class OnDeadAgent implements Events {
                         context.setFinish();
                     }
                     number_of_dead_cars++;
+                    nb_tick_arrivee += curentAgent.getDureeVie();
                     agents.remove(curentAgent);
                     i--;
 
@@ -85,6 +96,14 @@ public class OnDeadAgent implements Events {
 
             }
         }
+    }
+
+    public long getNumber_of_created_cars() {
+        return number_of_created_cars;
+    }
+
+    public long getNb_tick_arrivee() {
+        return nb_tick_arrivee;
     }
 
     public long getNumber_of_dead_cars() {

@@ -199,6 +199,10 @@ public class Route implements Patch {
         return false;
     }
 
+    public Double getDistance() {
+        return distance;
+    }
+
     @Override
     public boolean removeAgents(Agents to_remove) {
         agentsOnTheRoad.remove(to_remove);

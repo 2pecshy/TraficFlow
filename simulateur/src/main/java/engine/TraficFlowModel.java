@@ -28,6 +28,9 @@ public class TraficFlowModel extends Model {
     private SimulationWebConfiguration configuration;
     private Observer observer;
     private boolean no_UI;
+    private Setup simuSetup;
+    private OnDeadAgent onDeadAgent_Event;
+    private EndOfSimulation endOfSimu;
 
 
     public TraficFlowModel() {
@@ -92,9 +95,7 @@ public class TraficFlowModel extends Model {
     }
 
     private void modelEvent(){
-        Setup simuSetup;
-        OnDeadAgent onDeadAgent_Event;
-        EndOfSimulation endOfSimu;
+
         if(configuration == null) {
             simuSetup = new Setup(simulateur_context);
             onDeadAgent_Event = new OnDeadAgent(simulateur_context);
@@ -251,6 +252,34 @@ public class TraficFlowModel extends Model {
                 e.printStackTrace();
             }
         }
+    }
+
+    //=================API INFO SIMU=================
+
+    public long getNbVoitureArrivee(){
+        return onDeadAgent_Event.getNumber_of_dead_cars();
+    }
+
+    public long getNbVoitureCree(){
+        return onDeadAgent_Event.getNumber_of_created_cars();
+    }
+
+    public Double getTempsArriveeMoyenne(){
+        if(onDeadAgent_Event.getNumber_of_dead_cars() == 0)
+            return 0.0;
+        return Double.valueOf(onDeadAgent_Event.getNb_tick_arrivee())/Double.valueOf(onDeadAgent_Event.getNumber_of_dead_cars());
+    }
+
+    public Double getLongeurTotalBouchon(){
+        Iterator<Route> routeIterator = map.getRoutes().iterator();
+        Route currentRoute;
+        Double distance_total = 0.0;
+        while (routeIterator.hasNext()){
+            currentRoute = routeIterator.next();
+            if(currentRoute.getAgents().size() > 8)
+                distance_total += currentRoute.getDistance();
+        }
+        return distance_total;
     }
 
     protected void setContext(TraficFlowContext context_){
