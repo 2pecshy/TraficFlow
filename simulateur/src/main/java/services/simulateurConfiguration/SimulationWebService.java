@@ -59,7 +59,7 @@ public class SimulationWebService extends SpringBootServletInitializer implement
             Map map = osmLoader.load(mapName);
             TraficFlowModel model = new TraficFlowModel(map, config);
             model.setMap(map);
-            model.getObserver().addObserver(this);
+            model.addObserver(this);
             try{
                 SimulateurManager.getInstance();
             }
@@ -90,11 +90,11 @@ public class SimulationWebService extends SpringBootServletInitializer implement
     @Override
     public void update(Observable o, Object arg) {
         if(o instanceof SimulateurObserver){
-            if(data.getNbCars() != ((SimulateurObserver) o).getData().getNbCars()){
-                data.setNbCars(((SimulateurObserver) o).getData().getNbCars());
-                data.setId(((SimulateurObserver) o).getData().getId());
-                processor.outputDatabase().send(MessageBuilder.withPayload(data).build());
-            }
+//            if(data.getNbCars() != ((SimulateurObserver) o).getData().getNbCars()){
+
+            data = ((SimulateurObserver) o).getData();
+            processor.outputDatabase().send(MessageBuilder.withPayload(data).build());
+//            }
             step = ((SimulateurObserver) o).getStep();
         }
     }
