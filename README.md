@@ -40,10 +40,10 @@ de manière aisée et localisée.
         })
         
 ## URL des services 
-__WebConfiguration__ : http://localhost:2225/config
-__Facade__ : http://localhost:2223/facade
-__Simulateur__ : http://localhost:2226/simulateur
-__Observateur__ : http://localhost:2227/observateur
++ __WebConfiguration__ : http://localhost:2225/config
++ __Facade__ : http://localhost:2223/facade
++ __Simulateur__ : http://localhost:2226/simulateur
++ __Observateur__ : http://localhost:2227/observateur
         
 # Lancer le projet avec docker
 
@@ -59,10 +59,10 @@ __Observateur__ : http://localhost:2227/observateur
         })
         
 ## URL des services 
-__WebConfiguration__ : http://localhost:2225/configuration/config
-__Facade__ : http://localhost:2223/facade/facade
-__Simulateur__ : http://localhost:2226/simulateur/simulateur
-__Observateur__ : http://localhost:2227/observateur/observateur
++ __WebConfiguration__ : http://localhost:2225/configuration/config
++ __Facade__ : http://localhost:2223/facade/facade
++ __Simulateur__ : http://localhost:2226/simulateur/simulateur
++ __Observateur__ : http://localhost:2227/observateur/observateur
 
 
   
@@ -75,6 +75,7 @@ Pour visualiser l'interieur de la base de données :
 
 GET http://localhost:2229/database
 GET http://localhost:2229/database/id
+
 
 (Format des objets) A CONTINUER
 input du programme : objet carte
