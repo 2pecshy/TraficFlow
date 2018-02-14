@@ -2,11 +2,11 @@ spring:
   cloud:
     stream:
       bindings:
-        input:
+        inputSimuObs:
           destination: config.simulateur.observer
           group: observeur
           binder: rabbit1
-        output:
+        inputSimuObs:
           destination: config.simulateur.simulateur
           group: simulateur
           binder: rabbit1
