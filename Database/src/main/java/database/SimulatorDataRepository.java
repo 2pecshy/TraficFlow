@@ -5,8 +5,9 @@ import sample.SimulatorData;
 import java.util.List;
 
 
-public interface SimulatorDataRepository extends MongoRepository<SimulatorData, Integer> {
+public interface SimulatorDataRepository extends MongoRepository<SimulatorData, String> {
 
-    public List<SimulatorData> findById(int id);
+    public List<SimulatorData> findById(String id);
+    public List <SimulatorData> deleteById(String id);
 
 }
