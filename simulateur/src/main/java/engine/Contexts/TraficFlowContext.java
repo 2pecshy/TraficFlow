@@ -49,9 +49,13 @@ public class TraficFlowContext implements Context{
         }
     }
 
+    public SimulateurObserver getObserver() {
+        return observer;
+    }
+
     @Override
     public void onTick() {
-
+        observer.setStep(observer.getStep()+1);
         System.out.println("Tick " + tick);
         tick++;
         updateEvents();
@@ -73,12 +77,14 @@ public class TraficFlowContext implements Context{
     private void updatePatch(){
         Iterator<Patch> iterPatch = patchs.iterator();
         Patch current;
-        while (iterPatch.hasNext()){ // toujours false !
+        while (iterPatch.hasNext()){
             current = iterPatch.next();
             if(current.onTick() > 0){
-                SimulatorData data = new SimulatorData(1, current.getAgents().size());
-                //System.out.println("SEND DANS LA DATABASE");
-                observer.setData(data);
+                if(current.getAgents().size() > 7) {
+                    SimulatorData data = new SimulatorData(current.getId(), current.getAgents().size(), this.getTick());
+
+                    observer.setData(data);
+                }
             }
 //            != 0
 //                    envoyer queue

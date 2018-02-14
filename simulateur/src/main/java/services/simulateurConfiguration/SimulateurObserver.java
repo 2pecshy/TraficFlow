@@ -9,7 +9,7 @@ import java.util.Observable;
  */
 public class SimulateurObserver extends Observable {
     private int step = 0;
-    private SimulatorData data = new SimulatorData();
+    private SimulatorData data = new SimulatorData("0", 0, 0);
 
     public int getStep() {
         return step;

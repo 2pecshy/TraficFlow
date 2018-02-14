@@ -5,7 +5,7 @@ import engine.Agent.Agents;
 import java.util.ArrayList;
 
 public interface Patch {
-
+    public String getId();
     public int onTick();
     public int getType();
     public ArrayList<Agents> getAgents();

@@ -1,14 +1,14 @@
 package utils.Map.Osm;
 
-import java.io.*;
-import org.jdom2.*;
-import org.jdom2.input.*;
+import org.jdom2.Element;
+import org.jdom2.input.SAXBuilder;
 import utils.Map.Cost.GPS_node;
 import utils.Map.Map;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 
 public class osmLoader {
     static org.jdom2.Document file;
