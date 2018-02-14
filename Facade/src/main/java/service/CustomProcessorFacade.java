@@ -8,7 +8,7 @@ import org.springframework.messaging.SubscribableChannel;
 /**
  * Created by Matthieu on 28/01/2018.
  */
-public interface CustomProcessor {
+public interface CustomProcessorFacade {
     String INPUT_CONFIG = "inputConfig";
     String OUTPUT_SIMULATEUR = "outputSimulateur";
     String INPUT_ERR_SIMULATEUR = "inputSimulateurError";

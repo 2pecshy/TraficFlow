@@ -1,3 +1,4 @@
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +12,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 import sample.SimulationWebConfiguration;
 import service.CustomProcessorFacade;
 import service.FacadeApp;
+//import services.configuration.WebConfigurationService;
 
 import java.util.concurrent.BlockingQueue;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = FacadeApp.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(classes =  FacadeApp.class,webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @DirtiesContext
 @EnableBinding(CustomProcessorFacade.class)
 public class FacadeIntegrationTest {
@@ -31,6 +31,12 @@ public class FacadeIntegrationTest {
     @Autowired
     private MessageCollector collector;
 
+    @Before
+    public void setup(){
+        //String[] toto = new String[10];
+        //app.main(toto);
+    }
+
     @Test
     public void receptionFromConfig() throws InterruptedException {
         SimulationWebConfiguration input = new SimulationWebConfiguration();
@@ -40,9 +46,9 @@ public class FacadeIntegrationTest {
         assertEquals(messages.take().getPayload(), input);
     }
 
-    /*@Test
+    @Test
     public void envoieAuSimulateur(){
         SimulationWebConfiguration input = new SimulationWebConfiguration();
-    }*/
+    }
 
 }

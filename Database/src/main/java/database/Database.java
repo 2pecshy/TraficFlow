@@ -17,7 +17,7 @@ import java.util.List;
 
 @SpringBootApplication
 @RestController
-@EnableBinding(CustomProcessor.class)
+@EnableBinding(CustomProcessorDatabase.class)
 public class Database extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
@@ -32,7 +32,7 @@ public class Database extends SpringBootServletInitializer {
         return builder.sources(Database.class);
     }
 
-    @StreamListener(CustomProcessor.INPUT_SIMULATEUR)
+    @StreamListener(CustomProcessorDatabase.INPUT_SIMULATEUR)
     public void getSimu(SimulatorData data){
         repository.save(data);
         System.out.println(data);
