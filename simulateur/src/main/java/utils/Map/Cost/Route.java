@@ -13,7 +13,7 @@ public class Route implements Patch {
 
     public static final Integer DEFAULT_DISTANCE_ENTRE_VOITURE = 5;
     public static final Integer DEFAULT_TAILLE_VOITURE = 3;
-
+    private String id;
     private GPS_node v1,v2;
     private Integer nombre_de_voie;
 
@@ -38,6 +38,10 @@ public class Route implements Patch {
         v2 = v2_;
         distance = GPS_node.distFromGpsPos(v1,v2);
         agentsOnTheRoad = new ArrayList<Agents>();
+        String v1str = String.valueOf(v1.getId());
+        String v2str = String.valueOf(v2.getId());
+        String nbVoiesstr = String.valueOf(nombre_de_voie);
+        id = v1str + v2str + nbVoiesstr;
     }
 
     public Route(GPS_node v1_, GPS_node v2_, Integer nombre_de_voie_, Double distance_, Integer vitesse_max_){
@@ -50,6 +54,10 @@ public class Route implements Patch {
         v1 = v1_;
         v2 = v2_;
         agentsOnTheRoad = new ArrayList<Agents>();
+        String v1str = String.valueOf(v1.getId());
+        String v2str = String.valueOf(v2.getId());
+        String nbVoiesstr = String.valueOf(nombre_de_voie);
+        id = v1str + v2str + nbVoiesstr;
     }
 
     //constructeur par copy
@@ -64,6 +72,11 @@ public class Route implements Patch {
         this.distance = route.distance;
         this.v1 = route.v1;
         this.v2 = route.v2;
+
+    }
+
+    public String getId(){
+        return this.id;
     }
 
     /**
@@ -184,6 +197,10 @@ public class Route implements Patch {
         }
         //
         return false;
+    }
+
+    public Double getDistance() {
+        return distance;
     }
 
     @Override

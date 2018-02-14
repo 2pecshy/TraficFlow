@@ -1,3 +1,4 @@
+import engine.Model;
 import engine.TraficFlowModel;
 import engine.SimulateurManager;
 import utils.Map.Map;
@@ -15,7 +16,7 @@ public class Main {
 
         TraficFlowModel model = new TraficFlowModel(map);
         model.setNo_UI(false);
-        model.setClock_speed(10);
+        //model.setClock_speed(10);
         TraficFlowModel model2 = new TraficFlowModel(map2);
 
         //model.setMap(map);
@@ -40,8 +41,26 @@ public class Main {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        Model m1 = manager.getModelOfPID(pid);
+        TraficFlowModel t;
+
         System.out.println("resume simu");
         manager.resumeSimulation(pid);
+
+        if(m1 instanceof TraficFlowModel) {
+            t = (TraficFlowModel) m1;
+            while (model.isAlive()){
+
+                System.out.println("Etat: distance total de bouchon: " + t.getLongeurTotalBouchon() + "Mètres" +
+                        " \nVoitureArrivee: " + t.getNbVoitureArrivee() + " \nNbVoitureCree: " + t.getNbVoitureCree() +
+                " \nTempsArriveeMoyenne: " + t.getTempsArriveeMoyenne() + " ticks");
+                try {
+                    TimeUnit.MILLISECONDS.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
         //System.out.println("Run a second simu in //");
         //manager.addAndRunSimulation(model2);

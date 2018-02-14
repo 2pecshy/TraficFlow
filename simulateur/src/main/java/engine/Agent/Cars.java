@@ -29,7 +29,7 @@ public class Cars implements Agents {
     private Route curent_route;
     private int way_num;
     private GPS_node current_pos;
-    private int nb_ticks;
+    private long nb_ticks;
 
     public Cars(GPS_node start_point, GraphPath<GPS_node, Route> path){
         length = DEFAULT_LENGTH;
@@ -138,6 +138,11 @@ public class Cars implements Agents {
     @Override
     public Context getContext() {
         return null;
+    }
+
+    @Override
+    public long getDureeVie() {
+        return nb_ticks;
     }
 
     private void decelerate(double dist){

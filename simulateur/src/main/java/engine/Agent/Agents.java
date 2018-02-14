@@ -8,4 +8,5 @@ public interface Agents {
     public void onDraw();
     public boolean isDead();
     public Context getContext();
+    public long getDureeVie();
 }

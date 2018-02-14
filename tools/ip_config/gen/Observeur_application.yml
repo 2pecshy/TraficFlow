@@ -2,11 +2,11 @@ spring:
   cloud:
     stream:
       bindings:
-        input:
+        inputSimuObs:
           destination: config.simulateur.observer
           group: observeur
           binder: rabbit1
-        output:
+        inputSimuObs:
           destination: config.simulateur.simulateur
           group: simulateur
           binder: rabbit1
@@ -16,10 +16,10 @@ spring:
           environment:
             spring:
               rabbitmq:
-                host: 127.0.0.1
+                host: 192.168.1.14
                 port: 5672
-                username: guest
-                password: guest
+                username: docko
+                password: docko
 
 server:
   port: ${PORT:2227}

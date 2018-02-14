@@ -7,7 +7,6 @@ import engine.Event.Setup;
 import org.jgrapht.alg.flow.EdmondsKarpMFImpl;
 import org.jgrapht.alg.interfaces.MaximumFlowAlgorithm;
 import sample.SimulationWebConfiguration;
-import services.simulateurConfiguration.SimulateurObserver;
 import utils.Map.Cost.GPS_node;
 import utils.Map.Cost.Route;
 import utils.Map.Map;
@@ -15,6 +14,7 @@ import utils.Map.Ui_graph;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observer;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -25,9 +25,12 @@ public class TraficFlowModel extends Model {
     private EdmondsKarpMFImpl<GPS_node, Route> flow;
     private GPS_node S_lastSimu,D_lastSimu;
     private TraficFlowContext simulateur_context;
-    private SimulateurObserver observer;
     private SimulationWebConfiguration configuration;
+    private Observer observer;
     private boolean no_UI;
+    private Setup simuSetup;
+    private OnDeadAgent onDeadAgent_Event;
+    private EndOfSimulation endOfSimu;
 
 
     public TraficFlowModel() {
@@ -37,7 +40,6 @@ public class TraficFlowModel extends Model {
         ui_graph = null;
         simulateur_context = null;
         isRunning = NOT_RUNNING;
-        observer = new SimulateurObserver();
         map = new Map();
         clock_speed = DEFAULT_CLOCK_SPEED;
         configuration = null;
@@ -51,7 +53,6 @@ public class TraficFlowModel extends Model {
         ui_graph = null;
         simulateur_context = null;
         isRunning = NOT_RUNNING;
-        observer = new SimulateurObserver();
         setMap(map_);
         clock_speed = DEFAULT_CLOCK_SPEED;
         configuration = null;
@@ -66,7 +67,6 @@ public class TraficFlowModel extends Model {
         ui_graph = null;
         simulateur_context = null;
         isRunning = NOT_RUNNING;
-        observer = new SimulateurObserver();
         setMap(map_);
         clock_speed = DEFAULT_CLOCK_SPEED;
         configuration = config;
@@ -95,9 +95,7 @@ public class TraficFlowModel extends Model {
     }
 
     private void modelEvent(){
-        Setup simuSetup;
-        OnDeadAgent onDeadAgent_Event;
-        EndOfSimulation endOfSimu;
+
         if(configuration == null) {
             simuSetup = new Setup(simulateur_context);
             onDeadAgent_Event = new OnDeadAgent(simulateur_context);
@@ -107,6 +105,7 @@ public class TraficFlowModel extends Model {
             simuSetup = new Setup(simulateur_context,100);
             onDeadAgent_Event = new OnDeadAgent(simulateur_context,10);
             endOfSimu = new EndOfSimulation(simulateur_context,configuration.getSimulationLenght());
+            simulateur_context.getObserver().addObserver(observer);
         }
 
         simuSetup.onStart();
@@ -207,8 +206,9 @@ public class TraficFlowModel extends Model {
         super.start();
     }
 
-    public SimulateurObserver getObserver() {
-        return observer;
+    public void addObserver(Observer ob) {
+        observer = ob;
+//        this.simulateur_context.getObserver().addObserver(ob);
     }
 
     public long getClock_speed() {
@@ -242,7 +242,7 @@ public class TraficFlowModel extends Model {
                 simulateur_context.onTick();
                 //TODO when draw not fake, put draw on an other thread
                 simulateur_context.onDraw();
-                observer.setStep(observer.getStep()+1);
+
                 /*if(!no_UI)
                     ui_graph.setUIGraphFromMap(map);*/
             }
@@ -252,6 +252,34 @@ public class TraficFlowModel extends Model {
                 e.printStackTrace();
             }
         }
+    }
+
+    //=================API INFO SIMU=================
+
+    public long getNbVoitureArrivee(){
+        return onDeadAgent_Event.getNumber_of_dead_cars();
+    }
+
+    public long getNbVoitureCree(){
+        return onDeadAgent_Event.getNumber_of_created_cars();
+    }
+
+    public Double getTempsArriveeMoyenne(){
+        if(onDeadAgent_Event.getNumber_of_dead_cars() == 0)
+            return 0.0;
+        return Double.valueOf(onDeadAgent_Event.getNb_tick_arrivee())/Double.valueOf(onDeadAgent_Event.getNumber_of_dead_cars());
+    }
+
+    public Double getLongeurTotalBouchon(){
+        Iterator<Route> routeIterator = map.getRoutes().iterator();
+        Route currentRoute;
+        Double distance_total = 0.0;
+        while (routeIterator.hasNext()){
+            currentRoute = routeIterator.next();
+            if(currentRoute.getAgents().size() > 8)
+                distance_total += currentRoute.getDistance();
+        }
+        return distance_total;
     }
 
     protected void setContext(TraficFlowContext context_){

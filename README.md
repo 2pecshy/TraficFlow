@@ -1,34 +1,70 @@
-Web Service Configuration :  
-  Setup :  
-  1 commande maven a créer :
-  - mvn clean package spring-boot:run avec pour dossier racine : webconfig
+Projet Simulateur de trafic routier
+===================================
 
-  Utilisation :  
-  Le service ecoute sur cette adresse : http://localhost:8080/config
-  il accepte des requetes POST de la forme :  
-  { "simulationLength" : 1, "simulationStart" : 3, "HOVLanes" : "true", "migrationPendulaire" : "False" }
+Le but de ce projet est de réaliser un simulateur basé sur les agents, pour
+simuler un trafic routier prenant en compte des évènements comme le mouvement
+pendulaire. Cet outil doit servir d'aide à la décision pour de potentiels travaux
+d'amélioration ou de création de nouvelles voies de circulation.
 
-  il ecoute aussi sur l'adresse  http://localhost:8080/maplink  
-     il accepte des requetes POST de la forme :  
-     {"url" : "http://totofaitdelapeinturealaplae.png" }
-     
-Mapping des services : 
-Service facade : http://localhost:8091/facade
-Service Simulateur : http://localhost:8090/simulateur
-Service Observeur : http://localhost:8092/observeur
+Les clients sont intéréssés pour l'utiliser de manière intensive et ponctuel (nul
+ne prévoit des travaux tout au long d'une année). C'est pourquoi nous fournissons
+notre solution comme un SaaS disponible via internet avec un sytème de forfait.
 
-Web Service Simulateur :  
-  Setup :  
-  1 commande maven a créer :  
-  - mvn clean package spring-boot:run avec pour dossier racine : simulateur  
+Nous avons réalisé une architecture en services afin de découplés les fonctionnalités.
+On retrouve un service dédié à la simulation, un service permettant à l'utilisateur
+d'envoyer la configuration de trafic routier qu'il souhaite (carte de la zone, différents
+évènements à traiter, durée de la simulation etc...), on retrouve ensuite un service Observateur
+grâce auquel l'utilisateur peut obtenir des informations en temps réel sur l'état de sa
+simulation (sans que l'utilisateur n'intéragisse directement avec le simulateur) et un 
+service "FACADE" qui sert de LoadBalancer devant le simulateur et de filtres sur les 
+requêtes provent d'internet (dans un soucis encore d'isoler la simulation qui est le coeur
+de notre architecture).
 
-  Utilisation :  
-  Le service ecoute sur cette adresse pour recevoir une config : http://localhost:8080/simulateur  
-  il accepte des requetes POST contenant une SimulationWebConfiguration :  
-  { "simulationLength" : 1, "simulationStart" : 3, "HOVLanes" : "true", "migrationPendulaire" : "False" }  
-      Il écoute aussi sur l'addresse : : http://localhost:8080/download  
-      il accepte des requetes POST contenant une url de la forme :  
-      {"url" : "http://totofaitdelapeinturealaplae.png" }  
+Nous utilisons le framework _RabbitMq_ comme sytème de Message Broker sous forme de 
+queues de communication entre les services. De ce fait, les services ne se font pas
+d'appels directes, ce qui nous permet d'ajouter/retirer/modifier les différentes 
+couches de services ainsi qu'ajouter ou supprimer des communications inter-services
+de manière aisée et localisée. 
+
+# Lancer le projet avec mvn:springboot
+
+* Se placer à la racine du projet
+* Lancer le script exec.sh
+* Executer une requête POST sur l'url _"http://localhost:2225/config"_
+(_requête body ex:_ { 
+    "simulationLength" : 5,
+     "simulationStart" : 3,
+      "HOVLanes" : "true",
+       "migrationPendulaire" : "False" ,
+        "mapLink": "http://api.openstreetmap.org/api/0.6/map?bbox=11.54,48.14,11.543,48.145"
+        })
+        
+## URL des services 
++ __WebConfiguration__ : http://localhost:2225/config
++ __Facade__ : http://localhost:2223/facade
++ __Simulateur__ : http://localhost:2226/simulateur
++ __Observateur__ : http://localhost:2227/observateur
+        
+# Lancer le projet avec docker
+
+* Se placer à la racine du projet
+* Lancer le script "docker_automagic_button.sh"
+* Executer une requête POST sur l'url _"http://localhost:2225/configuration/config"_
+(_requête body ex:_ { 
+    "simulationLength" : 5,
+     "simulationStart" : 3,
+      "HOVLanes" : "true",
+       "migrationPendulaire" : "False" ,
+        "mapLink": "http://api.openstreetmap.org/api/0.6/map?bbox=11.54,48.14,11.543,48.145"
+        })
+        
+## URL des services 
++ __WebConfiguration__ : http://localhost:2225/configuration/config
++ __Facade__ : http://localhost:2223/facade/facade
++ __Simulateur__ : http://localhost:2226/simulateur/simulateur
++ __Observateur__ : http://localhost:2227/observateur/observateur
+
+
   
 Service Database :
 
@@ -40,10 +76,8 @@ Pour visualiser l'interieur de la base de données :
 GET http://localhost:2229/database
 GET http://localhost:2229/database/id
 
-Résumé scéance AL
 
-Format des objets
-
+(Format des objets) A CONTINUER
 input du programme : objet carte
 1 attributs
 - liste d'adjacence (arraylist d'arraylist de Route)
@@ -61,16 +95,6 @@ pour l'enregistrer : scinde en 3
 -simu1.data : contient les strings
 -simu1.base : map de base
 -simu1.edited : map éditée
-
-Objectifs de la semaine prochaine :
-
-Implémenter toutes les boites autout du simulateur avec du code simple (print...)
-Modifier la spec
-Avoir un walking skeleton complet : le code doit parcourir TOUTES les boites avec un résultat simple
-
-La semaine d'après : déployement + bugs fixes
-
-il reste 2 semaines avant le POC
 
 Justification Base SQL
 Map originale -> pouvoir la modifier mais retrouver l'originale
