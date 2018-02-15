@@ -15,9 +15,17 @@ public interface CustomProcessorSimulateur {
     String INPUT_FACADE = "input";
     String OUTPUT_DATABASE = "outputDatabase";
     String OUTPUT_FACADE = "outputFacade";
+    String OUTPUT_DATABASE_ID = "outputDatabaseId";
+    String INPUT_DATABASE = "inputDatabase";
 
     @Input("inputObserver")
     SubscribableChannel inputObserver();
+
+    @Input("inputDatabase")
+    SubscribableChannel inputDatabase();
+
+    @Output("outputDatabaseId")
+    MessageChannel outputDatabaseId();
 
     @Input("input")
     SubscribableChannel input();

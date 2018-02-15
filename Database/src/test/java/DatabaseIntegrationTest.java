@@ -32,7 +32,7 @@ public class DatabaseIntegrationTest {
 
     @Test
     public void receptionFromSimulateur() throws InterruptedException {
-        SimulatorData input = new SimulatorData("test", 333, 46);
+        SimulatorData input = new SimulatorData("test", 333, 46, -1);
         this.channels.inputSimulateur().send(MessageBuilder.withPayload(input).build());
         List<SimulatorData> test = repository.findById("test");
         assertEquals(test.get(0).getId(), "test");

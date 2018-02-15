@@ -6,6 +6,14 @@ spring:
           destination: config.database
           group: database
           binder: rabbit1
+        inputSimulateurId:
+          destination: config.database.id
+          group: database
+          binder: rabbit1
+        outputSimulateur:
+          destination: config.simulateur.database
+          group: simulateur
+          binder: rabbit1
       binders:
         rabbit1:
           type: rabbit

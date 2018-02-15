@@ -22,6 +22,10 @@ spring:
           destination: config.database
           group: database
           binder: rabbit1
+        outputFacade:
+          destination: config.facade.simulateur
+          group: facade
+          binder: rabbit1
       binders:
         rabbit1:
           type: rabbit

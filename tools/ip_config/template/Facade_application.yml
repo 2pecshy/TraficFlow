@@ -6,6 +6,10 @@ spring:
           destination: config.facade
           group: facade
           binder: rabbit1
+        inputSimulateur:
+          destination: config.facade.simulateur
+          group: facade
+          binder: rabbit1
         inputSimulateurError:
           destination: config.facade.error
           group: facade
@@ -14,6 +18,7 @@ spring:
           destination: config.simulateur
           group: simulateur
           binder: rabbit1
+
       binders:
         rabbit1:
           type: rabbit

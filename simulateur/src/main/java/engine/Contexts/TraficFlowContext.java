@@ -81,7 +81,7 @@ public class TraficFlowContext implements Context{
             current = iterPatch.next();
             if(current.onTick() > 0){
                 if(current.getAgents().size() > 7) {
-                    SimulatorData data = new SimulatorData(current.getId(), current.getAgents().size(), this.getTick());
+                    SimulatorData data = new SimulatorData(current.getId(), current.getAgents().size(), this.getTick(), -1);
                     observer.setData(data);
                 }
             }

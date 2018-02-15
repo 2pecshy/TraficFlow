@@ -27,6 +27,7 @@ import java.util.Observer;
 @EnableBinding(CustomProcessorSimulateur.class)
 public class SimulationWebService extends SpringBootServletInitializer implements Observer {
     int step = -1;
+    int id = -1;
     SimulatorData data = new SimulatorData();
 
     public static void main(String[] args) {
@@ -71,11 +72,20 @@ public class SimulationWebService extends SpringBootServletInitializer implement
             }
             SimulateurManager simu = SimulateurManager.getInstance();
             pid = simu.addAndRunSimulation(model);
+            processor.outputDatabaseId().send(MessageBuilder.withPayload("askID").build());
         }
         catch(NullPointerException e){
             System.out.println("Mauvais format de fichier !");
             processor.ouputFacadeError().send(MessageBuilder.withPayload("Mauvais format de fichier !").build());
             return;
+        }
+    }
+
+    @StreamListener(CustomProcessorSimulateur.INPUT_DATABASE)
+    public void getId(String id){
+        System.out.println("Mon id est attibuée : " + id);
+        if(this.id == -1){
+            this.id = Integer.valueOf(id);
         }
     }
 
@@ -95,6 +105,7 @@ public class SimulationWebService extends SpringBootServletInitializer implement
     public void update(Observable o, Object arg) {
         if(o instanceof SimulateurObserver){
             data = ((SimulateurObserver) o).getData();
+            data.setIdSimulation(id);
             processor.outputDatabase().send(MessageBuilder.withPayload(data).build());
             step = ((SimulateurObserver) o).getStep();
             if(((SimulateurObserver) o).isFinish()){

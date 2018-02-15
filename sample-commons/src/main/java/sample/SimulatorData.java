@@ -9,7 +9,7 @@ public class SimulatorData {
 
     @Id
     private String mongo_id;
-
+    private int idSimulation;
     private String id;
     private int nbCars;
     private long tick;
@@ -22,11 +22,11 @@ public class SimulatorData {
 //        this.date = new Date();
     }
 
-    public SimulatorData(String id, int nbCars, long tick) {
+    public SimulatorData(String id, int nbCars, long tick, int idSimulation) {
         this.id = id;
         this.nbCars = nbCars;
         this.tick = tick;
-//        this.date = date;
+        this.idSimulation = idSimulation;
     }
 
     public String getId() {
@@ -53,14 +53,6 @@ public class SimulatorData {
         this.tick = tick;
     }
 
-    //    public Date getDate() {
-//        return date;
-//    }
-//
-//    public void setDate(Date date) {
-//        this.date = date;
-//    }
-
 
     @Override
     public String toString() {
@@ -70,5 +62,13 @@ public class SimulatorData {
                 ", nbCars=" + nbCars +
                 ", tick=" + tick +
                 '}';
+    }
+
+    public int getIdSimulation() {
+        return idSimulation;
+    }
+
+    public void setIdSimulation(int idSimulation) {
+        this.idSimulation = idSimulation;
     }
 }
