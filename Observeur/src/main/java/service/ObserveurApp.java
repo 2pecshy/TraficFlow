@@ -66,12 +66,15 @@ public class ObserveurApp extends SpringBootServletInitializer {
 
     @RequestMapping(value = "/observeur", method = RequestMethod.GET)
     public String printInfo(){
+        String report = "SIMULATION REPORT \n" +
+                "Simulation went to " + step + " steps ! \n" +
+                "Other informations...\n";
         /*RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
         headers.add("Content-Type", "application/json");
         ResponseEntity<Integer> response = restTemplate.getForEntity(urlSimu,Integer.class);*/
         processor.outputSimuObs().send(MessageBuilder.withPayload("state").build());
-        return "Simulateur went to " + step + " steps !";
+        return report;
     }
 
    /* @Bean

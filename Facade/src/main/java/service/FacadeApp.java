@@ -36,7 +36,15 @@ public class FacadeApp extends SpringBootServletInitializer {
     @StreamListener(CustomProcessorFacade.INPUT_CONFIG)
     @SendTo(CustomProcessorFacade.OUTPUT_SIMULATEUR)
     public SimulationWebConfiguration sendToSimulateur(SimulationWebConfiguration config) {
-        System.out.println("j'ai recu " + config.toString());
+        System.out.println("=========================");
+        System.out.println("|CONFIG Received and send|");
+        System.out.println("=========================");
+
+        System.out.println("Configuration");
+        System.out.println(config.toString());
+
+        System.out.println("###########################");
+
         return config;
     }
 

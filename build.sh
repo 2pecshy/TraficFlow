@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#Lancer avec wlan0 docko pour docker
+#Lancer sans rien pour regular launch
+
 DEFAULT_INTERFACE=lo
 DEFAULT_USER=guest
 
@@ -15,39 +18,40 @@ usage: ./build.sh option[interface] [username]
     exit -1
 fi
 
-./ip_config.sh wlan0 docko
 cd ../
 
 
 
 echo "Start build webconfig..."
 cd webconfig
-mvn clean install
+./build.sh
 
-sleep 15
+sleep 1
 
 echo "Start build Facade..."
 cd ../Facade
-mvn clean install
+./build.sh
 
-sleep 15
+sleep 1
 
 echo "Start build Observeur..."
 cd ../Observeur
-mvn clean install
+./build.sh
 
-sleep 15
+sleep 1
 
 echo "Start build simulateur"
 cd ../simulateur
-mvn clean install
+./build.sh
 
-sleep 15
+sleep 1
 
-echo "Start build Database"
-cd ../Database
-mvn clean install
+#echo "Start build Database"
+#cd ../Database
+#./build.sh
 
-echo "integrationTEST"
-cd ../ integration-tests
-mvn clean install
+sleep 1
+
+#echo "integrationTEST"
+#cd ../integration-tests
+#./build.sh
