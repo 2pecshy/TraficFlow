@@ -47,6 +47,7 @@ public class SimulationWebService extends SpringBootServletInitializer implement
     public void lauchSimu(SimulationWebConfiguration config) throws  Exception{
         int pid;
         System.out.println("on lance la simulation avec : " + config);
+        id = -1;
         MapDownloader downloader = new MapDownloader();
         String mapName = "";
         try {

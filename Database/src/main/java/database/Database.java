@@ -50,9 +50,9 @@ public class Database extends SpringBootServletInitializer {
 
     @StreamListener(CustomProcessorDatabase.INPUT_SIMULATEUR)
     public void getSimu(SimulatorData data) throws IOException {
-        repository.save((SimulatorData)data);
+        repository.save(data);
         //repository.find;
-        System.out.println(data);
+        System.out.println("print id : " + data.getIdSimulation());
     }
 
     @StreamListener(CustomProcessorDatabase.INPUT_SIMULATEUR_ID)
@@ -80,6 +80,11 @@ public class Database extends SpringBootServletInitializer {
     @RequestMapping("/database/{id}")
     public List<SimulatorData> getSimulatorDataId(@PathVariable("id") String id){
         return repository.findById(id);
+    }
+
+    @RequestMapping("/database/simu/{id}")
+    public List<SimulatorData> getSimulatorDataIdSimulation(@PathVariable("id") String id){
+        return repository.findByidSimulation(id);
     }
 
 
