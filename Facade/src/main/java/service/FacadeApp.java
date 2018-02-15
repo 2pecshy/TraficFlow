@@ -20,7 +20,6 @@ import sample.SimulationWebConfiguration;
 public class FacadeApp extends SpringBootServletInitializer {
     private String template = "Hello, %s !";
     private String error;
-
     public String getError() {
         return error;
     }
@@ -39,6 +38,11 @@ public class FacadeApp extends SpringBootServletInitializer {
     public SimulationWebConfiguration sendToSimulateur(SimulationWebConfiguration config) {
         System.out.println("j'ai recu " + config.toString());
         return config;
+    }
+
+    @StreamListener(CustomProcessorFacade.INPUT_SIMULATEUR)
+    public void simulationState(boolean status){
+        System.out.println("le simulateur a finit : " + status);
     }
 
     @StreamListener(CustomProcessorFacade.INPUT_ERR_SIMULATEUR)

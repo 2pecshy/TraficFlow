@@ -22,16 +22,21 @@ spring:
           destination: config.database
           group: database
           binder: rabbit1
+        outputFacade:
+          destination: config.facade.simulateur
+          group: facade
+          binder: rabbit1
+
       binders:
         rabbit1:
           type: rabbit
           environment:
             spring:
               rabbitmq:
-                host: 192.168.1.14
+                host: 127.0.0.1
                 port: 5672
-                username: docko
-                password: docko
+                username: guest
+                password: guest
 
 server:
   port: ${PORT:2226}

@@ -19,6 +19,7 @@ public class TraficFlowContext implements Context{
     private ArrayList<Agents> agents;
     private boolean finish;
     private long tick;
+
     private SimulateurObserver observer;
 
     public TraficFlowContext(Map map_){
@@ -63,7 +64,6 @@ public class TraficFlowContext implements Context{
             updatePatch();
             updateAgent();
         }
-        //System.out.println(this + "number of agents: " + agents.size());
 
     }
 
@@ -82,12 +82,9 @@ public class TraficFlowContext implements Context{
             if(current.onTick() > 0){
                 if(current.getAgents().size() > 7) {
                     SimulatorData data = new SimulatorData(current.getId(), current.getAgents().size(), this.getTick());
-
                     observer.setData(data);
                 }
             }
-//            != 0
-//                    envoyer queue
         }
     }
 

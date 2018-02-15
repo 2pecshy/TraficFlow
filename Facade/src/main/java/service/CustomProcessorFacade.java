@@ -12,9 +12,13 @@ public interface CustomProcessorFacade {
     String INPUT_CONFIG = "inputConfig";
     String OUTPUT_SIMULATEUR = "outputSimulateur";
     String INPUT_ERR_SIMULATEUR = "inputSimulateurError";
+    String INPUT_SIMULATEUR = "inputSimulateur";
 
     @Input("inputConfig")
     SubscribableChannel inputConfig();
+
+    @Input
+    SubscribableChannel inputSimulateur();
 
     @Input("inputSimulateurError")
     SubscribableChannel inputSimulateurError();

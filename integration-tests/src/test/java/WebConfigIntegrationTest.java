@@ -71,13 +71,7 @@ public class WebConfigIntegrationTest {
         HttpEntity<SimulationWebConfiguration> request = new HttpEntity<>(goodWebConfig);
         ResponseEntity<SimulationWebConfiguration> response = restTemplate
                 .exchange(localURL+port+resURL, HttpMethod.POST, request, SimulationWebConfiguration.class);
-
         assertEquals(response.getStatusCode(), HttpStatus.OK);
-
-        /*
-        SimulationWebConfiguration foo = response.getBody();
-        assertEquals(foo.getMigrationPendulaire(), true);
-        */
     }
 
 

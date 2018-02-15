@@ -237,6 +237,7 @@ public class TraficFlowModel extends Model {
 
                 if(simulateur_context.isFinish()) {
                     isRunning = FINISH;
+                    simulateur_context.getObserver().sayFinish();
                     return;
                 }
                 simulateur_context.onTick();

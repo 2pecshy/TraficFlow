@@ -10,6 +10,7 @@ import java.util.Observable;
 public class SimulateurObserver extends Observable {
     private int step = 0;
     private SimulatorData data = new SimulatorData("0", 0, 0);
+    private boolean finish = false;
 
     public int getStep() {
         return step;
@@ -29,5 +30,20 @@ public class SimulateurObserver extends Observable {
         this.data = data;
         setChanged();
         notifyObservers();
+    }
+
+    public boolean isFinish() {
+        return finish;
+    }
+
+    public void setFinish(boolean finish) {
+        this.finish = finish;
+    }
+
+    public void sayFinish(){
+        finish = true;
+        setChanged();
+        notifyObservers();
+
     }
 }

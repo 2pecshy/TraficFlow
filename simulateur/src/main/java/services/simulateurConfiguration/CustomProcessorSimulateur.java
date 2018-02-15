@@ -14,6 +14,7 @@ public interface CustomProcessorSimulateur {
     String OUTPUT_ERR_FACADE = "outputFacadeError";
     String INPUT_FACADE = "input";
     String OUTPUT_DATABASE = "outputDatabase";
+    String OUTPUT_FACADE = "outputFacade";
 
     @Input("inputObserver")
     SubscribableChannel inputObserver();
@@ -26,6 +27,9 @@ public interface CustomProcessorSimulateur {
 
     @Output("outputFacadeError")
     MessageChannel ouputFacadeError();
+
+    @Output
+    MessageChannel outputFacade();
 
     @Output("outputDatabase")
     MessageChannel outputDatabase();

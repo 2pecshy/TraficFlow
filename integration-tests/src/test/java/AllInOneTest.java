@@ -18,9 +18,7 @@ import org.springframework.messaging.Message;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import sample.SimulationWebConfiguration;
-import service.CustomProcessorFacade;
-import service.FacadeApp;
-import services.configuration.CustomProcessorConfig;
+import service.*;
 import services.configuration.WebConfigurationService;
 import services.simulateurConfiguration.CustomProcessorSimulateur;
 import services.simulateurConfiguration.SimulationWebService;
@@ -33,16 +31,16 @@ import static org.junit.Assert.assertEquals;
  * Created by Matthieu on 14/02/2018.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes =  {FacadeApp.class, WebConfigurationService.class, SimulationWebService.class},webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes =  {FacadeApp.class, WebConfigurationService.class, SimulationWebService.class, ObserveurApp.class},webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
-@EnableBinding({CustomProcessorFacade.class, CustomProcessorSimulateur.class})
+@EnableBinding({CustomProcessorFacade.class, CustomProcessorSimulateur.class, CustomProcessorObserveur.class})
 public class AllInOneTest {
 
     private String localURL = "http://localhost:";
     private String resURL = "/config";
 
     private String jsonBody = "{" +
-            " \"simulationLength\" : 1," +
+            " \"simulationLength\" : 10," +
             " \"simulationStart\" : 3, " +
             "\"HOVLanes\" : \"true\", " +
             "\"migrationPendulaire\" : \"False\", " +
@@ -61,6 +59,9 @@ public class AllInOneTest {
 
     @Autowired
     private CustomProcessorSimulateur channelsSimu;
+
+    @Autowired
+    private CustomProcessorObserveur channelsObs;
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -90,11 +91,27 @@ public class AllInOneTest {
                 goodWebConfig,
                 SimulationWebConfiguration.class);
         assertEquals(test.getSimulationLenght(), goodWebConfig.getSimulationLenght());
-        this.channelsFacade.inputConfig().send(MessageBuilder.withPayload(test).build());
+        this.channelsFacade.inputConfig().send(MessageBuilder.withPayload(goodWebConfig).build());
         BlockingQueue<Message<?>> messages = collector.forChannel(channelsFacade.outputSimulateur());
         assertEquals(((SimulationWebConfiguration)messages.take().getPayload()).getSimulationLenght(), goodWebConfig.getSimulationLenght());
         this.channelsSimu.input().send(MessageBuilder.withPayload(test).build());
-        //assertEquals(((SimulationWebConfiguration)messages.take().getPayload()).getSimulationLenght(), goodWebConfig.getSimulationLenght());
+
+        BlockingQueue<Message<?>> messages2 = collector.forChannel(channelsSimu.outputFacade());
+        assertEquals((Boolean)messages2.take().getPayload(), true);
+
+        this.restTemplate.getForObject(
+                localURL+port+"/observeur",
+                String.class);
+
+        BlockingQueue<Message<?>> messages3 = collector.forChannel(channelsObs.outputSimuObs());
+        assertEquals((String)messages3.take().getPayload(), "state");
+
+        this.channelsSimu.inputObserver().send(MessageBuilder.withPayload("state").build());
+
+        BlockingQueue<Message<?>> messages4 = collector.forChannel(channelsSimu.outputObserver());
+        assertEquals((Integer)messages4.take().getPayload(), Integer.valueOf(0));
+
+
 
     }
 

@@ -3,8 +3,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTestContextBootstrapper;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.test.binder.MessageCollector;
+import org.springframework.context.ApplicationContext;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 import org.springframework.test.annotation.DirtiesContext;
@@ -30,25 +32,14 @@ public class FacadeIntegrationTest {
 
     @Autowired
     private MessageCollector collector;
-
-    @Before
-    public void setup(){
-        //String[] toto = new String[10];
-        //app.main(toto);
-    }
-
+    
     @Test
     public void receptionFromConfig() throws InterruptedException {
         SimulationWebConfiguration input = new SimulationWebConfiguration();
         this.channels.inputConfig().send(MessageBuilder.withPayload(input).build());
         BlockingQueue<Message<?>> messages = collector.forChannel(channels.outputSimulateur());
-        //assertThat(messages, receivesPayloadThat(is(input)));
         assertEquals(messages.take().getPayload(), input);
     }
 
-    @Test
-    public void envoieAuSimulateur(){
-        SimulationWebConfiguration input = new SimulationWebConfiguration();
-    }
 
 }

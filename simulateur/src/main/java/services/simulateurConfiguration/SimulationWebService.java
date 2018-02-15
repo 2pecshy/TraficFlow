@@ -94,12 +94,13 @@ public class SimulationWebService extends SpringBootServletInitializer implement
     @Override
     public void update(Observable o, Object arg) {
         if(o instanceof SimulateurObserver){
-//            if(data.getNbCars() != ((SimulateurObserver) o).getData().getNbCars()){
-
             data = ((SimulateurObserver) o).getData();
             processor.outputDatabase().send(MessageBuilder.withPayload(data).build());
-//            }
             step = ((SimulateurObserver) o).getStep();
+            if(((SimulateurObserver) o).isFinish()){
+                processor.outputFacade().send(MessageBuilder.withPayload(true).build());
+                step = 0;
+            }
         }
     }
 }
