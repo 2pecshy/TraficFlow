@@ -11,7 +11,7 @@ spring:
           group: simulateur
           binder: rabbit1
         inputDatabase:
-          destintion: config.simulateur.database
+          destination: config.simulateur.database
           group: simulateur
           binder: rabbit1
         outputObserver:
