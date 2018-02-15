@@ -6,7 +6,7 @@ spring:
           destination: config.simulateur.observer
           group: observeur
           binder: rabbit1
-        inputSimuObs:
+        outputSimuObs:
           destination: config.simulateur.simulateur
           group: simulateur
           binder: rabbit1
