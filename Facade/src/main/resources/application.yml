@@ -18,6 +18,7 @@ spring:
           destination: config.simulateur
           group: simulateur
           binder: rabbit1
+
       binders:
         rabbit1:
           type: rabbit

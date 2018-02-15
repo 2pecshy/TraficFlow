@@ -37,7 +37,7 @@ rm ../../../simulateur/src/main/resources/application.yml
 rm ../../../Facade/src/main/resources/application.yml
 rm ../../../webconfig/src/main/resources/application.yml
 rm ../../../Observeur/src/main/resources/application.yml
-
+rm ../../../Database/src/main/resources/application.yml
 
 echo "generate ./simulateur/src/main/resources/application.yml"
 cp  ./simulateur_application.yml ../../../simulateur/src/main/resources
@@ -61,6 +61,12 @@ echo "generate ./Observeur/src/main/resources/application.yml"
 cp  ./Observeur_application.yml ../../../Observeur/src/main/resources
 cd ../../../Observeur/src/main/resources
 mv ./Observeur_application.yml ./application.yml
+cd ../../../../tools/ip_config/${PATH_FILE_GEN}
+
+echo "generate ./Database/src/main/resources/application.yml"
+cp  ./DB_application.yml ../../../Database/src/main/resources
+cd ../../../Database/src/main/resources
+mv ./DB_application.yml ./application.yml
 cd ../../../../tools/ip_config/${PATH_FILE_GEN}
 
 exit 0

@@ -34,7 +34,6 @@ spring:
           destination: config.database.id
           group: database
           binder: rabbit1
-
       binders:
         rabbit1:
           type: rabbit

@@ -1,0 +1,29 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        inputSimulateur:
+          destination: config.database
+          group: database
+          binder: rabbit1
+        inputSimulateurId:
+          destination: config.database.id
+          group: database
+          binder: rabbit1
+        outputSimulateur:
+          destination: config.simulateur.database
+          group: simulateur
+          binder: rabbit1
+      binders:
+        rabbit1:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: IP_KEY
+                port: 5672
+                username: USER_KEY
+                password: USER_KEY
+                
+server:  
+  port: ${PORT:2229}
