@@ -9,6 +9,6 @@ public interface SimulatorDataRepository extends MongoRepository<SimulatorData, 
 
     public List<SimulatorData> findById(String id);
     public List<SimulatorData> findByidSimulation(int id);
-    public List<SimulatorData> deleteById(String id);
+    public List <SimulatorData> deleteById(String id);
 
 }
