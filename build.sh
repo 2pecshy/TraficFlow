@@ -14,33 +14,37 @@ usage: ./build.sh option[interface] [username]
 "
     exit -1
 fi
+
+./ip_config.sh wlan0 docko
 cd ../
 
-echo "Start webconfig..."
+
+
+echo "Start build webconfig..."
 cd webconfig
 mvn clean install
 
 sleep 15
 
-echo "Start Facade..."
+echo "Start build Facade..."
 cd ../Facade
 mvn clean install
 
 sleep 15
 
-echo "Start Observeur..."
+echo "Start build Observeur..."
 cd ../Observeur
 mvn clean install
 
 sleep 15
 
-echo "Start simulateur"
+echo "Start build simulateur"
 cd ../simulateur
 mvn clean install
 
 sleep 15
 
-echo "Start Database"
+echo "Start build Database"
 cd ../Database
 mvn clean install
 
