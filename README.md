@@ -64,7 +64,7 @@ de manière aisée et localisée.
 + __Simulateur__ : http://localhost:2226/simulateur/simulateur
 + __Observateur__ : http://localhost:2227/observateur/observateur
 
-
+./ipconfig.sh wlan0 docko -> to launch docker
   
 Service Database :
 

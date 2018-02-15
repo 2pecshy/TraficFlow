@@ -18,22 +18,32 @@ cd ../
 
 echo "Start webconfig..."
 cd webconfig
-mvn clean package &
+mvn clean install
 
 sleep 15
 
 echo "Start Facade..."
 cd ../Facade
-mvn clean package &
+mvn clean install
 
 sleep 15
 
 echo "Start Observeur..."
 cd ../Observeur
-mvn clean package &
+mvn clean install
 
 sleep 15
 
 echo "Start simulateur"
 cd ../simulateur
-mvn clean package &
+mvn clean install
+
+sleep 15
+
+echo "Start Database"
+cd ../Database
+mvn clean install
+
+echo "integrationTEST"
+cd ../ integration-tests
+mvn clean install
