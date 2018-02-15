@@ -13,16 +13,21 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.Message;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import sample.SimulationWebConfiguration;
+import services.configuration.CustomProcessorConfig;
 import services.configuration.WebConfigurationService;
+
+import java.util.concurrent.BlockingQueue;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = WebConfigurationService.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
-@EnableBinding(Source.class)
+@EnableBinding(CustomProcessorConfig.class)
 public class WebConfigIntegrationTest {
 
     @LocalServerPort
@@ -32,7 +37,7 @@ public class WebConfigIntegrationTest {
     private TestRestTemplate restTemplate;
 
     @Autowired
-    private Source channels;
+    private CustomProcessorConfig channels;
 
     @Autowired
     private MessageCollector collector;
@@ -63,6 +68,9 @@ public class WebConfigIntegrationTest {
                 goodWebConfig,
                 SimulationWebConfiguration.class);
         assertEquals(test.getSimulationLenght(), goodWebConfig.getSimulationLenght());
+
+        BlockingQueue<Message<?>> messages = collector.forChannel(channels.ouputFacade());
+        assertEquals(((SimulationWebConfiguration)messages.take().getPayload()).toString(), test.toString());
 
     }
 
