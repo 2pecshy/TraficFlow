@@ -17,7 +17,7 @@ public interface CustomProcessorFacade {
     @Input("inputConfig")
     SubscribableChannel inputConfig();
 
-    @Input
+    @Input("inputSimulateur")
     SubscribableChannel inputSimulateur();
 
     @Input("inputSimulateurError")

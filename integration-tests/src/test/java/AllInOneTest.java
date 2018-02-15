@@ -1,5 +1,6 @@
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +24,7 @@ import services.configuration.WebConfigurationService;
 import services.simulateurConfiguration.CustomProcessorSimulateur;
 import services.simulateurConfiguration.SimulationWebService;
 
+import java.io.File;
 import java.util.concurrent.BlockingQueue;
 
 import static org.junit.Assert.assertEquals;
@@ -72,16 +74,16 @@ public class AllInOneTest {
     public AllInOneTest() throws JSONException {
     }
 
+    @After
+    public void cleanFiles(){
+        deleteFile("map1.osm");
+    }
 
-//    @Test
-//    public void receptionFromConfig() throws InterruptedException {
-//        SimulationWebConfiguration input = new SimulationWebConfiguration();
-//        this.channels.inputConfig().send(MessageBuilder.withPayload(input).build());
-//        BlockingQueue<Message<?>> messages = collector.forChannel(channels.outputSimulateur());
-//        //assertThat(messages, receivesPayloadThat(is(input)));
-//        assertEquals(messages.take().getPayload(), input);
-//    }
-
+    private void deleteFile(String filename){
+        File f = new File(filename);
+        f.delete();
+        System.out.println("on supprime !");
+    }
 
 
     @Test
@@ -98,6 +100,7 @@ public class AllInOneTest {
 
         BlockingQueue<Message<?>> messages2 = collector.forChannel(channelsSimu.outputFacade());
         assertEquals((Boolean)messages2.take().getPayload(), true);
+        deleteFile("map1.osm");
 
         this.restTemplate.getForObject(
                 localURL+port+"/observeur",
@@ -110,8 +113,6 @@ public class AllInOneTest {
 
         BlockingQueue<Message<?>> messages4 = collector.forChannel(channelsSimu.outputObserver());
         assertEquals((Integer)messages4.take().getPayload(), Integer.valueOf(0));
-
-
 
     }
 

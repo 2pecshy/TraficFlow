@@ -32,7 +32,7 @@ public class FacadeIntegrationTest {
 
     @Autowired
     private MessageCollector collector;
-    
+
     @Test
     public void receptionFromConfig() throws InterruptedException {
         SimulationWebConfiguration input = new SimulationWebConfiguration();

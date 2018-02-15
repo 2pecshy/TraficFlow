@@ -38,4 +38,11 @@ public class MapDownloader {
                 }
                 return String.valueOf(i);
         }
+
+        private void deleteFile(String name){
+                File f = new File(name);
+                if(f.exists()){
+                        f.delete();
+                }
+        }
 }
